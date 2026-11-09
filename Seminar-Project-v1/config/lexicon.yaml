@@ -1,0 +1,131 @@
+# Domain lexicon: Thai/English words -> schema objects.
+# This is the single file a non-programmer maintains to extend coverage.
+# Everything here is DATA, not code - app/nlp reads it at startup.
+
+entities:
+  customer:
+    table: customers
+    name_column: name
+    synonyms: [ลูกค้า, คนซื้อ, ผู้ซื้อ, customer, customers]
+  product:
+    table: products
+    name_column: name
+    synonyms: [สินค้า, พัสดุ, product, products, item, items]
+    # NOTE: "ของ" (generic "of/belonging to") deliberately excluded - too
+    # common a connector word, caused false-positive dimension matches
+    # (see config/lexicon.yaml connector_words, and pipeline tests).
+  category:
+    table: categories
+    name_column: name
+    synonyms: [หมวดหมู่, ประเภทสินค้า, category, categories]
+  supplier:
+    table: suppliers
+    name_column: name
+    synonyms: [ซัพพลายเออร์, ผู้จำหน่าย, supplier, suppliers, vendor]
+  branch:
+    table: branches
+    name_column: name
+    synonyms: [สาขา, branch, branches, store]
+  employee:
+    table: employees
+    name_column: name
+    synonyms: [พนักงาน, employee, employees, staff, sales rep, เซลส์]
+  order:
+    table: orders
+    name_column: id
+    synonyms: [ออเดอร์, คำสั่งซื้อ, order, orders]
+
+# metric_key -> SQL aggregate expression (over the orders/order_items grain).
+# "grain" tells the builder whether it needs order_items joined in.
+metrics:
+  revenue:
+    synonyms: [ยอดขาย, รายได้, ยอดรวม, ยอดเงิน, ขายดี, ขายได้เงิน, ซื้อเยอะที่สุด, ซื้อเยอะ, ซื้อมากที่สุด, ยอดซื้อ, กี่บาท, revenue, sales, total sales, income]
+    expr: "SUM(order_items.qty * order_items.unit_price)"
+    grain: order_items
+    format: currency
+  order_count:
+    synonyms: [จำนวนออเดอร์, จำนวนคำสั่งซื้อ, จำนวนการสั่งซื้อ, กี่ออเดอร์, มีกี่ออเดอร์, number of orders, order count, how many orders]
+    expr: "COUNT(DISTINCT orders.id)"
+    grain: orders
+    format: integer
+  quantity_sold:
+    synonyms: [จำนวนที่ขาย, ยอดขายชิ้น, จำนวนชิ้น, units sold, quantity sold]
+    expr: "SUM(order_items.qty)"
+    grain: order_items
+    format: integer
+  customer_count:
+    synonyms: [จำนวนลูกค้า, number of customers, customer count]
+    expr: "COUNT(DISTINCT orders.customer_id)"
+    grain: orders
+    format: integer
+  average_order_value:
+    synonyms: [ค่าเฉลี่ยต่อออเดอร์, มูลค่าเฉลี่ยต่อออเดอร์, average order value, aov]
+    expr: "AVG(orders.total)"
+    grain: orders
+    format: currency
+  stock:
+    synonyms: [สต็อก, คงเหลือ, จำนวนคงคลัง, สินค้าคงเหลือ, stock, inventory]
+    expr: "products.stock"
+    grain: products
+    format: integer
+
+# Order status words.
+status_values:
+  paid:      [ชำระแล้ว, จ่ายแล้ว, สำเร็จ, paid, completed]
+  pending:   [ค้างชำระ, รอชำระ, ยังไม่จ่าย, pending, unpaid]
+  cancelled: [ยกเลิก, ยกเลิกแล้ว, cancelled, canceled]
+
+payment_methods:
+  cash:        [เงินสด, cash]
+  transfer:    [โอนเงิน, โอน, transfer, bank transfer]
+  credit_card: [บัตรเครดิต, credit card]
+  promptpay:   [พร้อมเพย์, promptpay]
+
+# Comparison / filter operator words -> SQL operator.
+comparators:
+  gt:  ["มากกว่า", "เกิน", "more than", "greater than", "over"]
+  lt:  ["น้อยกว่า", "ต่ำกว่า", "less than", "under", "below"]
+  gte: ["อย่างน้อย", "ไม่น้อยกว่า", "at least"]
+  lte: ["ไม่เกิน", "at most"]
+  eq:  ["เท่ากับ", "equal to"]
+
+# Politeness / filler words stripped during normalization (never affect meaning).
+# Function/connector words that carry no entity meaning by themselves.
+# Used to keep leftover tokens (candidate proper names, e.g. "สมชาย") from
+# being polluted by grammar words when we scan for a name to resolve.
+connector_words:
+  - ของ
+  - ที่
+  - กี่
+  - เท่าไหร่
+  - เท่าไร
+  - บาท
+  - คน
+  - ชิ้น
+  - อัน
+  - ไป
+  - มา
+  - ซื้อ
+  - เท่าไหร่บาท
+  - แต่ละ
+  - ทั้งหมด
+  - รวม
+  - is
+  - the
+  - a
+  - of
+  - for
+  - how much
+  - how many
+
+stopwords:
+  - ครับ
+  - ค่ะ
+  - คะ
+  - หน่อย
+  - ช่วย
+  - ให้หน่อย
+  - นะ
+  - จ้ะ
+  - please
+  - "?"

@@ -1,0 +1,43 @@
+total_sep: |
+  SELECT SUM(i.qty * i.unit_price) AS metric_value
+  FROM order_items i JOIN orders o ON o.id=i.order_id
+  WHERE o.status='paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01'
+total_oct: |
+  SELECT SUM(i.qty * i.unit_price) AS metric_value
+  FROM order_items i JOIN orders o ON o.id=i.order_id
+  WHERE o.status='paid' AND o.order_date >= DATE '2026-10-01' AND o.order_date < DATE '2026-11-01'
+products_sep: |
+  SELECT p.id, p.name, SUM(i.qty*i.unit_price)
+  FROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id
+  WHERE o.status='paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01'
+  GROUP BY p.id,p.name ORDER BY SUM(i.qty*i.unit_price) DESC,p.id
+products_oct: |
+  SELECT p.id, p.name, SUM(i.qty*i.unit_price)
+  FROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id
+  WHERE o.status='paid' AND o.order_date >= DATE '2026-10-01' AND o.order_date < DATE '2026-11-01'
+  GROUP BY p.id,p.name ORDER BY SUM(i.qty*i.unit_price) DESC,p.id
+top3_sep: |
+  SELECT p.id, p.name, SUM(i.qty*i.unit_price)
+  FROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id
+  WHERE o.status='paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01'
+  GROUP BY p.id,p.name ORDER BY SUM(i.qty*i.unit_price) DESC,p.id LIMIT 3
+top3_oct: |
+  SELECT p.id, p.name, SUM(i.qty*i.unit_price)
+  FROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id
+  WHERE o.status='paid' AND o.order_date >= DATE '2026-10-01' AND o.order_date < DATE '2026-11-01'
+  GROUP BY p.id,p.name ORDER BY SUM(i.qty*i.unit_price) DESC,p.id LIMIT 3
+balance: |
+  SELECT w.id,w.name,p.id,p.name,
+    COALESCE((SELECT SUM(CASE m.movement_type WHEN 'issue' THEN -m.qty::bigint ELSE m.qty::bigint END)
+      FROM stock_movements m WHERE m.warehouse_id=w.id AND m.product_id=p.id),0)::bigint
+  FROM products p CROSS JOIN warehouses w ORDER BY w.id,p.id
+issues_sep: |
+  SELECT p.id,p.name,
+    COALESCE((SELECT SUM(m.qty) FROM stock_movements m WHERE m.product_id=p.id AND m.movement_type='issue'
+      AND m.movement_date BETWEEN DATE '2026-09-01' AND DATE '2026-09-30'),0)::bigint
+  FROM products p ORDER BY p.id
+issues_oct: |
+  SELECT p.id,p.name,
+    COALESCE((SELECT SUM(m.qty) FROM stock_movements m WHERE m.product_id=p.id AND m.movement_type='issue'
+      AND m.movement_date BETWEEN DATE '2026-10-01' AND DATE '2026-10-31'),0)::bigint
+  FROM products p ORDER BY p.id

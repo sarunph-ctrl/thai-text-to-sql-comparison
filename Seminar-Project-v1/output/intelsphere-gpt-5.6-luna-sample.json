@@ -1,0 +1,47 @@
+{
+  "method": "llm",
+  "mode": "live_api",
+  "question": "ยอดขายเดือนกันยายน 2569",
+  "status": "ok",
+  "message": null,
+  "prompt_version": "sales-inventory-zero-shot-v1",
+  "prompt_sha256": "69573d82293f9f394ee54eeb034c3042726d03631dab78640703cf3529857522",
+  "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+  "generation": {
+    "provider": "kku-intelsphere",
+    "requested_model": "gpt-5.6-luna",
+    "returned_model": "gpt-5.6-luna",
+    "response_id": "genai-01a17728-1732-7191-8d41-a5afb00ba847",
+    "finish_reason": "stop",
+    "temperature": 0.0,
+    "max_output_tokens": 2048,
+    "generation_ms": 2997.025,
+    "input_tokens": 1222,
+    "output_tokens": 148,
+    "total_tokens": 1370,
+    "retries": 0,
+    "cost": null,
+    "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+  },
+  "generated_sql": "SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01';",
+  "executed_sql": "SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders AS o JOIN order_items AS oi ON oi.order_id = o.id WHERE o.status = 'paid' AND o.order_date >= CAST('2026-09-01' AS DATE) AND o.order_date < CAST('2026-10-01' AS DATE) LIMIT 201",
+  "columns": [
+    "metric_value"
+  ],
+  "rows": [
+    [
+      "1250.00"
+    ]
+  ],
+  "truncated": false,
+  "validation_ms": 10.32,
+  "database_ms": 6.163,
+  "elapsed_ms": 3014.791,
+  "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01';\",\"reason\":\"ยอดขายรวมที่ชำระเงินแล้วในเดือนกันยายน 2569\"}",
+  "reason": "ยอดขายรวมที่ชำระเงินแล้วในเดือนกันยายน 2569",
+  "tables": [
+    "order_items",
+    "orders"
+  ],
+  "row_cap_applied": true
+}

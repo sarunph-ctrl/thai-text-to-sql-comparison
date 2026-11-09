@@ -1,0 +1,44 @@
+
+services:
+  # ----------------------------------------
+  # 1. ฐานข้อมูล PostgreSQL
+  # ----------------------------------------
+  postgres_db:
+    image: postgres:15
+    container_name: mock_postgreSQL
+    restart: always
+    environment:
+      # ใช้ ${...} เพื่อดึงค่าจาก .env มาตั้งค่าให้ Database Image
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      # ดึงค่า Port จาก .env มาใช้
+      - "${HOST_PORT}:5432"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ----------------------------------------
+  # 2. API แอปพลิเคชัน (rule-based NL -> SQL)
+  # ----------------------------------------
+  app:
+    build: .
+    container_name: nl2sql_app
+    restart: always
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres_db:
+        condition: service_healthy
+
+# เติมไว้ล่างสุดของไฟล์ (ชิดซ้ายสุด)
+volumes:
+  pgdata:

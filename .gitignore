@@ -1,0 +1,13 @@
+**/.venv/
+**/.local/
+**/__pycache__/
+**/.pytest_cache/
+**/.env
+**/.env.llm
+**/*.py[cod]
+**/*.log
+.DS_Store
+Thumbs.db
+desktop.ini
+Seminar-Demo.zip
+tmp/

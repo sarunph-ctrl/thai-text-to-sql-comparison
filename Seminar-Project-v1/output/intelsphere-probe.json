@@ -1,0 +1,19 @@
+{
+  "mode": "generation_only",
+  "prompt_sha256": "69573d82293f9f394ee54eeb034c3042726d03631dab78640703cf3529857522",
+  "content": "{\"status\":\"ok\",\"sql\":\"SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON o.id = oi.order_id WHERE o.status = 'paid' AND o.order_date >= '2026-09-01' AND o.order_date < '2026-10-01'\",\"reason\":\"ยอดขายเดือนกันยายน 2569 (CE 2026-09)\"}",
+  "provider": "kku-intelsphere",
+  "requested_model": "gemini-3.5-flash-lite",
+  "returned_model": "gemini-3.5-flash-lite",
+  "response_id": "genai-01a17723-7922-73cd-838d-b624162b6fcf",
+  "finish_reason": "stop",
+  "temperature": 0.0,
+  "max_output_tokens": 2048,
+  "generation_ms": 1711.152,
+  "input_tokens": 1348,
+  "output_tokens": 113,
+  "total_tokens": 1461,
+  "retries": 0,
+  "cost": null,
+  "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+}

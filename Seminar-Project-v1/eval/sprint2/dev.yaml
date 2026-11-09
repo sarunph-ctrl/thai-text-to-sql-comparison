@@ -1,0 +1,12 @@
+description: "AI-authored development set; may be used to adjust rules/prompt. Not a benchmark."
+cases:
+  - {id: dev01, question: "ยอดขายเดือนกันยายน 2569", reference: total_sep, ordered: false}
+  - {id: dev02, question: "ยอดขายเดือนตุลาคม 2569", reference: total_oct, ordered: false}
+  - {id: dev03, question: "ยอดขายเดือนกันยายน 2569 แยกตามสินค้า", reference: products_sep, ordered: false}
+  - {id: dev04, question: "ยอดขายเดือนตุลาคม 2569 แยกตามสินค้า", reference: products_oct, ordered: false}
+  - {id: dev05, question: "สินค้าขายดีที่สุด 3 อันดับ เดือนกันยายน 2569", reference: top3_sep, ordered: true}
+  - {id: dev06, question: "สินค้าขายดีที่สุด 3 อันดับ เดือนตุลาคม 2569", reference: top3_oct, ordered: true}
+  - {id: dev07, question: "สินค้าคงเหลือแยกตามคลังมีเท่าไหร่", reference: balance, ordered: false}
+  - {id: dev08, question: "แสดงสต็อกคงเหลือแยกตามคลังครับ", reference: balance, ordered: false}
+  - {id: dev09, question: "เดือนกันยายน 2569 มีสินค้าจ่ายออกแต่ละชนิดกี่หน่วย", reference: issues_sep, ordered: false}
+  - {id: dev10, question: "เดือนตุลาคม 2569 มีสินค้าจ่ายออกแต่ละชนิดกี่หน่วย", reference: issues_oct, ordered: false}

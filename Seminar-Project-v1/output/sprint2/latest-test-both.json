@@ -1,0 +1,1910 @@
+{
+  "evaluated_at": "2026-10-26T14:46:44.536352+07:00",
+  "split": "test",
+  "method": "both",
+  "dataset_note": "AI-authored synthetic exploratory evaluation, frozen before first execution. Not an independently collected or unbiased benchmark.",
+  "prompt_version": "sales-inventory-zero-shot-v1",
+  "configuration": {
+    "configured": true,
+    "provider": "kku-intelsphere",
+    "base_url": "https://gen.ai.kku.ac.th/api/v1",
+    "requested_model": "gpt-5.6-luna",
+    "temperature": 0.0,
+    "max_output_tokens": 2048,
+    "timeout_seconds": 45.0
+  },
+  "manifest_sha256": "98f866fefa47282261dc7a5d78b979362549e34263395475717779c7f75c03ee",
+  "data_snapshot_sha256": "b7b2dfec8e3790fb1c08120bd38ca93a37eca6b46a013762a2f9c67de7cea4fc",
+  "snapshot_row_counts": {
+    "order_items": 19,
+    "orders": 10,
+    "products": 5,
+    "stock_movements": 29,
+    "warehouses": 2
+  },
+  "summary": {
+    "rule": {
+      "total": 10,
+      "execution_correct": 6,
+      "execution_accuracy": 0.6,
+      "sql_ran_successfully": 6,
+      "canonical_sql_exact_match": 0,
+      "mean_method_ms": 6.382,
+      "median_method_ms": 5.625
+    },
+    "llm": {
+      "total": 10,
+      "execution_correct": 10,
+      "execution_accuracy": 1.0,
+      "sql_ran_successfully": 10,
+      "canonical_sql_exact_match": 0,
+      "mean_method_ms": 3874.181,
+      "median_method_ms": 3589.264,
+      "token_usage_complete": true,
+      "known_input_tokens": 12314,
+      "known_output_tokens": 2330,
+      "currency_cost": null,
+      "currency_cost_per_300": null,
+      "cost_note": "IntelSphere quota/billing rate unknown; do not treat unknown cost as zero"
+    }
+  },
+  "cases": [
+    {
+      "id": "test01",
+      "question": "ขอดูยอดขายรวมในเดือนกันยายน 2569 หน่อยครับ",
+      "reference": "total_sep",
+      "ordered": false,
+      "reference_sql": "SELECT SUM(i.qty * i.unit_price) AS metric_value\nFROM order_items i JOIN orders o ON o.id=i.order_id\nWHERE o.status='paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01'\n",
+      "expected_columns": [
+        "metric_value"
+      ],
+      "expected_rows": [
+        [
+          "1250.00"
+        ]
+      ],
+      "rule": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "ok",
+          "question": "ขอดูยอดขายรวมในเดือนกันยายน 2569 หน่อยครับ",
+          "clean_text": "ขอดูยอดขายรวมในเดือนกันยายน 2569 หน่อยครับ",
+          "tokens": [
+            "ขอ",
+            "ดู",
+            "ยอดขาย",
+            "รวม",
+            "ใน",
+            "เดือน",
+            "กันยายน",
+            "2569"
+          ],
+          "interpretation": {
+            "metric": "revenue",
+            "dimension": null,
+            "top_n": null,
+            "order": "desc",
+            "start_inclusive": "2026-09-01",
+            "end_exclusive": "2026-10-01",
+            "status": "paid",
+            "ranking_unit": "THB",
+            "tables": [
+              "orders",
+              "order_items"
+            ]
+          },
+          "rules": [
+            "metric=revenue (matched 'ยอดขาย')",
+            "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+            "business rule: paid only; revenue uses historical order_items.unit_price",
+            "unconsumed text check: passed"
+          ],
+          "sql": "SELECT SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s   LIMIT %s",
+          "params": [
+            "paid",
+            "2026-09-01",
+            "2026-10-01",
+            50
+          ],
+          "columns": [
+            "metric_value"
+          ],
+          "rows": [
+            [
+              "1250.00"
+            ]
+          ],
+          "message": null,
+          "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+          "elapsed_ms": 16.112
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "ขอดูยอดขายรวมในเดือนกันยายน 2569 หน่อยครับ",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "78bcd77f1bf4926c14ec7547366dc3fece5dd0bb7091667e2706d1604075a46a",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772c-8c48-7156-8269-a269dfb92bdd",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 3523.898,
+            "input_tokens": 1230,
+            "output_tokens": 168,
+            "total_tokens": 1398,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01';",
+          "executed_sql": "SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders AS o JOIN order_items AS oi ON oi.order_id = o.id WHERE o.status = 'paid' AND o.order_date >= CAST('2026-09-01' AS DATE) AND o.order_date < CAST('2026-10-01' AS DATE) LIMIT 201",
+          "columns": [
+            "metric_value"
+          ],
+          "rows": [
+            [
+              "1250.00"
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 2.022,
+          "database_ms": 2.234,
+          "elapsed_ms": 3529.243,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01';\",\"reason\":\"ยอดขายรวมของคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569\"}",
+          "reason": "ยอดขายรวมของคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569",
+          "tables": [
+            "order_items",
+            "orders"
+          ],
+          "row_cap_applied": true
+        }
+      }
+    },
+    {
+      "id": "test02",
+      "question": "เดือนกันยายน 2569 ขายของได้เงินรวมเท่าไร",
+      "reference": "total_sep",
+      "ordered": false,
+      "reference_sql": "SELECT SUM(i.qty * i.unit_price) AS metric_value\nFROM order_items i JOIN orders o ON o.id=i.order_id\nWHERE o.status='paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01'\n",
+      "expected_columns": [
+        "metric_value"
+      ],
+      "expected_rows": [
+        [
+          "1250.00"
+        ]
+      ],
+      "rule": {
+        "execution_correct": false,
+        "sql_ran_successfully": false,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "unmatched",
+          "question": "เดือนกันยายน 2569 ขายของได้เงินรวมเท่าไร",
+          "clean_text": "เดือนกันยายน 2569 ขายของได้เงินรวมเท่าไร",
+          "tokens": [
+            "เดือน",
+            "กันยายน",
+            "2569",
+            "ขายของ",
+            "ได้เงิน",
+            "รวม",
+            "เท่าไร"
+          ],
+          "interpretation": {},
+          "rules": [],
+          "sql": null,
+          "params": [],
+          "columns": [],
+          "rows": [],
+          "message": "เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+          "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+          "elapsed_ms": 0.36
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "เดือนกันยายน 2569 ขายของได้เงินรวมเท่าไร",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "49a35df6b682785b4d83c01085d35413ba4aa1c83543175d48e1eed12943f6dc",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772c-99f3-7de1-af85-75939ab25ad8",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 3492.92,
+            "input_tokens": 1228,
+            "output_tokens": 163,
+            "total_tokens": 1391,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01';",
+          "executed_sql": "SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders AS o JOIN order_items AS oi ON oi.order_id = o.id WHERE o.status = 'paid' AND o.order_date >= CAST('2026-09-01' AS DATE) AND o.order_date < CAST('2026-10-01' AS DATE) LIMIT 201",
+          "columns": [
+            "metric_value"
+          ],
+          "rows": [
+            [
+              "1250.00"
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 1.906,
+          "database_ms": 3.059,
+          "elapsed_ms": 3499.558,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01';\",\"reason\":\"คำนวณยอดขายรวมของคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569\"}",
+          "reason": "คำนวณยอดขายรวมของคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569",
+          "tables": [
+            "order_items",
+            "orders"
+          ],
+          "row_cap_applied": true
+        }
+      }
+    },
+    {
+      "id": "test03",
+      "question": "ขอรายได้แยกตามสินค้าในเดือนกันยายน 2569",
+      "reference": "products_sep",
+      "ordered": false,
+      "reference_sql": "SELECT p.id, p.name, SUM(i.qty*i.unit_price)\nFROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id\nWHERE o.status='paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01'\nGROUP BY p.id,p.name ORDER BY SUM(i.qty*i.unit_price) DESC,p.id\n",
+      "expected_columns": [
+        "id",
+        "name",
+        "sum"
+      ],
+      "expected_rows": [
+        [
+          2,
+          "สมุด",
+          "420.00"
+        ],
+        [
+          4,
+          "แฟ้ม",
+          "300.00"
+        ],
+        [
+          1,
+          "ปากกา",
+          "285.00"
+        ],
+        [
+          3,
+          "ดินสอ",
+          "150.00"
+        ],
+        [
+          5,
+          "ยางลบ",
+          "95.00"
+        ]
+      ],
+      "rule": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "ok",
+          "question": "ขอรายได้แยกตามสินค้าในเดือนกันยายน 2569",
+          "clean_text": "ขอรายได้แยกตามสินค้าในเดือนกันยายน 2569",
+          "tokens": [
+            "ขอ",
+            "รายได้",
+            "แยก",
+            "ตาม",
+            "สินค้า",
+            "ใน",
+            "เดือน",
+            "กันยายน",
+            "2569"
+          ],
+          "interpretation": {
+            "metric": "revenue",
+            "dimension": "product",
+            "top_n": null,
+            "order": "desc",
+            "start_inclusive": "2026-09-01",
+            "end_exclusive": "2026-10-01",
+            "status": "paid",
+            "ranking_unit": "THB",
+            "tables": [
+              "orders",
+              "order_items",
+              "products"
+            ]
+          },
+          "rules": [
+            "metric=revenue (matched 'รายได้')",
+            "dimension=product (matched 'สินค้า')",
+            "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+            "business rule: paid only; revenue uses historical order_items.unit_price",
+            "unconsumed text check: passed"
+          ],
+          "sql": "SELECT \"products\".\"id\" AS group_id, \"products\".\"name\" AS group_label, SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" JOIN \"products\" ON \"order_items\".\"product_id\" = \"products\".\"id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s GROUP BY \"products\".\"id\", \"products\".\"name\" ORDER BY metric_value DESC, group_id ASC LIMIT %s",
+          "params": [
+            "paid",
+            "2026-09-01",
+            "2026-10-01",
+            50
+          ],
+          "columns": [
+            "group_id",
+            "group_label",
+            "metric_value"
+          ],
+          "rows": [
+            [
+              2,
+              "สมุด",
+              "420.00"
+            ],
+            [
+              4,
+              "แฟ้ม",
+              "300.00"
+            ],
+            [
+              1,
+              "ปากกา",
+              "285.00"
+            ],
+            [
+              3,
+              "ดินสอ",
+              "150.00"
+            ],
+            [
+              5,
+              "ยางลบ",
+              "95.00"
+            ]
+          ],
+          "message": null,
+          "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+          "elapsed_ms": 10.913
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "ขอรายได้แยกตามสินค้าในเดือนกันยายน 2569",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "e50ecd60616b0b9bdab700f6fd0872b43dfe6325efccca3da0cbdf902cd738ce",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772c-a69a-7926-b37d-47f2694b52c0",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 3226.636,
+            "input_tokens": 1230,
+            "output_tokens": 237,
+            "total_tokens": 1467,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id JOIN products p ON p.id = oi.product_id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 200",
+          "executed_sql": "SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM orders AS o JOIN order_items AS oi ON oi.order_id = o.id JOIN products AS p ON p.id = oi.product_id WHERE o.status = 'paid' AND o.order_date >= CAST('2026-09-01' AS DATE) AND o.order_date < CAST('2026-10-01' AS DATE) GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 200",
+          "columns": [
+            "group_id",
+            "group_label",
+            "metric_value"
+          ],
+          "rows": [
+            [
+              2,
+              "สมุด",
+              "420.00"
+            ],
+            [
+              4,
+              "แฟ้ม",
+              "300.00"
+            ],
+            [
+              1,
+              "ปากกา",
+              "285.00"
+            ],
+            [
+              3,
+              "ดินสอ",
+              "150.00"
+            ],
+            [
+              5,
+              "ยางลบ",
+              "95.00"
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 3.756,
+          "database_ms": 3.292,
+          "elapsed_ms": 3234.784,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id JOIN products p ON p.id = oi.product_id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 200\",\"reason\":\"รายได้แยกตามสินค้า จากคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569\"}",
+          "reason": "รายได้แยกตามสินค้า จากคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569",
+          "tables": [
+            "order_items",
+            "orders",
+            "products"
+          ],
+          "row_cap_applied": false
+        }
+      }
+    },
+    {
+      "id": "test04",
+      "question": "เดือนกันยายน 2569 สินค้าแต่ละชนิดขายได้เงินเท่าไร",
+      "reference": "products_sep",
+      "ordered": false,
+      "reference_sql": "SELECT p.id, p.name, SUM(i.qty*i.unit_price)\nFROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id\nWHERE o.status='paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01'\nGROUP BY p.id,p.name ORDER BY SUM(i.qty*i.unit_price) DESC,p.id\n",
+      "expected_columns": [
+        "id",
+        "name",
+        "sum"
+      ],
+      "expected_rows": [
+        [
+          2,
+          "สมุด",
+          "420.00"
+        ],
+        [
+          4,
+          "แฟ้ม",
+          "300.00"
+        ],
+        [
+          1,
+          "ปากกา",
+          "285.00"
+        ],
+        [
+          3,
+          "ดินสอ",
+          "150.00"
+        ],
+        [
+          5,
+          "ยางลบ",
+          "95.00"
+        ]
+      ],
+      "rule": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "ok",
+          "question": "เดือนกันยายน 2569 สินค้าแต่ละชนิดขายได้เงินเท่าไร",
+          "clean_text": "เดือนกันยายน 2569 สินค้าแต่ละชนิดขายได้เงินเท่าไร",
+          "tokens": [
+            "เดือน",
+            "กันยายน",
+            "2569",
+            "สินค้า",
+            "แต่ละ",
+            "ชนิด",
+            "ขายได้เงิน",
+            "เท่าไร"
+          ],
+          "interpretation": {
+            "metric": "revenue",
+            "dimension": "product",
+            "top_n": null,
+            "order": "desc",
+            "start_inclusive": "2026-09-01",
+            "end_exclusive": "2026-10-01",
+            "status": "paid",
+            "ranking_unit": "THB",
+            "tables": [
+              "orders",
+              "order_items",
+              "products"
+            ]
+          },
+          "rules": [
+            "metric=revenue (matched 'ขายได้เงิน')",
+            "dimension=product (matched 'สินค้า')",
+            "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+            "business rule: paid only; revenue uses historical order_items.unit_price",
+            "unconsumed text check: passed"
+          ],
+          "sql": "SELECT \"products\".\"id\" AS group_id, \"products\".\"name\" AS group_label, SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" JOIN \"products\" ON \"order_items\".\"product_id\" = \"products\".\"id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s GROUP BY \"products\".\"id\", \"products\".\"name\" ORDER BY metric_value DESC, group_id ASC LIMIT %s",
+          "params": [
+            "paid",
+            "2026-09-01",
+            "2026-10-01",
+            50
+          ],
+          "columns": [
+            "group_id",
+            "group_label",
+            "metric_value"
+          ],
+          "rows": [
+            [
+              2,
+              "สมุด",
+              "420.00"
+            ],
+            [
+              4,
+              "แฟ้ม",
+              "300.00"
+            ],
+            [
+              1,
+              "ปากกา",
+              "285.00"
+            ],
+            [
+              3,
+              "ดินสอ",
+              "150.00"
+            ],
+            [
+              5,
+              "ยางลบ",
+              "95.00"
+            ]
+          ],
+          "message": null,
+          "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+          "elapsed_ms": 12.086
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "เดือนกันยายน 2569 สินค้าแต่ละชนิดขายได้เงินเท่าไร",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "82ef7f62b78db2d2b1197db5cdcb3e9fabd920879f335181e82f5db9eb62a6eb",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772c-b478-7dee-867e-8f1c44828284",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 3534.56,
+            "input_tokens": 1232,
+            "output_tokens": 228,
+            "total_tokens": 1460,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM products p JOIN order_items oi ON oi.product_id = p.id JOIN orders o ON o.id = oi.order_id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 200",
+          "executed_sql": "SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM products AS p JOIN order_items AS oi ON oi.product_id = p.id JOIN orders AS o ON o.id = oi.order_id WHERE o.status = 'paid' AND o.order_date >= CAST('2026-09-01' AS DATE) AND o.order_date < CAST('2026-10-01' AS DATE) GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 200",
+          "columns": [
+            "group_id",
+            "group_label",
+            "metric_value"
+          ],
+          "rows": [
+            [
+              2,
+              "สมุด",
+              "420.00"
+            ],
+            [
+              4,
+              "แฟ้ม",
+              "300.00"
+            ],
+            [
+              1,
+              "ปากกา",
+              "285.00"
+            ],
+            [
+              3,
+              "ดินสอ",
+              "150.00"
+            ],
+            [
+              5,
+              "ยางลบ",
+              "95.00"
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 2.618,
+          "database_ms": 5.609,
+          "elapsed_ms": 3543.882,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM products p JOIN order_items oi ON oi.product_id = p.id JOIN orders o ON o.id = oi.order_id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 200\",\"reason\":\"ยอดขายรายสินค้าเฉพาะคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569\"}",
+          "reason": "ยอดขายรายสินค้าเฉพาะคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569",
+          "tables": [
+            "order_items",
+            "orders",
+            "products"
+          ],
+          "row_cap_applied": false
+        }
+      }
+    },
+    {
+      "id": "test05",
+      "question": "ขอดูสินค้าขายดีที่สุด 3 อันดับในเดือนกันยายน 2569",
+      "reference": "top3_sep",
+      "ordered": true,
+      "reference_sql": "SELECT p.id, p.name, SUM(i.qty*i.unit_price)\nFROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id\nWHERE o.status='paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01'\nGROUP BY p.id,p.name ORDER BY SUM(i.qty*i.unit_price) DESC,p.id LIMIT 3\n",
+      "expected_columns": [
+        "id",
+        "name",
+        "sum"
+      ],
+      "expected_rows": [
+        [
+          2,
+          "สมุด",
+          "420.00"
+        ],
+        [
+          4,
+          "แฟ้ม",
+          "300.00"
+        ],
+        [
+          1,
+          "ปากกา",
+          "285.00"
+        ]
+      ],
+      "rule": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "ok",
+          "question": "ขอดูสินค้าขายดีที่สุด 3 อันดับในเดือนกันยายน 2569",
+          "clean_text": "ขอดูสินค้าขายดีที่สุด 3 อันดับในเดือนกันยายน 2569",
+          "tokens": [
+            "ขอ",
+            "ดู",
+            "สินค้า",
+            "ขายดี",
+            "ที่สุด",
+            "3",
+            "อันดับ",
+            "ใน",
+            "เดือน",
+            "กันยายน",
+            "2569"
+          ],
+          "interpretation": {
+            "metric": "revenue",
+            "dimension": "product",
+            "top_n": 3,
+            "order": "desc",
+            "start_inclusive": "2026-09-01",
+            "end_exclusive": "2026-10-01",
+            "status": "paid",
+            "ranking_unit": "THB",
+            "tables": [
+              "orders",
+              "order_items",
+              "products"
+            ]
+          },
+          "rules": [
+            "metric=revenue (matched 'ขายดี')",
+            "dimension=product (matched 'สินค้า')",
+            "top_n=3",
+            "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+            "business rule: paid only; revenue uses historical order_items.unit_price",
+            "unconsumed text check: passed"
+          ],
+          "sql": "SELECT \"products\".\"id\" AS group_id, \"products\".\"name\" AS group_label, SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" JOIN \"products\" ON \"order_items\".\"product_id\" = \"products\".\"id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s GROUP BY \"products\".\"id\", \"products\".\"name\" ORDER BY metric_value DESC, group_id ASC LIMIT %s",
+          "params": [
+            "paid",
+            "2026-09-01",
+            "2026-10-01",
+            3
+          ],
+          "columns": [
+            "group_id",
+            "group_label",
+            "metric_value"
+          ],
+          "rows": [
+            [
+              2,
+              "สมุด",
+              "420.00"
+            ],
+            [
+              4,
+              "แฟ้ม",
+              "300.00"
+            ],
+            [
+              1,
+              "ปากกา",
+              "285.00"
+            ]
+          ],
+          "message": null,
+          "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+          "elapsed_ms": 10.481
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "ขอดูสินค้าขายดีที่สุด 3 อันดับในเดือนกันยายน 2569",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "906a7939b82aaeceba8b08c695dbd1fc739499e4fa36d99f85c081532e7d4988",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772c-c22e-7105-9919-1f3c5b45ca0b",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 3453.887,
+            "input_tokens": 1233,
+            "output_tokens": 240,
+            "total_tokens": 1473,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM products p JOIN order_items oi ON oi.product_id = p.id JOIN orders o ON o.id = oi.order_id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 3",
+          "executed_sql": "SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM products AS p JOIN order_items AS oi ON oi.product_id = p.id JOIN orders AS o ON o.id = oi.order_id WHERE o.status = 'paid' AND o.order_date >= CAST('2026-09-01' AS DATE) AND o.order_date < CAST('2026-10-01' AS DATE) GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 3",
+          "columns": [
+            "group_id",
+            "group_label",
+            "metric_value"
+          ],
+          "rows": [
+            [
+              2,
+              "สมุด",
+              "420.00"
+            ],
+            [
+              4,
+              "แฟ้ม",
+              "300.00"
+            ],
+            [
+              1,
+              "ปากกา",
+              "285.00"
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 3.291,
+          "database_ms": 3.418,
+          "elapsed_ms": 3461.733,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM products p JOIN order_items oi ON oi.product_id = p.id JOIN orders o ON o.id = oi.order_id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 3\",\"reason\":\"แสดงสินค้า 3 อันดับแรกตามยอดขายรวมของคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569\"}",
+          "reason": "แสดงสินค้า 3 อันดับแรกตามยอดขายรวมของคำสั่งซื้อที่ชำระเงินแล้วในเดือนกันยายน 2569",
+          "tables": [
+            "order_items",
+            "orders",
+            "products"
+          ],
+          "row_cap_applied": false
+        }
+      }
+    },
+    {
+      "id": "test06",
+      "question": "เดือนกันยายน 2569 สินค้ารายใดทำยอดขายสูงสุด 3 อันดับ",
+      "reference": "top3_sep",
+      "ordered": true,
+      "reference_sql": "SELECT p.id, p.name, SUM(i.qty*i.unit_price)\nFROM products p JOIN order_items i ON i.product_id=p.id JOIN orders o ON o.id=i.order_id\nWHERE o.status='paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01'\nGROUP BY p.id,p.name ORDER BY SUM(i.qty*i.unit_price) DESC,p.id LIMIT 3\n",
+      "expected_columns": [
+        "id",
+        "name",
+        "sum"
+      ],
+      "expected_rows": [
+        [
+          2,
+          "สมุด",
+          "420.00"
+        ],
+        [
+          4,
+          "แฟ้ม",
+          "300.00"
+        ],
+        [
+          1,
+          "ปากกา",
+          "285.00"
+        ]
+      ],
+      "rule": {
+        "execution_correct": false,
+        "sql_ran_successfully": false,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "unsupported",
+          "question": "เดือนกันยายน 2569 สินค้ารายใดทำยอดขายสูงสุด 3 อันดับ",
+          "clean_text": "เดือนกันยายน 2569 สินค้ารายใดทำยอดขายสูงสุด 3 อันดับ",
+          "tokens": [
+            "เดือน",
+            "กันยายน",
+            "2569",
+            "สินค้า",
+            "ราย",
+            "ใด",
+            "ทำ",
+            "ยอดขาย",
+            "สูงสุด",
+            "3",
+            "อันดับ"
+          ],
+          "interpretation": {},
+          "rules": [
+            "metric=revenue (matched 'ยอดขาย')",
+            "dimension=product (matched 'สินค้า')",
+            "top_n=3",
+            "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')"
+          ],
+          "sql": null,
+          "params": [],
+          "columns": [],
+          "rows": [],
+          "message": "ยังไม่รองรับข้อความส่วนนี้: 'ใดทำอันดับ' จึงไม่รัน SQL",
+          "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+          "elapsed_ms": 8.659
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "เดือนกันยายน 2569 สินค้ารายใดทำยอดขายสูงสุด 3 อันดับ",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "546673170ad399256880699fd68f3d474efda39820eec1bc9e0a1c9773169e19",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772c-d32d-7941-998f-7127c5f0e602",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 4332.552,
+            "input_tokens": 1236,
+            "output_tokens": 223,
+            "total_tokens": 1459,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id JOIN products p ON p.id = oi.product_id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 3",
+          "executed_sql": "SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM orders AS o JOIN order_items AS oi ON oi.order_id = o.id JOIN products AS p ON p.id = oi.product_id WHERE o.status = 'paid' AND o.order_date >= CAST('2026-09-01' AS DATE) AND o.order_date < CAST('2026-10-01' AS DATE) GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 3",
+          "columns": [
+            "group_id",
+            "group_label",
+            "metric_value"
+          ],
+          "rows": [
+            [
+              2,
+              "สมุด",
+              "420.00"
+            ],
+            [
+              4,
+              "แฟ้ม",
+              "300.00"
+            ],
+            [
+              1,
+              "ปากกา",
+              "285.00"
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 2.428,
+          "database_ms": 3.402,
+          "elapsed_ms": 4339.486,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT p.id AS group_id, p.name AS group_label, SUM(oi.qty * oi.unit_price) AS metric_value FROM orders o JOIN order_items oi ON oi.order_id = o.id JOIN products p ON p.id = oi.product_id WHERE o.status = 'paid' AND o.order_date >= DATE '2026-09-01' AND o.order_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY metric_value DESC, p.id ASC LIMIT 3\",\"reason\":\"ยอดขายสินค้าสูงสุด 3 อันดับในเดือนกันยายน 2569 โดยนับเฉพาะคำสั่งซื้อที่ชำระเงินแล้ว\"}",
+          "reason": "ยอดขายสินค้าสูงสุด 3 อันดับในเดือนกันยายน 2569 โดยนับเฉพาะคำสั่งซื้อที่ชำระเงินแล้ว",
+          "tables": [
+            "order_items",
+            "orders",
+            "products"
+          ],
+          "row_cap_applied": false
+        }
+      }
+    },
+    {
+      "id": "test07",
+      "question": "ขอดูสินค้าคงเหลือในแต่ละคลังหน่อยครับ",
+      "reference": "balance",
+      "ordered": false,
+      "reference_sql": "SELECT w.id,w.name,p.id,p.name,\n  COALESCE((SELECT SUM(CASE m.movement_type WHEN 'issue' THEN -m.qty::bigint ELSE m.qty::bigint END)\n    FROM stock_movements m WHERE m.warehouse_id=w.id AND m.product_id=p.id),0)::bigint\nFROM products p CROSS JOIN warehouses w ORDER BY w.id,p.id\n",
+      "expected_columns": [
+        "id",
+        "name",
+        "id",
+        "name",
+        "coalesce"
+      ],
+      "expected_rows": [
+        [
+          1,
+          "คลังหลัก",
+          1,
+          "ปากกา",
+          131
+        ],
+        [
+          1,
+          "คลังหลัก",
+          2,
+          "สมุด",
+          68
+        ],
+        [
+          1,
+          "คลังหลัก",
+          3,
+          "ดินสอ",
+          65
+        ],
+        [
+          1,
+          "คลังหลัก",
+          4,
+          "แฟ้ม",
+          33
+        ],
+        [
+          1,
+          "คลังหลัก",
+          5,
+          "ยางลบ",
+          81
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          1,
+          "ปากกา",
+          35
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          2,
+          "สมุด",
+          18
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          3,
+          "ดินสอ",
+          30
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          4,
+          "แฟ้ม",
+          7
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          5,
+          "ยางลบ",
+          0
+        ]
+      ],
+      "rule": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "ok",
+          "question": "ขอดูสินค้าคงเหลือในแต่ละคลังหน่อยครับ",
+          "clean_text": "ขอดูสินค้าคงเหลือในแต่ละคลังหน่อยครับ",
+          "tokens": [
+            "ขอ",
+            "ดู",
+            "สินค้าคงเหลือ",
+            "ใน",
+            "แต่ละ",
+            "คลัง"
+          ],
+          "interpretation": {
+            "metric": "stock_balance",
+            "dimensions": [
+              "warehouse",
+              "product"
+            ],
+            "time_basis": "all_recorded_movements",
+            "quantity_unit": "หน่วยตามสินค้า",
+            "includes_zero_balances": true,
+            "row_limit": 200,
+            "tables": [
+              "warehouses",
+              "products",
+              "stock_movements"
+            ]
+          },
+          "rules": [
+            "metric=stock_balance (matched 'สินค้าคงเหลือ')",
+            "warehouse × product with LEFT JOIN: include zero movement pairs",
+            "opening + receipt - issue; no orders.status filter",
+            "unconsumed text check: passed"
+          ],
+          "sql": "\n        WITH balances AS (\n            SELECT warehouse_id, product_id,\n                   SUM(CASE WHEN movement_type IN ('opening', 'receipt')\n                            THEN qty::bigint ELSE -qty::bigint END) AS balance\n            FROM stock_movements GROUP BY warehouse_id, product_id\n        )\n        SELECT w.id AS warehouse_id, w.name AS warehouse_name,\n               p.id AS product_id, p.name AS product_name,\n               COALESCE(b.balance, 0)::bigint AS quantity_remaining\n        FROM warehouses w CROSS JOIN products p\n        LEFT JOIN balances b ON b.warehouse_id = w.id AND b.product_id = p.id\n        ORDER BY w.id, p.id LIMIT %s\n    ",
+          "params": [
+            200
+          ],
+          "columns": [
+            "warehouse_id",
+            "warehouse_name",
+            "product_id",
+            "product_name",
+            "quantity_remaining"
+          ],
+          "rows": [
+            [
+              1,
+              "คลังหลัก",
+              1,
+              "ปากกา",
+              131
+            ],
+            [
+              1,
+              "คลังหลัก",
+              2,
+              "สมุด",
+              68
+            ],
+            [
+              1,
+              "คลังหลัก",
+              3,
+              "ดินสอ",
+              65
+            ],
+            [
+              1,
+              "คลังหลัก",
+              4,
+              "แฟ้ม",
+              33
+            ],
+            [
+              1,
+              "คลังหลัก",
+              5,
+              "ยางลบ",
+              81
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              1,
+              "ปากกา",
+              35
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              2,
+              "สมุด",
+              18
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              3,
+              "ดินสอ",
+              30
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              4,
+              "แฟ้ม",
+              7
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              5,
+              "ยางลบ",
+              0
+            ]
+          ],
+          "message": null,
+          "business_definition": "คงเหลือจากทุกรายการที่บันทึก = opening + receipt - issue แยกสินค้าและคลัง; แสดงคู่สินค้า/คลังที่ไม่มีรายการเป็น 0; ไม่กรองสถานะการชำระเงินและไม่ใช่ยอด ณ วันที่ย้อนหลัง",
+          "elapsed_ms": 2.591
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "ขอดูสินค้าคงเหลือในแต่ละคลังหน่อยครับ",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "a0ad62715e8b238ac4953012fd870d0829bbd1221eb87066476afc0962f273f1",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772c-e2f5-7700-af18-ac5c05b89c22",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 4045.13,
+            "input_tokens": 1231,
+            "output_tokens": 317,
+            "total_tokens": 1548,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT w.id AS warehouse_id, w.name AS warehouse_name, p.id AS product_id, p.name AS product_name, COALESCE(SUM(CASE WHEN sm.movement_type IN ('opening', 'receipt') THEN sm.qty WHEN sm.movement_type = 'issue' THEN -sm.qty ELSE 0 END), 0) AS quantity_remaining FROM warehouses AS w CROSS JOIN products AS p LEFT JOIN stock_movements AS sm ON sm.warehouse_id = w.id AND sm.product_id = p.id GROUP BY w.id, w.name, p.id, p.name ORDER BY w.id ASC, p.id ASC",
+          "executed_sql": "SELECT w.id AS warehouse_id, w.name AS warehouse_name, p.id AS product_id, p.name AS product_name, COALESCE(SUM(CASE WHEN sm.movement_type IN ('opening', 'receipt') THEN sm.qty WHEN sm.movement_type = 'issue' THEN -sm.qty ELSE 0 END), 0) AS quantity_remaining FROM warehouses AS w CROSS JOIN products AS p LEFT JOIN stock_movements AS sm ON sm.warehouse_id = w.id AND sm.product_id = p.id GROUP BY w.id, w.name, p.id, p.name ORDER BY w.id ASC, p.id ASC LIMIT 201",
+          "columns": [
+            "warehouse_id",
+            "warehouse_name",
+            "product_id",
+            "product_name",
+            "quantity_remaining"
+          ],
+          "rows": [
+            [
+              1,
+              "คลังหลัก",
+              1,
+              "ปากกา",
+              131
+            ],
+            [
+              1,
+              "คลังหลัก",
+              2,
+              "สมุด",
+              68
+            ],
+            [
+              1,
+              "คลังหลัก",
+              3,
+              "ดินสอ",
+              65
+            ],
+            [
+              1,
+              "คลังหลัก",
+              4,
+              "แฟ้ม",
+              33
+            ],
+            [
+              1,
+              "คลังหลัก",
+              5,
+              "ยางลบ",
+              81
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              1,
+              "ปากกา",
+              35
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              2,
+              "สมุด",
+              18
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              3,
+              "ดินสอ",
+              30
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              4,
+              "แฟ้ม",
+              7
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              5,
+              "ยางลบ",
+              0
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 3.982,
+          "database_ms": 3.582,
+          "elapsed_ms": 4053.811,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT w.id AS warehouse_id, w.name AS warehouse_name, p.id AS product_id, p.name AS product_name, COALESCE(SUM(CASE WHEN sm.movement_type IN ('opening', 'receipt') THEN sm.qty WHEN sm.movement_type = 'issue' THEN -sm.qty ELSE 0 END), 0) AS quantity_remaining FROM warehouses AS w CROSS JOIN products AS p LEFT JOIN stock_movements AS sm ON sm.warehouse_id = w.id AND sm.product_id = p.id GROUP BY w.id, w.name, p.id, p.name ORDER BY w.id ASC, p.id ASC\",\"reason\":\"แสดงยอดคงเหลือจากรายการเปิดยอด รับเข้า และจ่ายออกของทุกคู่คลังและสินค้า รวมคู่ที่ไม่มีรายการเป็นศูนย์\"}",
+          "reason": "แสดงยอดคงเหลือจากรายการเปิดยอด รับเข้า และจ่ายออกของทุกคู่คลังและสินค้า รวมคู่ที่ไม่มีรายการเป็นศูนย์",
+          "tables": [
+            "products",
+            "stock_movements",
+            "warehouses"
+          ],
+          "row_cap_applied": true
+        }
+      }
+    },
+    {
+      "id": "test08",
+      "question": "สินค้าแต่ละชนิดคงเหลืออยู่ในแต่ละคลังเท่าไร",
+      "reference": "balance",
+      "ordered": false,
+      "reference_sql": "SELECT w.id,w.name,p.id,p.name,\n  COALESCE((SELECT SUM(CASE m.movement_type WHEN 'issue' THEN -m.qty::bigint ELSE m.qty::bigint END)\n    FROM stock_movements m WHERE m.warehouse_id=w.id AND m.product_id=p.id),0)::bigint\nFROM products p CROSS JOIN warehouses w ORDER BY w.id,p.id\n",
+      "expected_columns": [
+        "id",
+        "name",
+        "id",
+        "name",
+        "coalesce"
+      ],
+      "expected_rows": [
+        [
+          1,
+          "คลังหลัก",
+          1,
+          "ปากกา",
+          131
+        ],
+        [
+          1,
+          "คลังหลัก",
+          2,
+          "สมุด",
+          68
+        ],
+        [
+          1,
+          "คลังหลัก",
+          3,
+          "ดินสอ",
+          65
+        ],
+        [
+          1,
+          "คลังหลัก",
+          4,
+          "แฟ้ม",
+          33
+        ],
+        [
+          1,
+          "คลังหลัก",
+          5,
+          "ยางลบ",
+          81
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          1,
+          "ปากกา",
+          35
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          2,
+          "สมุด",
+          18
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          3,
+          "ดินสอ",
+          30
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          4,
+          "แฟ้ม",
+          7
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          5,
+          "ยางลบ",
+          0
+        ]
+      ],
+      "rule": {
+        "execution_correct": false,
+        "sql_ran_successfully": false,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "unsupported",
+          "question": "สินค้าแต่ละชนิดคงเหลืออยู่ในแต่ละคลังเท่าไร",
+          "clean_text": "สินค้าแต่ละชนิดคงเหลืออยู่ในแต่ละคลังเท่าไร",
+          "tokens": [
+            "สินค้า",
+            "แต่ละ",
+            "ชนิด",
+            "คง",
+            "เหลืออยู่",
+            "ใน",
+            "แต่ละ",
+            "คลัง",
+            "เท่าไร"
+          ],
+          "interpretation": {},
+          "rules": [],
+          "sql": null,
+          "params": [],
+          "columns": [],
+          "rows": [],
+          "message": "คงเหลือรองรับยอดจากทุกรายการแยกตามคลัง ยังไม่รองรับส่วนนี้: 'อยู่' เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+          "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+          "elapsed_ms": 0.409
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "สินค้าแต่ละชนิดคงเหลืออยู่ในแต่ละคลังเท่าไร",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "f2a6b2986409f1c99853038faa4c234fea154f83e76f082537441208f239ef33",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772c-f275-7aa0-bb3d-6b4098ddf359",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 3939.563,
+            "input_tokens": 1232,
+            "output_tokens": 272,
+            "total_tokens": 1504,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT w.id AS warehouse_id, w.name AS warehouse_name, p.id AS product_id, p.name AS product_name, COALESCE(SUM(CASE WHEN sm.movement_type IN ('opening', 'receipt') THEN sm.qty WHEN sm.movement_type = 'issue' THEN -sm.qty ELSE 0 END), 0) AS quantity_remaining FROM warehouses w CROSS JOIN products p LEFT JOIN stock_movements sm ON sm.warehouse_id = w.id AND sm.product_id = p.id GROUP BY w.id, w.name, p.id, p.name ORDER BY w.id ASC, p.id ASC",
+          "executed_sql": "SELECT w.id AS warehouse_id, w.name AS warehouse_name, p.id AS product_id, p.name AS product_name, COALESCE(SUM(CASE WHEN sm.movement_type IN ('opening', 'receipt') THEN sm.qty WHEN sm.movement_type = 'issue' THEN -sm.qty ELSE 0 END), 0) AS quantity_remaining FROM warehouses AS w CROSS JOIN products AS p LEFT JOIN stock_movements AS sm ON sm.warehouse_id = w.id AND sm.product_id = p.id GROUP BY w.id, w.name, p.id, p.name ORDER BY w.id ASC, p.id ASC LIMIT 201",
+          "columns": [
+            "warehouse_id",
+            "warehouse_name",
+            "product_id",
+            "product_name",
+            "quantity_remaining"
+          ],
+          "rows": [
+            [
+              1,
+              "คลังหลัก",
+              1,
+              "ปากกา",
+              131
+            ],
+            [
+              1,
+              "คลังหลัก",
+              2,
+              "สมุด",
+              68
+            ],
+            [
+              1,
+              "คลังหลัก",
+              3,
+              "ดินสอ",
+              65
+            ],
+            [
+              1,
+              "คลังหลัก",
+              4,
+              "แฟ้ม",
+              33
+            ],
+            [
+              1,
+              "คลังหลัก",
+              5,
+              "ยางลบ",
+              81
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              1,
+              "ปากกา",
+              35
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              2,
+              "สมุด",
+              18
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              3,
+              "ดินสอ",
+              30
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              4,
+              "แฟ้ม",
+              7
+            ],
+            [
+              2,
+              "คลังสำรอง",
+              5,
+              "ยางลบ",
+              0
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 4.677,
+          "database_ms": 3.579,
+          "elapsed_ms": 3948.942,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT w.id AS warehouse_id, w.name AS warehouse_name, p.id AS product_id, p.name AS product_name, COALESCE(SUM(CASE WHEN sm.movement_type IN ('opening', 'receipt') THEN sm.qty WHEN sm.movement_type = 'issue' THEN -sm.qty ELSE 0 END), 0) AS quantity_remaining FROM warehouses w CROSS JOIN products p LEFT JOIN stock_movements sm ON sm.warehouse_id = w.id AND sm.product_id = p.id GROUP BY w.id, w.name, p.id, p.name ORDER BY w.id ASC, p.id ASC\",\"reason\":\"คำนวณยอดคงเหลือจากรายการเปิดยอด รับเข้า และจ่ายออกของทุกวันที่ พร้อมแสดงคู่คลังและสินค้าที่ไม่มีรายการเป็นศูนย์\"}",
+          "reason": "คำนวณยอดคงเหลือจากรายการเปิดยอด รับเข้า และจ่ายออกของทุกวันที่ พร้อมแสดงคู่คลังและสินค้าที่ไม่มีรายการเป็นศูนย์",
+          "tables": [
+            "products",
+            "stock_movements",
+            "warehouses"
+          ],
+          "row_cap_applied": true
+        }
+      }
+    },
+    {
+      "id": "test09",
+      "question": "ขอดูยอดจ่ายออกสินค้าเดือนกันยายน 2569",
+      "reference": "issues_sep",
+      "ordered": false,
+      "reference_sql": "SELECT p.id,p.name,\n  COALESCE((SELECT SUM(m.qty) FROM stock_movements m WHERE m.product_id=p.id AND m.movement_type='issue'\n    AND m.movement_date BETWEEN DATE '2026-09-01' AND DATE '2026-09-30'),0)::bigint\nFROM products p ORDER BY p.id\n",
+      "expected_columns": [
+        "id",
+        "name",
+        "coalesce"
+      ],
+      "expected_rows": [
+        [
+          1,
+          "ปากกา",
+          22
+        ],
+        [
+          2,
+          "สมุด",
+          12
+        ],
+        [
+          3,
+          "ดินสอ",
+          15
+        ],
+        [
+          4,
+          "แฟ้ม",
+          9
+        ],
+        [
+          5,
+          "ยางลบ",
+          19
+        ]
+      ],
+      "rule": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "ok",
+          "question": "ขอดูยอดจ่ายออกสินค้าเดือนกันยายน 2569",
+          "clean_text": "ขอดูยอดจ่ายออกสินค้าเดือนกันยายน 2569",
+          "tokens": [
+            "ขอ",
+            "ดู",
+            "ยอด",
+            "จ่าย",
+            "ออก",
+            "สินค้า",
+            "เดือน",
+            "กันยายน",
+            "2569"
+          ],
+          "interpretation": {
+            "metric": "outbound_quantity",
+            "dimension": "product",
+            "warehouse_scope": "all",
+            "start_inclusive": "2026-09-01",
+            "end_exclusive": "2026-10-01",
+            "date_column": "stock_movements.movement_date",
+            "movement_type": "issue",
+            "quantity_unit": "หน่วยตามสินค้า",
+            "row_limit": 200,
+            "tables": [
+              "products",
+              "stock_movements"
+            ]
+          },
+          "rules": [
+            "metric=outbound_quantity (matched 'จ่ายออก')",
+            "movement_date=2026-09-01..2026-10-01",
+            "SUM(issue.qty); count actual dispatch, independently of payment",
+            "unconsumed text check: passed"
+          ],
+          "sql": "\n        SELECT p.id AS product_id, p.name AS product_name,\n               COALESCE(SUM(m.qty), 0)::bigint AS quantity_issued\n        FROM products p\n        LEFT JOIN stock_movements m ON m.product_id = p.id\n          AND m.movement_type = %s\n          AND m.movement_date >= %s AND m.movement_date < %s\n        GROUP BY p.id, p.name ORDER BY p.id LIMIT %s\n    ",
+          "params": [
+            "issue",
+            "2026-09-01",
+            "2026-10-01",
+            200
+          ],
+          "columns": [
+            "product_id",
+            "product_name",
+            "quantity_issued"
+          ],
+          "rows": [
+            [
+              1,
+              "ปากกา",
+              22
+            ],
+            [
+              2,
+              "สมุด",
+              12
+            ],
+            [
+              3,
+              "ดินสอ",
+              15
+            ],
+            [
+              4,
+              "แฟ้ม",
+              9
+            ],
+            [
+              5,
+              "ยางลบ",
+              19
+            ]
+          ],
+          "message": null,
+          "business_definition": "ยอดจ่ายออก = SUM(qty) เฉพาะ movement_type = issue ตาม movement_date ในเดือนที่ถาม รวมทุกคลัง; รวมทั้งรายการที่เกี่ยวและไม่เกี่ยวกับการขาย ไม่กรอง paid; สินค้าไม่มีรายการจ่ายแสดง 0",
+          "elapsed_ms": 1.944
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "ขอดูยอดจ่ายออกสินค้าเดือนกันยายน 2569",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "d8ef7a44b2c63099f52096c0223dde7be7012f687aafcb83f33dd1e3e20537f1",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772d-0804-7ecc-97bd-fe4175f13ac0",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 5488.086,
+            "input_tokens": 1228,
+            "output_tokens": 209,
+            "total_tokens": 1437,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT p.id AS product_id, p.name AS product_name, COALESCE(SUM(sm.qty), 0) AS quantity_issued FROM products p LEFT JOIN stock_movements sm ON sm.product_id = p.id AND sm.movement_type = 'issue' AND sm.movement_date >= DATE '2026-09-01' AND sm.movement_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY p.id ASC LIMIT 200",
+          "executed_sql": "SELECT p.id AS product_id, p.name AS product_name, COALESCE(SUM(sm.qty), 0) AS quantity_issued FROM products AS p LEFT JOIN stock_movements AS sm ON sm.product_id = p.id AND sm.movement_type = 'issue' AND sm.movement_date >= CAST('2026-09-01' AS DATE) AND sm.movement_date < CAST('2026-10-01' AS DATE) GROUP BY p.id, p.name ORDER BY p.id ASC LIMIT 200",
+          "columns": [
+            "product_id",
+            "product_name",
+            "quantity_issued"
+          ],
+          "rows": [
+            [
+              1,
+              "ปากกา",
+              22
+            ],
+            [
+              2,
+              "สมุด",
+              12
+            ],
+            [
+              3,
+              "ดินสอ",
+              15
+            ],
+            [
+              4,
+              "แฟ้ม",
+              9
+            ],
+            [
+              5,
+              "ยางลบ",
+              19
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 1.949,
+          "database_ms": 4.571,
+          "elapsed_ms": 5495.722,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT p.id AS product_id, p.name AS product_name, COALESCE(SUM(sm.qty), 0) AS quantity_issued FROM products p LEFT JOIN stock_movements sm ON sm.product_id = p.id AND sm.movement_type = 'issue' AND sm.movement_date >= DATE '2026-09-01' AND sm.movement_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY p.id ASC LIMIT 200\",\"reason\":\"ยอดจ่ายออกสินค้ารวมทุกคลังในเดือนกันยายน พ.ศ. 2569\"}",
+          "reason": "ยอดจ่ายออกสินค้ารวมทุกคลังในเดือนกันยายน พ.ศ. 2569",
+          "tables": [
+            "products",
+            "stock_movements"
+          ],
+          "row_cap_applied": false
+        }
+      }
+    },
+    {
+      "id": "test10",
+      "question": "เดือนกันยายน 2569 เบิกสินค้าออกไปแต่ละชนิดกี่ชิ้น",
+      "reference": "issues_sep",
+      "ordered": false,
+      "reference_sql": "SELECT p.id,p.name,\n  COALESCE((SELECT SUM(m.qty) FROM stock_movements m WHERE m.product_id=p.id AND m.movement_type='issue'\n    AND m.movement_date BETWEEN DATE '2026-09-01' AND DATE '2026-09-30'),0)::bigint\nFROM products p ORDER BY p.id\n",
+      "expected_columns": [
+        "id",
+        "name",
+        "coalesce"
+      ],
+      "expected_rows": [
+        [
+          1,
+          "ปากกา",
+          22
+        ],
+        [
+          2,
+          "สมุด",
+          12
+        ],
+        [
+          3,
+          "ดินสอ",
+          15
+        ],
+        [
+          4,
+          "แฟ้ม",
+          9
+        ],
+        [
+          5,
+          "ยางลบ",
+          19
+        ]
+      ],
+      "rule": {
+        "execution_correct": false,
+        "sql_ran_successfully": false,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "status": "unmatched",
+          "question": "เดือนกันยายน 2569 เบิกสินค้าออกไปแต่ละชนิดกี่ชิ้น",
+          "clean_text": "เดือนกันยายน 2569 เบิกสินค้าออกไปแต่ละชนิดกี่ชิ้น",
+          "tokens": [
+            "เดือน",
+            "กันยายน",
+            "2569",
+            "เบิก",
+            "สินค้าออก",
+            "ไป",
+            "แต่ละ",
+            "ชนิด",
+            "กี่",
+            "ชิ้น"
+          ],
+          "interpretation": {},
+          "rules": [],
+          "sql": null,
+          "params": [],
+          "columns": [],
+          "rows": [],
+          "message": "เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+          "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+          "elapsed_ms": 0.263
+        }
+      },
+      "llm": {
+        "execution_correct": true,
+        "sql_ran_successfully": true,
+        "canonical_sql_exact_match": false,
+        "result": {
+          "method": "llm",
+          "mode": "live_api",
+          "question": "เดือนกันยายน 2569 เบิกสินค้าออกไปแต่ละชนิดกี่ชิ้น",
+          "status": "ok",
+          "message": null,
+          "prompt_version": "sales-inventory-zero-shot-v1",
+          "prompt_sha256": "d25a60eb0349854abcf8186caca2998f36a170f43d7cfedc45def95db95bb7b9",
+          "schema_sha256": "1feac1a439b3e09cf485584673fa2e7acf956696bf628dbc8ffb61718e088c6e",
+          "generation": {
+            "provider": "kku-intelsphere",
+            "requested_model": "gpt-5.6-luna",
+            "returned_model": "gpt-5.6-luna",
+            "response_id": "genai-01a1772d-1624-7635-adc9-5e85b9fbf229",
+            "finish_reason": "stop",
+            "temperature": 0.0,
+            "max_output_tokens": 2048,
+            "generation_ms": 3627.89,
+            "input_tokens": 1234,
+            "output_tokens": 273,
+            "total_tokens": 1507,
+            "retries": 0,
+            "cost": null,
+            "cost_note": "IntelSphere billing/quota rates have not been configured; tokens are not a billed currency amount"
+          },
+          "generated_sql": "SELECT p.id AS product_id, p.name AS product_name, COALESCE(SUM(sm.qty), 0) AS quantity_issued FROM products p LEFT JOIN stock_movements sm ON sm.product_id = p.id AND sm.movement_type = 'issue' AND sm.movement_date >= DATE '2026-09-01' AND sm.movement_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY p.id ASC LIMIT 200",
+          "executed_sql": "SELECT p.id AS product_id, p.name AS product_name, COALESCE(SUM(sm.qty), 0) AS quantity_issued FROM products AS p LEFT JOIN stock_movements AS sm ON sm.product_id = p.id AND sm.movement_type = 'issue' AND sm.movement_date >= CAST('2026-09-01' AS DATE) AND sm.movement_date < CAST('2026-10-01' AS DATE) GROUP BY p.id, p.name ORDER BY p.id ASC LIMIT 200",
+          "columns": [
+            "product_id",
+            "product_name",
+            "quantity_issued"
+          ],
+          "rows": [
+            [
+              1,
+              "ปากกา",
+              22
+            ],
+            [
+              2,
+              "สมุด",
+              12
+            ],
+            [
+              3,
+              "ดินสอ",
+              15
+            ],
+            [
+              4,
+              "แฟ้ม",
+              9
+            ],
+            [
+              5,
+              "ยางลบ",
+              19
+            ]
+          ],
+          "truncated": false,
+          "validation_ms": 2.327,
+          "database_ms": 3.232,
+          "elapsed_ms": 3634.646,
+          "model_output": "{\"status\":\"ok\",\"sql\":\"SELECT p.id AS product_id, p.name AS product_name, COALESCE(SUM(sm.qty), 0) AS quantity_issued FROM products p LEFT JOIN stock_movements sm ON sm.product_id = p.id AND sm.movement_type = 'issue' AND sm.movement_date >= DATE '2026-09-01' AND sm.movement_date < DATE '2026-10-01' GROUP BY p.id, p.name ORDER BY p.id ASC LIMIT 200\",\"reason\":\"ยอดจ่ายออกของสินค้าแต่ละชนิดในเดือนกันยายน 2569 รวมทุกคลังและแสดงสินค้าที่ไม่มีรายการเป็นศูนย์\"}",
+          "reason": "ยอดจ่ายออกของสินค้าแต่ละชนิดในเดือนกันยายน 2569 รวมทุกคลังและแสดงสินค้าที่ไม่มีรายการเป็นศูนย์",
+          "tables": [
+            "products",
+            "stock_movements"
+          ],
+          "row_cap_applied": false
+        }
+      }
+    }
+  ],
+  "metric_notes": [
+    "Execution accuracy uses ALL questions in the split, including rejected/failed queries.",
+    "Compare numeric values and duplicate rows; top-N order matters. Column aliases are not scored.",
+    "Canonical SQL match is syntax-only; equivalent SQL with different aliases/LIMIT may not match.",
+    "Method latency excludes DB connection startup; LLM includes generation, validation and execution.",
+    "No fallback, retries or automatic repair; one model call per question.",
+    "AI-authored synthetic data and questions do not establish real-world WMS validity."
+  ]
+}

@@ -1,0 +1,1042 @@
+{
+  "evaluated_at": "2026-10-26T13:56:58.208419+07:00",
+  "dataset": "inventory-development-smoke (not held-out)",
+  "correct_queries": 6,
+  "total_queries": 6,
+  "correct_rejections": 4,
+  "total_rejections": 4,
+  "cases": [
+    {
+      "question": "สินค้าคงเหลือแยกตามคลังมีเท่าไหร่",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          1,
+          "คลังหลัก",
+          1,
+          "ปากกา",
+          131
+        ],
+        [
+          1,
+          "คลังหลัก",
+          2,
+          "สมุด",
+          68
+        ],
+        [
+          1,
+          "คลังหลัก",
+          3,
+          "ดินสอ",
+          65
+        ],
+        [
+          1,
+          "คลังหลัก",
+          4,
+          "แฟ้ม",
+          33
+        ],
+        [
+          1,
+          "คลังหลัก",
+          5,
+          "ยางลบ",
+          81
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          1,
+          "ปากกา",
+          35
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          2,
+          "สมุด",
+          18
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          3,
+          "ดินสอ",
+          30
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          4,
+          "แฟ้ม",
+          7
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          5,
+          "ยางลบ",
+          0
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "สินค้าคงเหลือแยกตามคลังมีเท่าไหร่",
+        "clean_text": "สินค้าคงเหลือแยกตามคลังมีเท่าไหร่",
+        "tokens": [
+          "สินค้าคงเหลือ",
+          "แยก",
+          "ตาม",
+          "คลัง",
+          "มี",
+          "เท่าไหร่"
+        ],
+        "interpretation": {
+          "metric": "stock_balance",
+          "dimensions": [
+            "warehouse",
+            "product"
+          ],
+          "time_basis": "all_recorded_movements",
+          "quantity_unit": "หน่วยตามสินค้า",
+          "includes_zero_balances": true,
+          "row_limit": 200,
+          "tables": [
+            "warehouses",
+            "products",
+            "stock_movements"
+          ]
+        },
+        "rules": [
+          "metric=stock_balance (matched 'สินค้าคงเหลือ')",
+          "warehouse × product with LEFT JOIN: include zero movement pairs",
+          "opening + receipt - issue; no orders.status filter",
+          "unconsumed text check: passed"
+        ],
+        "sql": "\n        WITH balances AS (\n            SELECT warehouse_id, product_id,\n                   SUM(CASE WHEN movement_type IN ('opening', 'receipt')\n                            THEN qty::bigint ELSE -qty::bigint END) AS balance\n            FROM stock_movements GROUP BY warehouse_id, product_id\n        )\n        SELECT w.id AS warehouse_id, w.name AS warehouse_name,\n               p.id AS product_id, p.name AS product_name,\n               COALESCE(b.balance, 0)::bigint AS quantity_remaining\n        FROM warehouses w CROSS JOIN products p\n        LEFT JOIN balances b ON b.warehouse_id = w.id AND b.product_id = p.id\n        ORDER BY w.id, p.id LIMIT %s\n    ",
+        "params": [
+          200
+        ],
+        "columns": [
+          "warehouse_id",
+          "warehouse_name",
+          "product_id",
+          "product_name",
+          "quantity_remaining"
+        ],
+        "rows": [
+          [
+            1,
+            "คลังหลัก",
+            1,
+            "ปากกา",
+            131
+          ],
+          [
+            1,
+            "คลังหลัก",
+            2,
+            "สมุด",
+            68
+          ],
+          [
+            1,
+            "คลังหลัก",
+            3,
+            "ดินสอ",
+            65
+          ],
+          [
+            1,
+            "คลังหลัก",
+            4,
+            "แฟ้ม",
+            33
+          ],
+          [
+            1,
+            "คลังหลัก",
+            5,
+            "ยางลบ",
+            81
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            1,
+            "ปากกา",
+            35
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            2,
+            "สมุด",
+            18
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            3,
+            "ดินสอ",
+            30
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            4,
+            "แฟ้ม",
+            7
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            5,
+            "ยางลบ",
+            0
+          ]
+        ],
+        "message": null,
+        "business_definition": "คงเหลือจากทุกรายการที่บันทึก = opening + receipt - issue แยกสินค้าและคลัง; แสดงคู่สินค้า/คลังที่ไม่มีรายการเป็น 0; ไม่กรองสถานะการชำระเงินและไม่ใช่ยอด ณ วันที่ย้อนหลัง",
+        "elapsed_ms": 10.306
+      }
+    },
+    {
+      "question": "แสดงสต็อกคงเหลือแยกตามคลังครับ",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          1,
+          "คลังหลัก",
+          1,
+          "ปากกา",
+          131
+        ],
+        [
+          1,
+          "คลังหลัก",
+          2,
+          "สมุด",
+          68
+        ],
+        [
+          1,
+          "คลังหลัก",
+          3,
+          "ดินสอ",
+          65
+        ],
+        [
+          1,
+          "คลังหลัก",
+          4,
+          "แฟ้ม",
+          33
+        ],
+        [
+          1,
+          "คลังหลัก",
+          5,
+          "ยางลบ",
+          81
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          1,
+          "ปากกา",
+          35
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          2,
+          "สมุด",
+          18
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          3,
+          "ดินสอ",
+          30
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          4,
+          "แฟ้ม",
+          7
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          5,
+          "ยางลบ",
+          0
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "แสดงสต็อกคงเหลือแยกตามคลังครับ",
+        "clean_text": "แสดงสต็อกคงเหลือแยกตามคลังครับ",
+        "tokens": [
+          "แสดง",
+          "สต็อก",
+          "คงเหลือ",
+          "แยก",
+          "ตาม",
+          "คลัง"
+        ],
+        "interpretation": {
+          "metric": "stock_balance",
+          "dimensions": [
+            "warehouse",
+            "product"
+          ],
+          "time_basis": "all_recorded_movements",
+          "quantity_unit": "หน่วยตามสินค้า",
+          "includes_zero_balances": true,
+          "row_limit": 200,
+          "tables": [
+            "warehouses",
+            "products",
+            "stock_movements"
+          ]
+        },
+        "rules": [
+          "metric=stock_balance (matched 'สต็อกคงเหลือ')",
+          "warehouse × product with LEFT JOIN: include zero movement pairs",
+          "opening + receipt - issue; no orders.status filter",
+          "unconsumed text check: passed"
+        ],
+        "sql": "\n        WITH balances AS (\n            SELECT warehouse_id, product_id,\n                   SUM(CASE WHEN movement_type IN ('opening', 'receipt')\n                            THEN qty::bigint ELSE -qty::bigint END) AS balance\n            FROM stock_movements GROUP BY warehouse_id, product_id\n        )\n        SELECT w.id AS warehouse_id, w.name AS warehouse_name,\n               p.id AS product_id, p.name AS product_name,\n               COALESCE(b.balance, 0)::bigint AS quantity_remaining\n        FROM warehouses w CROSS JOIN products p\n        LEFT JOIN balances b ON b.warehouse_id = w.id AND b.product_id = p.id\n        ORDER BY w.id, p.id LIMIT %s\n    ",
+        "params": [
+          200
+        ],
+        "columns": [
+          "warehouse_id",
+          "warehouse_name",
+          "product_id",
+          "product_name",
+          "quantity_remaining"
+        ],
+        "rows": [
+          [
+            1,
+            "คลังหลัก",
+            1,
+            "ปากกา",
+            131
+          ],
+          [
+            1,
+            "คลังหลัก",
+            2,
+            "สมุด",
+            68
+          ],
+          [
+            1,
+            "คลังหลัก",
+            3,
+            "ดินสอ",
+            65
+          ],
+          [
+            1,
+            "คลังหลัก",
+            4,
+            "แฟ้ม",
+            33
+          ],
+          [
+            1,
+            "คลังหลัก",
+            5,
+            "ยางลบ",
+            81
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            1,
+            "ปากกา",
+            35
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            2,
+            "สมุด",
+            18
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            3,
+            "ดินสอ",
+            30
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            4,
+            "แฟ้ม",
+            7
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            5,
+            "ยางลบ",
+            0
+          ]
+        ],
+        "message": null,
+        "business_definition": "คงเหลือจากทุกรายการที่บันทึก = opening + receipt - issue แยกสินค้าและคลัง; แสดงคู่สินค้า/คลังที่ไม่มีรายการเป็น 0; ไม่กรองสถานะการชำระเงินและไม่ใช่ยอด ณ วันที่ย้อนหลัง",
+        "elapsed_ms": 3.251
+      }
+    },
+    {
+      "question": "สินค้าคงเหลือในแต่ละคลัง",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          1,
+          "คลังหลัก",
+          1,
+          "ปากกา",
+          131
+        ],
+        [
+          1,
+          "คลังหลัก",
+          2,
+          "สมุด",
+          68
+        ],
+        [
+          1,
+          "คลังหลัก",
+          3,
+          "ดินสอ",
+          65
+        ],
+        [
+          1,
+          "คลังหลัก",
+          4,
+          "แฟ้ม",
+          33
+        ],
+        [
+          1,
+          "คลังหลัก",
+          5,
+          "ยางลบ",
+          81
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          1,
+          "ปากกา",
+          35
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          2,
+          "สมุด",
+          18
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          3,
+          "ดินสอ",
+          30
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          4,
+          "แฟ้ม",
+          7
+        ],
+        [
+          2,
+          "คลังสำรอง",
+          5,
+          "ยางลบ",
+          0
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "สินค้าคงเหลือในแต่ละคลัง",
+        "clean_text": "สินค้าคงเหลือในแต่ละคลัง",
+        "tokens": [
+          "สินค้าคงเหลือ",
+          "ใน",
+          "แต่ละ",
+          "คลัง"
+        ],
+        "interpretation": {
+          "metric": "stock_balance",
+          "dimensions": [
+            "warehouse",
+            "product"
+          ],
+          "time_basis": "all_recorded_movements",
+          "quantity_unit": "หน่วยตามสินค้า",
+          "includes_zero_balances": true,
+          "row_limit": 200,
+          "tables": [
+            "warehouses",
+            "products",
+            "stock_movements"
+          ]
+        },
+        "rules": [
+          "metric=stock_balance (matched 'สินค้าคงเหลือ')",
+          "warehouse × product with LEFT JOIN: include zero movement pairs",
+          "opening + receipt - issue; no orders.status filter",
+          "unconsumed text check: passed"
+        ],
+        "sql": "\n        WITH balances AS (\n            SELECT warehouse_id, product_id,\n                   SUM(CASE WHEN movement_type IN ('opening', 'receipt')\n                            THEN qty::bigint ELSE -qty::bigint END) AS balance\n            FROM stock_movements GROUP BY warehouse_id, product_id\n        )\n        SELECT w.id AS warehouse_id, w.name AS warehouse_name,\n               p.id AS product_id, p.name AS product_name,\n               COALESCE(b.balance, 0)::bigint AS quantity_remaining\n        FROM warehouses w CROSS JOIN products p\n        LEFT JOIN balances b ON b.warehouse_id = w.id AND b.product_id = p.id\n        ORDER BY w.id, p.id LIMIT %s\n    ",
+        "params": [
+          200
+        ],
+        "columns": [
+          "warehouse_id",
+          "warehouse_name",
+          "product_id",
+          "product_name",
+          "quantity_remaining"
+        ],
+        "rows": [
+          [
+            1,
+            "คลังหลัก",
+            1,
+            "ปากกา",
+            131
+          ],
+          [
+            1,
+            "คลังหลัก",
+            2,
+            "สมุด",
+            68
+          ],
+          [
+            1,
+            "คลังหลัก",
+            3,
+            "ดินสอ",
+            65
+          ],
+          [
+            1,
+            "คลังหลัก",
+            4,
+            "แฟ้ม",
+            33
+          ],
+          [
+            1,
+            "คลังหลัก",
+            5,
+            "ยางลบ",
+            81
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            1,
+            "ปากกา",
+            35
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            2,
+            "สมุด",
+            18
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            3,
+            "ดินสอ",
+            30
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            4,
+            "แฟ้ม",
+            7
+          ],
+          [
+            2,
+            "คลังสำรอง",
+            5,
+            "ยางลบ",
+            0
+          ]
+        ],
+        "message": null,
+        "business_definition": "คงเหลือจากทุกรายการที่บันทึก = opening + receipt - issue แยกสินค้าและคลัง; แสดงคู่สินค้า/คลังที่ไม่มีรายการเป็น 0; ไม่กรองสถานะการชำระเงินและไม่ใช่ยอด ณ วันที่ย้อนหลัง",
+        "elapsed_ms": 2.611
+      }
+    },
+    {
+      "question": "เดือนกันยายน 2569 มีสินค้าจ่ายออกแต่ละชนิดกี่หน่วย",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          1,
+          "ปากกา",
+          22
+        ],
+        [
+          2,
+          "สมุด",
+          12
+        ],
+        [
+          3,
+          "ดินสอ",
+          15
+        ],
+        [
+          4,
+          "แฟ้ม",
+          9
+        ],
+        [
+          5,
+          "ยางลบ",
+          19
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "เดือนกันยายน 2569 มีสินค้าจ่ายออกแต่ละชนิดกี่หน่วย",
+        "clean_text": "เดือนกันยายน 2569 มีสินค้าจ่ายออกแต่ละชนิดกี่หน่วย",
+        "tokens": [
+          "เดือน",
+          "กันยายน",
+          "2569",
+          "มี",
+          "สินค้า",
+          "จ่าย",
+          "ออก",
+          "แต่ละ",
+          "ชนิด",
+          "กี่",
+          "หน่วย"
+        ],
+        "interpretation": {
+          "metric": "outbound_quantity",
+          "dimension": "product",
+          "warehouse_scope": "all",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "date_column": "stock_movements.movement_date",
+          "movement_type": "issue",
+          "quantity_unit": "หน่วยตามสินค้า",
+          "row_limit": 200,
+          "tables": [
+            "products",
+            "stock_movements"
+          ]
+        },
+        "rules": [
+          "metric=outbound_quantity (matched 'จ่ายออก')",
+          "movement_date=2026-09-01..2026-10-01",
+          "SUM(issue.qty); count actual dispatch, independently of payment",
+          "unconsumed text check: passed"
+        ],
+        "sql": "\n        SELECT p.id AS product_id, p.name AS product_name,\n               COALESCE(SUM(m.qty), 0)::bigint AS quantity_issued\n        FROM products p\n        LEFT JOIN stock_movements m ON m.product_id = p.id\n          AND m.movement_type = %s\n          AND m.movement_date >= %s AND m.movement_date < %s\n        GROUP BY p.id, p.name ORDER BY p.id LIMIT %s\n    ",
+        "params": [
+          "issue",
+          "2026-09-01",
+          "2026-10-01",
+          200
+        ],
+        "columns": [
+          "product_id",
+          "product_name",
+          "quantity_issued"
+        ],
+        "rows": [
+          [
+            1,
+            "ปากกา",
+            22
+          ],
+          [
+            2,
+            "สมุด",
+            12
+          ],
+          [
+            3,
+            "ดินสอ",
+            15
+          ],
+          [
+            4,
+            "แฟ้ม",
+            9
+          ],
+          [
+            5,
+            "ยางลบ",
+            19
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดจ่ายออก = SUM(qty) เฉพาะ movement_type = issue ตาม movement_date ในเดือนที่ถาม รวมทุกคลัง; รวมทั้งรายการที่เกี่ยวและไม่เกี่ยวกับการขาย ไม่กรอง paid; สินค้าไม่มีรายการจ่ายแสดง 0",
+        "elapsed_ms": 5.809
+      }
+    },
+    {
+      "question": "ยอดจ่ายออกสินค้าเดือนกันยายน 2569",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          1,
+          "ปากกา",
+          22
+        ],
+        [
+          2,
+          "สมุด",
+          12
+        ],
+        [
+          3,
+          "ดินสอ",
+          15
+        ],
+        [
+          4,
+          "แฟ้ม",
+          9
+        ],
+        [
+          5,
+          "ยางลบ",
+          19
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "ยอดจ่ายออกสินค้าเดือนกันยายน 2569",
+        "clean_text": "ยอดจ่ายออกสินค้าเดือนกันยายน 2569",
+        "tokens": [
+          "ยอด",
+          "จ่าย",
+          "ออก",
+          "สินค้า",
+          "เดือน",
+          "กันยายน",
+          "2569"
+        ],
+        "interpretation": {
+          "metric": "outbound_quantity",
+          "dimension": "product",
+          "warehouse_scope": "all",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "date_column": "stock_movements.movement_date",
+          "movement_type": "issue",
+          "quantity_unit": "หน่วยตามสินค้า",
+          "row_limit": 200,
+          "tables": [
+            "products",
+            "stock_movements"
+          ]
+        },
+        "rules": [
+          "metric=outbound_quantity (matched 'จ่ายออก')",
+          "movement_date=2026-09-01..2026-10-01",
+          "SUM(issue.qty); count actual dispatch, independently of payment",
+          "unconsumed text check: passed"
+        ],
+        "sql": "\n        SELECT p.id AS product_id, p.name AS product_name,\n               COALESCE(SUM(m.qty), 0)::bigint AS quantity_issued\n        FROM products p\n        LEFT JOIN stock_movements m ON m.product_id = p.id\n          AND m.movement_type = %s\n          AND m.movement_date >= %s AND m.movement_date < %s\n        GROUP BY p.id, p.name ORDER BY p.id LIMIT %s\n    ",
+        "params": [
+          "issue",
+          "2026-09-01",
+          "2026-10-01",
+          200
+        ],
+        "columns": [
+          "product_id",
+          "product_name",
+          "quantity_issued"
+        ],
+        "rows": [
+          [
+            1,
+            "ปากกา",
+            22
+          ],
+          [
+            2,
+            "สมุด",
+            12
+          ],
+          [
+            3,
+            "ดินสอ",
+            15
+          ],
+          [
+            4,
+            "แฟ้ม",
+            9
+          ],
+          [
+            5,
+            "ยางลบ",
+            19
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดจ่ายออก = SUM(qty) เฉพาะ movement_type = issue ตาม movement_date ในเดือนที่ถาม รวมทุกคลัง; รวมทั้งรายการที่เกี่ยวและไม่เกี่ยวกับการขาย ไม่กรอง paid; สินค้าไม่มีรายการจ่ายแสดง 0",
+        "elapsed_ms": 2.066
+      }
+    },
+    {
+      "question": "เดือนกันยายน ๒๕๖๙ สินค้าเบิกออกกี่ชิ้น",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          1,
+          "ปากกา",
+          22
+        ],
+        [
+          2,
+          "สมุด",
+          12
+        ],
+        [
+          3,
+          "ดินสอ",
+          15
+        ],
+        [
+          4,
+          "แฟ้ม",
+          9
+        ],
+        [
+          5,
+          "ยางลบ",
+          19
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "เดือนกันยายน ๒๕๖๙ สินค้าเบิกออกกี่ชิ้น",
+        "clean_text": "เดือนกันยายน 2569 สินค้าเบิกออกกี่ชิ้น",
+        "tokens": [
+          "เดือน",
+          "กันยายน",
+          "2569",
+          "สินค้า",
+          "เบิก",
+          "ออก",
+          "กี่",
+          "ชิ้น"
+        ],
+        "interpretation": {
+          "metric": "outbound_quantity",
+          "dimension": "product",
+          "warehouse_scope": "all",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "date_column": "stock_movements.movement_date",
+          "movement_type": "issue",
+          "quantity_unit": "หน่วยตามสินค้า",
+          "row_limit": 200,
+          "tables": [
+            "products",
+            "stock_movements"
+          ]
+        },
+        "rules": [
+          "metric=outbound_quantity (matched 'เบิกออก')",
+          "movement_date=2026-09-01..2026-10-01",
+          "SUM(issue.qty); count actual dispatch, independently of payment",
+          "unconsumed text check: passed"
+        ],
+        "sql": "\n        SELECT p.id AS product_id, p.name AS product_name,\n               COALESCE(SUM(m.qty), 0)::bigint AS quantity_issued\n        FROM products p\n        LEFT JOIN stock_movements m ON m.product_id = p.id\n          AND m.movement_type = %s\n          AND m.movement_date >= %s AND m.movement_date < %s\n        GROUP BY p.id, p.name ORDER BY p.id LIMIT %s\n    ",
+        "params": [
+          "issue",
+          "2026-09-01",
+          "2026-10-01",
+          200
+        ],
+        "columns": [
+          "product_id",
+          "product_name",
+          "quantity_issued"
+        ],
+        "rows": [
+          [
+            1,
+            "ปากกา",
+            22
+          ],
+          [
+            2,
+            "สมุด",
+            12
+          ],
+          [
+            3,
+            "ดินสอ",
+            15
+          ],
+          [
+            4,
+            "แฟ้ม",
+            9
+          ],
+          [
+            5,
+            "ยางลบ",
+            19
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดจ่ายออก = SUM(qty) เฉพาะ movement_type = issue ตาม movement_date ในเดือนที่ถาม รวมทุกคลัง; รวมทั้งรายการที่เกี่ยวและไม่เกี่ยวกับการขาย ไม่กรอง paid; สินค้าไม่มีรายการจ่ายแสดง 0",
+        "elapsed_ms": 2.83
+      }
+    },
+    {
+      "question": "สินค้าคงเหลือเดือนกันยายน 2569",
+      "kind": "scope_rejection",
+      "passed": true,
+      "expected_rows": null,
+      "result": {
+        "status": "unsupported",
+        "question": "สินค้าคงเหลือเดือนกันยายน 2569",
+        "clean_text": "สินค้าคงเหลือเดือนกันยายน 2569",
+        "tokens": [
+          "สินค้าคงเหลือ",
+          "เดือน",
+          "กันยายน",
+          "2569"
+        ],
+        "interpretation": {},
+        "rules": [],
+        "sql": null,
+        "params": [],
+        "columns": [],
+        "rows": [],
+        "message": "คงเหลือรองรับยอดจากทุกรายการแยกตามคลัง ยังไม่รองรับส่วนนี้: 'เดือนกันยายน2569' เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 0.252
+      }
+    },
+    {
+      "question": "สินค้าคงเหลือเฉพาะคลังหลัก",
+      "kind": "scope_rejection",
+      "passed": true,
+      "expected_rows": null,
+      "result": {
+        "status": "unsupported",
+        "question": "สินค้าคงเหลือเฉพาะคลังหลัก",
+        "clean_text": "สินค้าคงเหลือเฉพาะคลังหลัก",
+        "tokens": [
+          "สินค้าคงเหลือ",
+          "เฉพาะ",
+          "คลัง",
+          "หลัก"
+        ],
+        "interpretation": {},
+        "rules": [],
+        "sql": null,
+        "params": [],
+        "columns": [],
+        "rows": [],
+        "message": "คงเหลือรองรับยอดจากทุกรายการแยกตามคลัง ยังไม่รองรับส่วนนี้: 'เฉพาะคลังหลัก' เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 0.155
+      }
+    },
+    {
+      "question": "สินค้าจ่ายออกเดือนนี้",
+      "kind": "scope_rejection",
+      "passed": true,
+      "expected_rows": null,
+      "result": {
+        "status": "unsupported",
+        "question": "สินค้าจ่ายออกเดือนนี้",
+        "clean_text": "สินค้าจ่ายออกเดือนนี้",
+        "tokens": [
+          "สินค้า",
+          "จ่าย",
+          "ออก",
+          "เดือนนี้"
+        ],
+        "interpretation": {},
+        "rules": [],
+        "sql": null,
+        "params": [],
+        "columns": [],
+        "rows": [],
+        "message": "ยอดจ่ายออกต้องระบุเดือนและปี เช่น 'เดือนกันยายน 2569 มีสินค้าจ่ายออกแต่ละชนิดกี่หน่วย' เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 6.601
+      }
+    },
+    {
+      "question": "เดือนกันยายน 2569 สินค้าจ่ายออกที่ชำระแล้ว",
+      "kind": "scope_rejection",
+      "passed": true,
+      "expected_rows": null,
+      "result": {
+        "status": "unsupported",
+        "question": "เดือนกันยายน 2569 สินค้าจ่ายออกที่ชำระแล้ว",
+        "clean_text": "เดือนกันยายน 2569 สินค้าจ่ายออกที่ชำระแล้ว",
+        "tokens": [
+          "เดือน",
+          "กันยายน",
+          "2569",
+          "สินค้า",
+          "จ่าย",
+          "ออก",
+          "ที่",
+          "ชำระแล้ว"
+        ],
+        "interpretation": {},
+        "rules": [],
+        "sql": null,
+        "params": [],
+        "columns": [],
+        "rows": [],
+        "message": "ยอดจ่ายออกรองรับรวมทุกคลังแยกสินค้า ยังไม่รองรับส่วนนี้: 'ที่ชำระแล้ว' เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 0.33
+      }
+    }
+  ]
+}

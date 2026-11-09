@@ -1,0 +1,70 @@
+# Thai calendar vocabulary used by app/nlp/time_parser.py
+
+months:
+  1:  [มกราคม, ม.ค., มค]
+  2:  [กุมภาพันธ์, ก.พ., กพ]
+  3:  [มีนาคม, มี.ค., มีค]
+  4:  [เมษายน, เม.ย., เมย]
+  5:  [พฤษภาคม, พ.ค., พค]
+  6:  [มิถุนายน, มิ.ย., มิย]
+  7:  [กรกฎาคม, ก.ค., กค]
+  8:  [สิงหาคม, ส.ค., สค]
+  9:  [กันยายน, ก.ย., กย]
+  10: [ตุลาคม, ต.ค., ตค]
+  11: [พฤศจิกายน, พ.ย., พย]
+  12: [ธันวาคม, ธ.ค., ธค]
+
+# Thai digits 0-9, used to convert เลขไทย -> arabic before parsing numbers.
+thai_digits:
+  "๐": "0"
+  "๑": "1"
+  "๒": "2"
+  "๓": "3"
+  "๔": "4"
+  "๕": "5"
+  "๖": "6"
+  "๗": "7"
+  "๘": "8"
+  "๙": "9"
+
+# Fixed relative-day/period phrases -> (unit, offset) consumed by time_parser.
+relative_points:
+  วันนี้:         {unit: day,   offset: 0}
+  today:          {unit: day,   offset: 0}
+  เมื่อวาน:       {unit: day,   offset: -1}
+  เมื่อวานนี้:     {unit: day,   offset: -1}
+  yesterday:      {unit: day,   offset: -1}
+  พรุ่งนี้:        {unit: day,   offset: 1}
+
+relative_periods:
+  เดือนนี้:        {unit: month, offset: 0}
+  this month:     {unit: month, offset: 0}
+  เดือนที่แล้ว:     {unit: month, offset: -1}
+  เดือนก่อน:       {unit: month, offset: -1}
+  last month:     {unit: month, offset: -1}
+  สัปดาห์นี้:       {unit: week,  offset: 0}
+  this week:      {unit: week,  offset: 0}
+  สัปดาห์ที่แล้ว:    {unit: week,  offset: -1}
+  last week:      {unit: week,  offset: -1}
+  ปีนี้:           {unit: year,  offset: 0}
+  this year:      {unit: year,  offset: 0}
+  ปีที่แล้ว:        {unit: year,  offset: -1}
+  last year:      {unit: year,  offset: -1}
+  ไตรมาสนี้:       {unit: quarter, offset: 0}
+  this quarter:   {unit: quarter, offset: 0}
+  ไตรมาสที่แล้ว:    {unit: quarter, offset: -1}
+  last quarter:   {unit: quarter, offset: -1}
+
+# "N หน่วยที่ผ่านมา / last N units" - regex-driven, units listed here for lookup.
+trailing_units:
+  วัน:      day
+  days:     day
+  day:      day
+  สัปดาห์:   week
+  weeks:    week
+  เดือน:    month
+  months:   month
+  ปี:       year
+  years:    year
+
+buddhist_era_offset: 543

@@ -1,0 +1,97 @@
+# Evaluation set for the rule-based Thai NL -> SQL pipeline.
+#
+# Each case has:
+#   question:      the Thai/English input
+#   expect_status:  ok | unmatched | ambiguous_entity | entity_not_found | blocked
+#   check:         (only for expect_status: ok) one of a small set of checks
+#                  run against the result rows - kept generic on purpose so
+#                  this file doesn't hard-code today's date-dependent numbers.
+#
+# Add a new row here every time you add lexicon coverage, and every time you
+# find a real user question that didn't work - that log is the actual
+# roadmap for what to add to config/lexicon.yaml next.
+
+cases:
+  - question: "ยอดขายเดือนนี้เท่าไหร่"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 1}
+
+  - question: "ยอดขายเดือนที่แล้ว"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 1}
+
+  - question: "ยอดขาย 7 วันที่ผ่านมา"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 1}
+
+  - question: "สินค้าขายดีที่สุด 5 อันดับ"
+    expect_status: ok
+    check: {type: row_count, op: lte, value: 5}
+
+  - question: "ลูกค้าที่ซื้อเยอะที่สุด 3 อันดับแรก"
+    expect_status: ok
+    check: {type: row_count, op: lte, value: 3}
+
+  - question: "สินค้าที่สต็อกน้อยกว่า 10"
+    expect_status: ok
+    check: {type: all_rows_satisfy, column: 2, op: lt, value: 10}
+
+  - question: "จำนวนออเดอร์ที่ยกเลิก"
+    expect_status: ok
+    check: {type: cell_equals, row: 0, col: 0, value: 5}
+
+  - question: "ยอดขายแยกตามหมวดหมู่"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 3}
+
+  - question: "ยอดขายแยกตามสาขา"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 3}
+
+  - question: "ยอดขายปีนี้ แยกรายเดือน"
+    expect_status: ok
+    check: {type: row_count, op: gte, value: 1}
+
+  - question: "สมชายซื้อของไปกี่บาท"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 1}
+
+  - question: "มีกี่ออเดอร์ที่จ่ายด้วยเงินสด"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 1}
+
+  - question: "ค่าเฉลี่ยต่อออเดอร์เดือนนี้"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 1}
+
+  - question: "จำนวนลูกค้าปีนี้"
+    expect_status: ok
+    check: {type: row_count, op: gte, value: 1}
+
+  - question: "ยอดขายปี 2568"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 1}
+
+  - question: "สวัสดีครับวันนี้อากาศดี"
+    expect_status: unmatched
+
+  - question: "ยอดขายของสม เดือนนี้"
+    expect_status: ambiguous_entity
+
+  # --- Known gaps (documented, not yet supported) ---
+  # These currently fail (or behave in a limited way) and are left in as an
+  # explicit TODO list rather than silently dropped - each one is a real
+  # lexicon/rule extension.
+  - question: "เปรียบเทียบยอดขายเดือนนี้กับเดือนที่แล้ว"
+    expect_status: ok
+    check: {type: row_count, op: eq, value: 1}
+    note: >
+      Not a real comparison yet: the time parser picks whichever relative-period
+      phrase is LONGER as text ("เดือนที่แล้ว" beats "เดือนนี้") and returns a
+      single range, silently dropping the other side. A real "compare A vs B"
+      intent (two ranges, two numbers, a delta) is a planned intent shape, not
+      yet implemented - see README "Known limitations".
+
+  - question: "ลูกค้าคนไหนไม่เคยสั่งซื้อเลย"
+    expect_status: unmatched
+    note: "'never ordered' (anti-join) not yet a supported intent shape"

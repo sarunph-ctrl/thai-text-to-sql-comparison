@@ -1,0 +1,7 @@
+fastapi>=0.115
+uvicorn[standard]>=0.30
+psycopg[binary]>=3.2
+pythainlp>=5.3
+PyYAML>=6.0
+pytest>=8.0
+sqlglot==30.24.0

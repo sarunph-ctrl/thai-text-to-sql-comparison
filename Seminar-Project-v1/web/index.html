@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="เดโมเปรียบเทียบ Rule-based กับ LLM สำหรับคำถามภาษาไทยบนข้อมูลขายและคลังสินค้า">
+  <title>Thai Query Lab · Seminar Demo</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><div class="nav-inner">
+    <a class="brand" href="#demo"><span class="brand-mark">Q</span><span>Thai Query Lab<small>Sales & inventory</small></span></a>
+    <div class="nav-status"><span id="db-status" class="status-pill">กำลังตรวจการเชื่อมต่อ</span><a id="api-link" href="/docs" target="_blank" rel="noopener">API docs ↗</a></div>
+  </div></header>
+  <main>
+    <section class="intro">
+      <div><div class="eyebrow">WORKSPACE</div><h1>ถามข้อมูลของคุณ</h1><p>ภาษาไทย → SQL → คำตอบ</p></div>
+      <div class="intro-aside"><span class="mini-label">MODEL · KKU INTELSPHERE</span><strong id="model-label">gpt-5.6-luna</strong><a href="#schema" class="text-link" data-tab-link="schema">ดู schema →</a></div>
+    </section>
+    <nav class="tabs" aria-label="ส่วนของเดโม">
+      <button type="button" class="tab active" data-tab="demo" aria-current="page"><span>ทดลองคำถาม</span></button>
+      <button type="button" class="tab" data-tab="schema"><span>Schema & ข้อมูล</span></button>
+      <button type="button" class="tab" data-tab="results"><span>ผลการทดลอง</span></button>
+    </nav>
+
+    <section id="view-demo" class="view">
+      <form id="query-form" class="question-card">
+        <div class="section-row"><label for="question" class="section-title">คำถามของคุณ</label><fieldset class="mode-switch"><legend class="sr-only">แหล่งผลลัพธ์</legend><label><input type="radio" name="mode" value="live" checked><span>รันสด</span></label><label><input type="radio" name="mode" value="recorded"><span>ผลบันทึก</span></label></fieldset></div>
+        <div id="recorded-controls" class="recorded-controls" hidden><label for="saved-case">เลือกคำถามจากรอบทดลอง</label><select id="saved-case"></select></div>
+        <textarea id="question" name="question" rows="2" maxlength="500" required>ยอดขายเดือนกันยายน 2569</textarea>
+        <div class="form-bottom"><span id="mode-note" class="muted">เรียกโมเดล 1 ครั้ง · ใช้โควตา API</span><button id="run-button" class="primary" type="submit">เปรียบเทียบ <span aria-hidden="true">↗</span></button></div>
+        <div class="examples" id="example-buttons"><span>ลองถาม</span><button type="button" data-question="ยอดขายเดือนกันยายน 2569">ยอดขายรวม</button><button type="button" data-question="สินค้าขายดีที่สุด 3 อันดับ เดือนกันยายน 2569">Top 3 สินค้า</button><button type="button" data-question="สินค้าคงเหลือแยกตามคลังมีเท่าไหร่">คงเหลือแยกคลัง</button><button type="button" data-question="เดือนกันยายน 2569 มีสินค้าจ่ายออกแต่ละชนิดกี่หน่วย">จำนวนจ่ายออก</button><button type="button" data-question="เดือนกันยายน 2569 ขายของได้เงินรวมเท่าไร">เปลี่ยนรูปประโยค</button></div>
+      </form>
+      <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+      <div id="run-context" class="run-context" hidden></div>
+      <div class="comparison-grid" id="comparison" aria-busy="false">
+        <article id="rule-panel" class="result-card rule-card"><div class="result-header"><div><span class="method-number">A</span><h2>Rule-based</h2></div><span class="method-tag">Rules</span></div><div class="panel-content"><div class="empty-state"><span class="empty-symbol">{ }</span><h3>ผลลัพธ์จะแสดงที่นี่</h3></div></div></article>
+        <article id="llm-panel" class="result-card llm-card"><div class="result-header"><div><span class="method-number">B</span><h2>LLM</h2></div><span class="method-tag">Language model</span></div><div class="panel-content"><div class="empty-state"><span class="empty-symbol">SQL</span><h3>ผลลัพธ์จะแสดงที่นี่</h3></div></div></article>
+      </div>
+      <section id="reference-panel" class="reference-card" hidden></section>
+      <div class="method-note"><span>คำตอบตรงกัน ≠ ยืนยันว่าถูก ต้องตรวจเทียบเฉลย</span><button type="button" data-tab-link="results">ดูการประเมิน →</button></div>
+    </section>
+
+    <section id="view-schema" class="view" hidden>
+      <div class="section-heading"><div class="eyebrow">DATA MODEL</div><h2>Schema และข้อมูล</h2><p>5 ตาราง · ข้อมูลสังเคราะห์</p></div>
+      <div id="definition-cards" class="definition-grid"></div>
+      <div class="relationship-strip"><code>orders</code><span>1 → หลาย</span><code>order_items</code><span>หลาย ← 1</span><code>products</code><span>1 → หลาย</span><code>stock_movements</code><span>หลาย ← 1</span><code>warehouses</code></div>
+      <p class="muted relationship-note">stock_movements อ้างถึง order_items ได้เมื่อเป็น issue และเป็นสินค้าตัวเดียวกัน แต่ไม่บังคับให้ทุก movement เกี่ยวกับการขาย</p>
+      <div id="schema-cards" class="schema-grid"></div>
+      <details class="details-card"><summary>ดู SQL ที่กำหนดโครงสร้างตาราง</summary><pre id="schema-ddl"></pre></details>
+      <section class="data-card"><div class="section-row"><div><h3>ตรวจจากข้อมูลต้นทาง</h3><p class="muted" id="data-source-note">ข้อมูลสังเคราะห์ในฐานข้อมูลปัจจุบัน โหลดเมื่อกดปุ่ม</p></div><button type="button" id="load-data" class="secondary">โหลดข้อมูลจำลอง</button></div><div id="data-tabs" class="data-tabs"></div><div id="data-table" class="table-area"></div></section>
+      <div class="scope-note"><strong>ขอบเขตของแบบจำลอง</strong><p>ยังไม่รองรับโอนคลัง จองสินค้า lot/วันหมดอายุ หรือป้องกันสต็อกติดลบ และยังไม่ได้ตรวจเทียบ schema กับ WMS ขององค์กรจริง</p></div>
+    </section>
+
+    <section id="view-results" class="view" hidden>
+      <div class="section-heading"><div class="eyebrow">RECORDED EXPERIMENT</div><h2>ผลการทดลอง</h2><p id="experiment-date">ผลจากชุดคำถามสังเคราะห์ที่บันทึกไว้</p></div>
+      <div id="experiment-summary" class="experiment-summary"></div>
+      <div class="scope-note"><strong>อ่านผลให้ตรงขอบเขต</strong><p>ทดลองเบื้องต้น 10 ข้อที่ AI ช่วยสร้างบนข้อมูลจำลองเดียว ไม่ใช่ benchmark อิสระ เวลาเฉลี่ยรวมกรณีที่ปฏิเสธอย่างรวดเร็ว และยังไม่ได้คำนวณต้นทุนเป็นเงินบาท</p></div>
+      <section class="data-card"><div class="section-row"><h3>ผลรายคำถาม</h3><span class="muted">กดดูข้อนั้นเพื่อเปิด SQL และคำตอบอ้างอิง</span></div><div id="experiment-cases" class="table-area"></div></section>
+      <details class="details-card"><summary>วิธีประเมินและข้อมูลที่ใช้ทำซ้ำ</summary><div id="experiment-metadata" class="metadata"></div></details>
+    </section>
+    <footer><span>ข้อมูลสังเคราะห์ · สำหรับสาธิตแนวคิด</span><span>Rule-based × LLM / Seminar</span></footer>
+  </main>
+</body>
+</html>

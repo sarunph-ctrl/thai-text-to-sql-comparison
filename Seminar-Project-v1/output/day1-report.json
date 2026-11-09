@@ -1,0 +1,738 @@
+{
+  "evaluated_at": "2026-10-26T13:56:55.262006+07:00",
+  "dataset": "day1-development-smoke (not held-out)",
+  "correct_queries": 8,
+  "total_queries": 8,
+  "correct_rejections": 4,
+  "total_rejections": 4,
+  "cases": [
+    {
+      "question": "ยอดขายเดือนกันยายน 2569",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          "1250.00"
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "ยอดขายเดือนกันยายน 2569",
+        "clean_text": "ยอดขายเดือนกันยายน 2569",
+        "tokens": [
+          "ยอดขาย",
+          "เดือน",
+          "กันยายน",
+          "2569"
+        ],
+        "interpretation": {
+          "metric": "revenue",
+          "dimension": null,
+          "top_n": null,
+          "order": "desc",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "status": "paid",
+          "ranking_unit": "THB",
+          "tables": [
+            "orders",
+            "order_items"
+          ]
+        },
+        "rules": [
+          "metric=revenue (matched 'ยอดขาย')",
+          "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+          "business rule: paid only; revenue uses historical order_items.unit_price",
+          "unconsumed text check: passed"
+        ],
+        "sql": "SELECT SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s   LIMIT %s",
+        "params": [
+          "paid",
+          "2026-09-01",
+          "2026-10-01",
+          50
+        ],
+        "columns": [
+          "metric_value"
+        ],
+        "rows": [
+          [
+            "1250.00"
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 24.449
+      }
+    },
+    {
+      "question": "ยอดขายเดือนกันยายน 2569 เท่าไหร่",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          "1250.00"
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "ยอดขายเดือนกันยายน 2569 เท่าไหร่",
+        "clean_text": "ยอดขายเดือนกันยายน 2569 เท่าไหร่",
+        "tokens": [
+          "ยอดขาย",
+          "เดือน",
+          "กันยายน",
+          "2569",
+          "เท่าไหร่"
+        ],
+        "interpretation": {
+          "metric": "revenue",
+          "dimension": null,
+          "top_n": null,
+          "order": "desc",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "status": "paid",
+          "ranking_unit": "THB",
+          "tables": [
+            "orders",
+            "order_items"
+          ]
+        },
+        "rules": [
+          "metric=revenue (matched 'ยอดขาย')",
+          "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+          "business rule: paid only; revenue uses historical order_items.unit_price",
+          "unconsumed text check: passed"
+        ],
+        "sql": "SELECT SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s   LIMIT %s",
+        "params": [
+          "paid",
+          "2026-09-01",
+          "2026-10-01",
+          50
+        ],
+        "columns": [
+          "metric_value"
+        ],
+        "rows": [
+          [
+            "1250.00"
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 14.252
+      }
+    },
+    {
+      "question": "ยอดขายเดือนกันยายน 2026",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          "1250.00"
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "ยอดขายเดือนกันยายน 2026",
+        "clean_text": "ยอดขายเดือนกันยายน 2026",
+        "tokens": [
+          "ยอดขาย",
+          "เดือน",
+          "กันยายน",
+          "2026"
+        ],
+        "interpretation": {
+          "metric": "revenue",
+          "dimension": null,
+          "top_n": null,
+          "order": "desc",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "status": "paid",
+          "ranking_unit": "THB",
+          "tables": [
+            "orders",
+            "order_items"
+          ]
+        },
+        "rules": [
+          "metric=revenue (matched 'ยอดขาย')",
+          "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2026')",
+          "business rule: paid only; revenue uses historical order_items.unit_price",
+          "unconsumed text check: passed"
+        ],
+        "sql": "SELECT SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s   LIMIT %s",
+        "params": [
+          "paid",
+          "2026-09-01",
+          "2026-10-01",
+          50
+        ],
+        "columns": [
+          "metric_value"
+        ],
+        "rows": [
+          [
+            "1250.00"
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 14.137
+      }
+    },
+    {
+      "question": "ยอดขายเดือนกันยายน ๒๕๖๙",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          "1250.00"
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "ยอดขายเดือนกันยายน ๒๕๖๙",
+        "clean_text": "ยอดขายเดือนกันยายน 2569",
+        "tokens": [
+          "ยอดขาย",
+          "เดือน",
+          "กันยายน",
+          "2569"
+        ],
+        "interpretation": {
+          "metric": "revenue",
+          "dimension": null,
+          "top_n": null,
+          "order": "desc",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "status": "paid",
+          "ranking_unit": "THB",
+          "tables": [
+            "orders",
+            "order_items"
+          ]
+        },
+        "rules": [
+          "metric=revenue (matched 'ยอดขาย')",
+          "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+          "business rule: paid only; revenue uses historical order_items.unit_price",
+          "unconsumed text check: passed"
+        ],
+        "sql": "SELECT SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s   LIMIT %s",
+        "params": [
+          "paid",
+          "2026-09-01",
+          "2026-10-01",
+          50
+        ],
+        "columns": [
+          "metric_value"
+        ],
+        "rows": [
+          [
+            "1250.00"
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 14.267
+      }
+    },
+    {
+      "question": "ยอดขายเดือนกันยายน ปี 2569",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          "1250.00"
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "ยอดขายเดือนกันยายน ปี 2569",
+        "clean_text": "ยอดขายเดือนกันยายน ปี 2569",
+        "tokens": [
+          "ยอดขาย",
+          "เดือน",
+          "กันยายน",
+          "ปี",
+          "2569"
+        ],
+        "interpretation": {
+          "metric": "revenue",
+          "dimension": null,
+          "top_n": null,
+          "order": "desc",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "status": "paid",
+          "ranking_unit": "THB",
+          "tables": [
+            "orders",
+            "order_items"
+          ]
+        },
+        "rules": [
+          "metric=revenue (matched 'ยอดขาย')",
+          "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน ปี 2569')",
+          "business rule: paid only; revenue uses historical order_items.unit_price",
+          "unconsumed text check: passed"
+        ],
+        "sql": "SELECT SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s   LIMIT %s",
+        "params": [
+          "paid",
+          "2026-09-01",
+          "2026-10-01",
+          50
+        ],
+        "columns": [
+          "metric_value"
+        ],
+        "rows": [
+          [
+            "1250.00"
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 14.337
+      }
+    },
+    {
+      "question": "ยอดขายเดือนกันยายน 2569 แยกตามสินค้า",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          2,
+          "สมุด",
+          "420.00"
+        ],
+        [
+          4,
+          "แฟ้ม",
+          "300.00"
+        ],
+        [
+          1,
+          "ปากกา",
+          "285.00"
+        ],
+        [
+          3,
+          "ดินสอ",
+          "150.00"
+        ],
+        [
+          5,
+          "ยางลบ",
+          "95.00"
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "ยอดขายเดือนกันยายน 2569 แยกตามสินค้า",
+        "clean_text": "ยอดขายเดือนกันยายน 2569 แยกตามสินค้า",
+        "tokens": [
+          "ยอดขาย",
+          "เดือน",
+          "กันยายน",
+          "2569",
+          "แยก",
+          "ตาม",
+          "สินค้า"
+        ],
+        "interpretation": {
+          "metric": "revenue",
+          "dimension": "product",
+          "top_n": null,
+          "order": "desc",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "status": "paid",
+          "ranking_unit": "THB",
+          "tables": [
+            "orders",
+            "order_items",
+            "products"
+          ]
+        },
+        "rules": [
+          "metric=revenue (matched 'ยอดขาย')",
+          "dimension=product (matched 'สินค้า')",
+          "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+          "business rule: paid only; revenue uses historical order_items.unit_price",
+          "unconsumed text check: passed"
+        ],
+        "sql": "SELECT \"products\".\"id\" AS group_id, \"products\".\"name\" AS group_label, SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" JOIN \"products\" ON \"order_items\".\"product_id\" = \"products\".\"id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s GROUP BY \"products\".\"id\", \"products\".\"name\" ORDER BY metric_value DESC, group_id ASC LIMIT %s",
+        "params": [
+          "paid",
+          "2026-09-01",
+          "2026-10-01",
+          50
+        ],
+        "columns": [
+          "group_id",
+          "group_label",
+          "metric_value"
+        ],
+        "rows": [
+          [
+            2,
+            "สมุด",
+            "420.00"
+          ],
+          [
+            4,
+            "แฟ้ม",
+            "300.00"
+          ],
+          [
+            1,
+            "ปากกา",
+            "285.00"
+          ],
+          [
+            3,
+            "ดินสอ",
+            "150.00"
+          ],
+          [
+            5,
+            "ยางลบ",
+            "95.00"
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 16.811
+      }
+    },
+    {
+      "question": "เดือนกันยายน 2569 สินค้าแต่ละตัวขายได้เงินเท่าไหร่",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          2,
+          "สมุด",
+          "420.00"
+        ],
+        [
+          4,
+          "แฟ้ม",
+          "300.00"
+        ],
+        [
+          1,
+          "ปากกา",
+          "285.00"
+        ],
+        [
+          3,
+          "ดินสอ",
+          "150.00"
+        ],
+        [
+          5,
+          "ยางลบ",
+          "95.00"
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "เดือนกันยายน 2569 สินค้าแต่ละตัวขายได้เงินเท่าไหร่",
+        "clean_text": "เดือนกันยายน 2569 สินค้าแต่ละตัวขายได้เงินเท่าไหร่",
+        "tokens": [
+          "เดือน",
+          "กันยายน",
+          "2569",
+          "สินค้า",
+          "แต่ละ",
+          "ตัว",
+          "ขายได้เงิน",
+          "เท่าไหร่"
+        ],
+        "interpretation": {
+          "metric": "revenue",
+          "dimension": "product",
+          "top_n": null,
+          "order": "desc",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "status": "paid",
+          "ranking_unit": "THB",
+          "tables": [
+            "orders",
+            "order_items",
+            "products"
+          ]
+        },
+        "rules": [
+          "metric=revenue (matched 'ขายได้เงิน')",
+          "dimension=product (matched 'สินค้า')",
+          "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+          "business rule: paid only; revenue uses historical order_items.unit_price",
+          "unconsumed text check: passed"
+        ],
+        "sql": "SELECT \"products\".\"id\" AS group_id, \"products\".\"name\" AS group_label, SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" JOIN \"products\" ON \"order_items\".\"product_id\" = \"products\".\"id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s GROUP BY \"products\".\"id\", \"products\".\"name\" ORDER BY metric_value DESC, group_id ASC LIMIT %s",
+        "params": [
+          "paid",
+          "2026-09-01",
+          "2026-10-01",
+          50
+        ],
+        "columns": [
+          "group_id",
+          "group_label",
+          "metric_value"
+        ],
+        "rows": [
+          [
+            2,
+            "สมุด",
+            "420.00"
+          ],
+          [
+            4,
+            "แฟ้ม",
+            "300.00"
+          ],
+          [
+            1,
+            "ปากกา",
+            "285.00"
+          ],
+          [
+            3,
+            "ดินสอ",
+            "150.00"
+          ],
+          [
+            5,
+            "ยางลบ",
+            "95.00"
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 15.874
+      }
+    },
+    {
+      "question": "สินค้าขายดีที่สุด 3 อันดับ เดือนกันยายน 2569",
+      "kind": "query",
+      "passed": true,
+      "expected_rows": [
+        [
+          2,
+          "สมุด",
+          "420.00"
+        ],
+        [
+          4,
+          "แฟ้ม",
+          "300.00"
+        ],
+        [
+          1,
+          "ปากกา",
+          "285.00"
+        ]
+      ],
+      "result": {
+        "status": "ok",
+        "question": "สินค้าขายดีที่สุด 3 อันดับ เดือนกันยายน 2569",
+        "clean_text": "สินค้าขายดีที่สุด 3 อันดับ เดือนกันยายน 2569",
+        "tokens": [
+          "สินค้า",
+          "ขายดี",
+          "ที่สุด",
+          "3",
+          "อันดับ",
+          "เดือน",
+          "กันยายน",
+          "2569"
+        ],
+        "interpretation": {
+          "metric": "revenue",
+          "dimension": "product",
+          "top_n": 3,
+          "order": "desc",
+          "start_inclusive": "2026-09-01",
+          "end_exclusive": "2026-10-01",
+          "status": "paid",
+          "ranking_unit": "THB",
+          "tables": [
+            "orders",
+            "order_items",
+            "products"
+          ]
+        },
+        "rules": [
+          "metric=revenue (matched 'ขายดี')",
+          "dimension=product (matched 'สินค้า')",
+          "top_n=3",
+          "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')",
+          "business rule: paid only; revenue uses historical order_items.unit_price",
+          "unconsumed text check: passed"
+        ],
+        "sql": "SELECT \"products\".\"id\" AS group_id, \"products\".\"name\" AS group_label, SUM(order_items.qty * order_items.unit_price) AS metric_value FROM \"orders\" JOIN \"order_items\" ON \"orders\".\"id\" = \"order_items\".\"order_id\" JOIN \"products\" ON \"order_items\".\"product_id\" = \"products\".\"id\" WHERE orders.status = %s AND orders.order_date >= %s AND orders.order_date < %s GROUP BY \"products\".\"id\", \"products\".\"name\" ORDER BY metric_value DESC, group_id ASC LIMIT %s",
+        "params": [
+          "paid",
+          "2026-09-01",
+          "2026-10-01",
+          3
+        ],
+        "columns": [
+          "group_id",
+          "group_label",
+          "metric_value"
+        ],
+        "rows": [
+          [
+            2,
+            "สมุด",
+            "420.00"
+          ],
+          [
+            4,
+            "แฟ้ม",
+            "300.00"
+          ],
+          [
+            1,
+            "ปากกา",
+            "285.00"
+          ]
+        ],
+        "message": null,
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 16.662
+      }
+    },
+    {
+      "question": "เปรียบเทียบยอดขายเดือนนี้กับเดือนที่แล้ว",
+      "kind": "scope_rejection",
+      "passed": true,
+      "expected_rows": null,
+      "result": {
+        "status": "unsupported",
+        "question": "เปรียบเทียบยอดขายเดือนนี้กับเดือนที่แล้ว",
+        "clean_text": "เปรียบเทียบยอดขายเดือนนี้กับเดือนที่แล้ว",
+        "tokens": [
+          "เปรียบเทียบ",
+          "ยอดขาย",
+          "เดือนนี้",
+          "กับ",
+          "เดือนที่แล้ว"
+        ],
+        "interpretation": {},
+        "rules": [],
+        "sql": null,
+        "params": [],
+        "columns": [],
+        "rows": [],
+        "message": "คำถามมีเงื่อนไขหรือการทำงานนอกขอบเขต เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 0.19
+      }
+    },
+    {
+      "question": "ยอดขายเดือนกันยายน 2569 ของลูกค้าสมชาย",
+      "kind": "scope_rejection",
+      "passed": true,
+      "expected_rows": null,
+      "result": {
+        "status": "unsupported",
+        "question": "ยอดขายเดือนกันยายน 2569 ของลูกค้าสมชาย",
+        "clean_text": "ยอดขายเดือนกันยายน 2569 ของลูกค้าสมชาย",
+        "tokens": [
+          "ยอดขาย",
+          "เดือน",
+          "กันยายน",
+          "2569",
+          "ของ",
+          "ลูกค้า",
+          "สม",
+          "ชาย"
+        ],
+        "interpretation": {},
+        "rules": [
+          "metric=revenue (matched 'ยอดขาย')",
+          "dimension=customer (matched 'ลูกค้า')",
+          "time_range=2026-09-01..2026-10-01 (matched 'เดือนกันยายน 2569')"
+        ],
+        "sql": null,
+        "params": [],
+        "columns": [],
+        "rows": [],
+        "message": "เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 0.345
+      }
+    },
+    {
+      "question": "ยอดขายเดือนกันยายน 2569 ที่มากกว่า 100 บาท",
+      "kind": "scope_rejection",
+      "passed": true,
+      "expected_rows": null,
+      "result": {
+        "status": "unsupported",
+        "question": "ยอดขายเดือนกันยายน 2569 ที่มากกว่า 100 บาท",
+        "clean_text": "ยอดขายเดือนกันยายน 2569 ที่มากกว่า 100 บาท",
+        "tokens": [
+          "ยอดขาย",
+          "เดือน",
+          "กันยายน",
+          "2569",
+          "ที่",
+          "มากกว่า",
+          "100",
+          "บาท"
+        ],
+        "interpretation": {},
+        "rules": [],
+        "sql": null,
+        "params": [],
+        "columns": [],
+        "rows": [],
+        "message": "คำถามมีเงื่อนไขหรือการทำงานนอกขอบเขต เดโมรองรับยอดขายรวม / แยกสินค้า / Top-N พร้อมเดือนและปี, สินค้าคงเหลือแยกคลัง และยอดจ่ายออกแยกสินค้ารายเดือน",
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 0.172
+      }
+    },
+    {
+      "question": "ยอดขายเดือนนี้",
+      "kind": "scope_rejection",
+      "passed": true,
+      "expected_rows": null,
+      "result": {
+        "status": "unsupported",
+        "question": "ยอดขายเดือนนี้",
+        "clean_text": "ยอดขายเดือนนี้",
+        "tokens": [
+          "ยอดขาย",
+          "เดือนนี้"
+        ],
+        "interpretation": {},
+        "rules": [
+          "metric=revenue (matched 'ยอดขาย')",
+          "time_range=2026-10-01..2026-11-01 (matched 'เดือนนี้')"
+        ],
+        "sql": null,
+        "params": [],
+        "columns": [],
+        "rows": [],
+        "message": "รอบนี้ใช้เดือนที่ระบุปีแน่นอน เช่น กันยายน 2569",
+        "business_definition": "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน",
+        "elapsed_ms": 19.174
+      }
+    }
+  ]
+}

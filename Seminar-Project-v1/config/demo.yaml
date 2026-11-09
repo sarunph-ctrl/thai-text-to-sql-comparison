@@ -1,0 +1,50 @@
+# Words consumed after metric, product dimension, month/year and top-N slots.
+# Unknown remaining content is rejected, never silently dropped.
+fillers:
+  - สินค้าแต่ละตัว
+  - สินค้าแต่ละชนิด
+  - แยกตาม
+  - แยกราย
+  - แต่ละตัว
+  - แต่ละชนิด
+  - แต่ละ
+  - ทั้งหมด
+  - เท่าไหร่
+  - เท่าไร
+  - เป็นเงิน
+  - ช่วย
+  - แสดง
+  - อยากทราบ
+  - ขอ
+  - ดู
+  - รวม
+  - ราย
+  - ของ
+  - ใน
+  - ที่
+  - บาท
+  - ครับ
+  - ค่ะ
+  - หน่อย
+  - นะ
+
+unsupported:
+  - เปรียบเทียบ
+  - เทียบ
+  - ไม่เคย
+  - มากกว่า
+  - น้อยกว่า
+  - ไม่เกิน
+  - อย่างน้อย
+  - หรือ
+  - ยกเว้น
+  - ไม่รวม
+  - ลบ
+  - แก้ไข
+  - เพิ่ม
+  - insert
+  - update
+  - delete
+  - drop
+
+business_definition: "ยอดขาย = SUM(qty × unit_price) เฉพาะ orders.status = paid; ขายดีจัดอันดับตามจำนวนเงิน; สินค้ายอดเท่ากันเรียง id น้อยก่อน"
