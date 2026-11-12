@@ -67,18 +67,18 @@
 - [x] นำ DDL ของ 10 ตารางเข้าสู่โปรเจกต์พร้อมระบุ Provenance
 - [x] เรียง DDL และแก้ Dependency ให้สร้างฐานใหม่ได้
 - [x] แยก Trigger/function ที่จำเป็นออกจากสิ่งที่ไม่ใช้ใน Text-to-SQL
-- [ ] เพิ่ม CHECK/NOT NULL ที่ยืนยันได้จาก Business rules
+- [x] เพิ่ม CHECK/NOT NULL ที่สอดคล้องกับ Business rules รุ่น Draft
 - [x] ทดสอบสร้าง Schema จากฐานข้อมูลว่าง
-- [ ] สร้าง Data Dictionary รุ่น WMS MVP
+- [x] สร้าง Data Dictionary รุ่น WMS MVP
 
 ### C. Business Rules
 
-- [ ] นิยามความหมายของ `current_stock` หนึ่งแถวต่อหนึ่ง Serial
-- [ ] ตรึงรายการ Status และ Condition ที่ยอมรับ
-- [ ] นิยามจำนวนรับจริงจาก `inbound_detail`
-- [ ] นิยามจำนวนหยิบจริงจาก `outbound_detail`
-- [ ] นิยามวันที่ที่ใช้กับ Inbound และ Outbound
-- [ ] ระบุวิธีนับแถวซ้ำและข้อมูลที่ไม่สมบูรณ์
+- [x] นิยามความหมายของ `current_stock` หนึ่งแถวต่อหนึ่ง Serial
+- [x] ตรึงรายการ Status และ Condition ที่ยอมรับใน Draft
+- [x] นิยามจำนวนรับจริงจาก `inbound_detail`
+- [x] นิยามจำนวนหยิบจริงจาก `outbound_detail`
+- [x] นิยามวันที่ที่ใช้กับ Inbound และ Outbound
+- [x] ระบุวิธีนับแถวซ้ำและข้อมูลที่ไม่สมบูรณ์
 
 ### D. Synthetic Data and Ground Truth
 
@@ -126,7 +126,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: `tests/test_wms_schema.py` ผ่าน 6/6 และ Regression suite ทั้งโปรเจกต์ผ่าน 157/157 เมื่อวันที่ 2026-11-12
+หลักฐานล่าสุด: `tests/test_wms_schema.py` ผ่าน 8/8 และ Regression suite ทั้งโปรเจกต์ผ่าน 159/159 เมื่อวันที่ 2026-11-12
 
 ## Gate for Phase 2
 

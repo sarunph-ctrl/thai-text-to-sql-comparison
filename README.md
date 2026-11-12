@@ -84,6 +84,8 @@ flowchart LR
 - Sprint plan: [`Seminar-Project-v1/SPRINT1_PROJECT.md`](Seminar-Project-v1/SPRINT1_PROJECT.md)
 - WMS MVP schema: [`Seminar-Project-v1/db/wms_mvp_schema.sql`](Seminar-Project-v1/db/wms_mvp_schema.sql)
 - WMS synthetic seed: [`Seminar-Project-v1/db/wms_mvp_seed.sql`](Seminar-Project-v1/db/wms_mvp_seed.sql)
+- WMS data dictionary: [`Seminar-Project-v1/WMS_DATA_DICTIONARY.md`](Seminar-Project-v1/WMS_DATA_DICTIONARY.md)
+- WMS business rules: [`Seminar-Project-v1/WMS_BUSINESS_RULES.md`](Seminar-Project-v1/WMS_BUSINESS_RULES.md)
 - Legacy data dictionary: [`Seminar-Project-v1/DATA_DICTIONARY.md`](Seminar-Project-v1/DATA_DICTIONARY.md)
 - Legacy business rules: [`Seminar-Project-v1/BUSINESS_RULES.md`](Seminar-Project-v1/BUSINESS_RULES.md)
 - Schema guide: [`Seminar-Project-v1/SCHEMA_GUIDE.md`](Seminar-Project-v1/SCHEMA_GUIDE.md)

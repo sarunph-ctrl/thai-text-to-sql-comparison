@@ -77,6 +77,17 @@ def test_current_stock_summary_baseline(db):
     ]
 
 
+def test_available_good_stock_baseline(db):
+    count = db.execute(
+        """
+        SELECT count(DISTINCT cs.serial_no)
+        FROM current_stock cs
+        WHERE cs.status = 'Available' AND cs.condition = 'Good'
+        """
+    ).fetchone()[0]
+    assert count == 2
+
+
 def test_inbound_plan_vs_received_baseline(db):
     rows = db.execute(
         """
@@ -96,6 +107,27 @@ def test_inbound_plan_vs_received_baseline(db):
         ("INB-002", "PART-A", 2, 1),
         ("INB-002", "PART-C", 1, 0),
         ("INB-003", "PART-D", 2, 0),
+    ]
+
+
+def test_outbound_plan_vs_picked_baseline(db):
+    rows = db.execute(
+        """
+        SELECT op.outbound_id, op.part_id, op.expected_qty,
+               count(po.serial_no) AS picked_qty
+        FROM outbound_plan op
+        LEFT JOIN outbound_detail od ON od.outbound_id = op.outbound_id
+        LEFT JOIN part_obj po
+          ON po.serial_no = od.serial_no AND po.part_id = op.part_id
+        GROUP BY op.outbound_id, op.part_id, op.expected_qty
+        ORDER BY op.outbound_id, op.part_id
+        """
+    ).fetchall()
+    assert rows == [
+        ("OUT-001", "PART-A", 1, 1),
+        ("OUT-001", "PART-B", 1, 1),
+        ("OUT-002", "PART-A", 1, 0),
+        ("OUT-002", "PART-C", 1, 0),
     ]
 
 
