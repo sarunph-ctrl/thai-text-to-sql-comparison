@@ -1,0 +1,177 @@
+version: "1.0-draft"
+schema: db/wms_mvp_schema.sql
+seed: db/wms_mvp_seed.sql
+review_status: pending_independent_review
+
+cases:
+  - id: wms_ref_01
+    family: current_stock_summary
+    question: "สรุปจำนวนสต็อกปัจจุบันแยกตาม Part และสถานะ"
+    rules: [STOCK-01, STOCK-02, STOCK-04, STOCK-06, RESULT-03]
+    ordered: false
+    params: {}
+    sql: |
+      SELECT
+          pm.part_id,
+          pm.part_name,
+          cs.status,
+          COUNT(DISTINCT cs.serial_no)::bigint AS serial_count
+      FROM current_stock AS cs
+      JOIN part_obj AS po ON po.serial_no = cs.serial_no
+      JOIN part_master AS pm ON pm.part_id = po.part_id
+      GROUP BY pm.part_id, pm.part_name, cs.status
+      ORDER BY pm.part_id, cs.status
+    expected_columns:
+      - {name: part_id, type: text}
+      - {name: part_name, type: text}
+      - {name: status, type: text}
+      - {name: serial_count, type: bigint}
+    expected_rows:
+      - [PART-A, "อะไหล่ A", Available, 2]
+      - [PART-A, "อะไหล่ A", "In Transit", 1]
+      - [PART-A, "อะไหล่ A", Receiving, 1]
+      - [PART-B, "อะไหล่ B", "In Transit", 1]
+      - [PART-B, "อะไหล่ B", Quarantine, 1]
+
+  - id: wms_ref_02
+    family: current_stock_detail
+    question: "แสดง Serial ที่อยู่ใน Quarantine พร้อม Part Location และสภาพ"
+    rules: [STOCK-02, STOCK-04, STOCK-05, TEXT-01, RESULT-02]
+    ordered: true
+    params:
+      status: Quarantine
+    sql: |
+      SELECT
+          cs.serial_no,
+          pm.part_id,
+          pm.part_name,
+          cs.location_id,
+          cs.condition,
+          cs.status
+      FROM current_stock AS cs
+      JOIN part_obj AS po ON po.serial_no = cs.serial_no
+      JOIN part_master AS pm ON pm.part_id = po.part_id
+      WHERE cs.status = %(status)s
+      ORDER BY cs.serial_no
+    expected_columns:
+      - {name: serial_no, type: text}
+      - {name: part_id, type: text}
+      - {name: part_name, type: text}
+      - {name: location_id, type: text}
+      - {name: condition, type: text}
+      - {name: status, type: text}
+    expected_rows:
+      - [SYN-B-002, PART-B, "อะไหล่ B", Q-01, Damaged, Quarantine]
+
+  - id: wms_ref_03
+    family: inbound_progress
+    question: "แสดงจำนวนที่วางแผนรับเทียบกับรับจริงของทุก Inbound Order แยกตาม Part"
+    rules: [IN-01, IN-02, IN-03, IN-04, RESULT-01, RESULT-03]
+    ordered: false
+    params: {}
+    sql: |
+      WITH received AS (
+          SELECT
+              id.inbound_id,
+              po.part_id,
+              COUNT(DISTINCT id.serial_no)::bigint AS received_qty
+          FROM inbound_detail AS id
+          JOIN part_obj AS po ON po.serial_no = id.serial_no
+          GROUP BY id.inbound_id, po.part_id
+      )
+      SELECT
+          io.inbound_id,
+          io.status,
+          pm.part_id,
+          pm.part_name,
+          ip.expected_qty,
+          COALESCE(r.received_qty, 0)::bigint AS received_qty,
+          (ip.expected_qty - COALESCE(r.received_qty, 0))::bigint AS remaining_qty
+      FROM inbound_plan AS ip
+      JOIN inbound_order AS io ON io.inbound_id = ip.inbound_id
+      JOIN part_master AS pm ON pm.part_id = ip.part_id
+      LEFT JOIN received AS r
+        ON r.inbound_id = ip.inbound_id AND r.part_id = ip.part_id
+      ORDER BY io.inbound_id, pm.part_id
+    expected_columns:
+      - {name: inbound_id, type: text}
+      - {name: status, type: text}
+      - {name: part_id, type: text}
+      - {name: part_name, type: text}
+      - {name: expected_qty, type: integer}
+      - {name: received_qty, type: bigint}
+      - {name: remaining_qty, type: bigint}
+    expected_rows:
+      - [INB-001, Completed, PART-A, "อะไหล่ A", 3, 3, 0]
+      - [INB-001, Completed, PART-B, "อะไหล่ B", 2, 2, 0]
+      - [INB-002, "Draft Plan", PART-A, "อะไหล่ A", 2, 1, 1]
+      - [INB-002, "Draft Plan", PART-C, "อะไหล่ C", 1, 0, 1]
+      - [INB-003, Cancelled, PART-D, "อะไหล่ D", 2, 0, 2]
+
+  - id: wms_ref_04
+    family: outbound_progress
+    question: "แสดงจำนวนที่วางแผนจ่ายเทียบกับหยิบจริงของทุก Outbound Order แยกตาม Part"
+    rules: [OUT-01, OUT-02, OUT-03, RESULT-01, RESULT-03]
+    ordered: false
+    params: {}
+    sql: |
+      WITH picked AS (
+          SELECT
+              od.outbound_id,
+              po.part_id,
+              COUNT(DISTINCT od.serial_no)::bigint AS picked_qty
+          FROM outbound_detail AS od
+          JOIN part_obj AS po ON po.serial_no = od.serial_no
+          GROUP BY od.outbound_id, po.part_id
+      )
+      SELECT
+          oo.outbound_id,
+          oo.outstatus,
+          pm.part_id,
+          pm.part_name,
+          op.expected_qty,
+          COALESCE(p.picked_qty, 0)::bigint AS picked_qty,
+          (op.expected_qty - COALESCE(p.picked_qty, 0))::bigint AS remaining_qty
+      FROM outbound_plan AS op
+      JOIN outbound_order AS oo ON oo.outbound_id = op.outbound_id
+      JOIN part_master AS pm ON pm.part_id = op.part_id
+      LEFT JOIN picked AS p
+        ON p.outbound_id = op.outbound_id AND p.part_id = op.part_id
+      ORDER BY oo.outbound_id, pm.part_id
+    expected_columns:
+      - {name: outbound_id, type: text}
+      - {name: outstatus, type: text}
+      - {name: part_id, type: text}
+      - {name: part_name, type: text}
+      - {name: expected_qty, type: integer}
+      - {name: picked_qty, type: bigint}
+      - {name: remaining_qty, type: bigint}
+    expected_rows:
+      - [OUT-001, Picked, PART-A, "อะไหล่ A", 1, 1, 0]
+      - [OUT-001, Picked, PART-B, "อะไหล่ B", 1, 1, 0]
+      - [OUT-002, Pending, PART-A, "อะไหล่ A", 1, 0, 1]
+      - [OUT-002, Pending, PART-C, "อะไหล่ C", 1, 0, 1]
+
+  - id: wms_ref_05
+    family: operational_order_status
+    question: "เดือนกันยายน 2569 มี Outbound Order แต่ละสถานะกี่รายการ"
+    rules: [OUT-04, OUT-05, TIME-01]
+    ordered: false
+    params:
+      start_date: "2026-09-01"
+      end_date: "2026-10-01"
+    sql: |
+      SELECT
+          oo.outstatus,
+          COUNT(*)::bigint AS order_count
+      FROM outbound_order AS oo
+      WHERE oo.order_date >= %(start_date)s
+        AND oo.order_date < %(end_date)s
+      GROUP BY oo.outstatus
+      ORDER BY oo.outstatus
+    expected_columns:
+      - {name: outstatus, type: text}
+      - {name: order_count, type: bigint}
+    expected_rows:
+      - [Pending, 1]
+      - [Picked, 1]

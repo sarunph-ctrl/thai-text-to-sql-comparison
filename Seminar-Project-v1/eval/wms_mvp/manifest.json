@@ -1,0 +1,12 @@
+{
+  "version": "1.0-draft",
+  "generated_at": "2026-11-12",
+  "algorithm": "sha256-lf",
+  "review_status": "pending_independent_review",
+  "files": {
+    "db/wms_mvp_schema.sql": "cab1b66329110a12293a85d0b88708776b7dcb94d7386f9e90c1645f87df4439",
+    "db/wms_mvp_seed.sql": "8e76d1a27b6add2273046f8a24fa23508a7f62751168c09a866dc231615b6955",
+    "WMS_BUSINESS_RULES.md": "c1497418d1f872162e7e76b53a6a6523e631362a82cbaf79da9d2a2a7e8970e3",
+    "eval/wms_mvp/ground_truth.yaml": "1622da652bd3449b6cc01374f9012c7df495f74e99486e5b49a1c42101cf3fd1"
+  }
+}
