@@ -1,5 +1,7 @@
 # Data Dictionary — Synthetic Sales and Inventory Demo
 
+> **Legacy baseline:** เอกสารนี้อธิบายเดโม 5 ตารางเดิม ไม่ใช่ Scope WMS MVP ปัจจุบัน ดูขอบเขตใหม่ที่ `SCOPE_WMS_MVP.md` และห้ามใช้เอกสารนี้เป็น Data Dictionary ของ Schema ใหม่
+
 **Version:** 0.1-draft
 
 **Updated:** 2026-11-12

@@ -1,60 +1,47 @@
 # Thai Text-to-SQL Comparison
 
-A comparative study of rule-based and large language model approaches for Thai Text-to-SQL using synthetic sales and inventory data.
+A comparative study of rule-based and large language model approaches for Thai Text-to-SQL in warehouse operations.
 
 โครงการนี้ศึกษาการแปลงคำถามภาษาไทยเป็นคำสั่ง SQL โดยเปรียบเทียบสองแนวทางภายใต้คำถาม Schema ฐานข้อมูล และ SQL อ้างอิงชุดเดียวกัน:
 
 - **Rule-based:** ทำความสะอาดข้อความ ตัดคำด้วย PyThaiNLP/NewMM จับ Intent ด้วยพจนานุกรมและ Regular Expression แล้วประกอบ SQL ด้วย SQL Builder
 - **LLM:** ส่งคำถาม Schema และนิยามธุรกิจให้โมเดลสร้าง SQL จากนั้นตรวจ AST และข้อจำกัดก่อนรัน
 
-โครงการเป็น **Domain-specific prototype** สำหรับข้อมูลสังเคราะห์ด้านการขายและคลังสินค้า ไม่ใช่ WMS เต็มระบบ และยังไม่ใช้แทนผลจากระบบขององค์กรจริง
+โครงการเป็น **Domain-specific prototype** สำหรับ Warehouse Operations โดยต่อยอดโครงสร้างฐานข้อมูลจากโปรเจกต์ `Succeed_BDMS` และใช้ข้อมูลสังเคราะห์ในการทดลอง ไม่ใช่ WMS เต็มระบบและไม่ใช้แทนผลจากระบบขององค์กรจริง
 
 ## Research question
 
-ภายใต้โดเมนการขายและคลังสินค้า แนวทาง Rule-based และ LLM แตกต่างกันอย่างไรในด้าน Execution Accuracy ความสามารถในการรองรับภาษาไทยที่หลากหลาย เวลา Token ความสม่ำเสมอ และประเภทข้อผิดพลาด
+ภายใต้ขอบเขตข้อมูลคลังสินค้า รับเข้า และจ่ายออก แนวทาง Rule-based และ LLM แตกต่างกันอย่างไรในด้าน Execution Accuracy การรองรับรูปแบบภาษาไทย เวลา Token ความสม่ำเสมอ และประเภทข้อผิดพลาด
 
 ## Scope
 
-ระบบรองรับคำถามหลัก 5 รูปแบบ:
+MVP กำหนดคำถามหลัก 5 รูปแบบ:
 
-1. ยอดขายรวมรายเดือน
-2. ยอดขายรายเดือนแยกตามสินค้า
-3. Top-N สินค้าตามยอดขายเป็นเงิน
-4. สินค้าคงเหลือแยกตามสินค้าและคลัง
-5. จำนวนสินค้าจ่ายออกรายเดือน แยกตามสินค้าและรวมทุกคลัง
+1. จำนวนสต็อกปัจจุบัน แยกตาม Part, Location, Status หรือ Condition
+2. รายละเอียด Serial Number และตำแหน่งปัจจุบัน
+3. จำนวนที่วางแผนรับเข้าเทียบกับรับจริง
+4. จำนวนที่วางแผนจ่ายออกเทียบกับหยิบจริง
+5. จำนวนหรือรายการ Inbound/Outbound Order ตามสถานะและช่วงวันที่
 
 ข้อกำหนดหลัก:
 
 - สร้างเฉพาะคำสั่ง `SELECT`
 - รับคำถามครั้งละหนึ่งคำถาม
-- คำถามรายเดือนต้องระบุชื่อเดือนและปีสี่หลัก
-- ใช้ข้อมูลสังเคราะห์และ Schema 5 ตาราง
+- ใช้ข้อมูลสังเคราะห์และ Schema MVP 10 ตาราง
 - คำถามนอกขอบเขตต้องถูกปฏิเสธโดยไม่ละทิ้งเงื่อนไขของผู้ใช้
 
-สิ่งที่ยังไม่รองรับ ได้แก่ การสนทนาหลายรอบ การโอนคลัง การจองและคืนสินค้า Lot, Serial, วันหมดอายุ สต็อกย้อนหลัง การเปรียบเทียบหลายช่วงเวลา และตัวกรองชื่อสินค้า/คลังเฉพาะรายการ
+สิ่งที่ยังไม่รองรับ ได้แก่ ยอดขาย/ราคา Customer analytics, Shipment/Provider/Driver analytics, User performance, สต็อกย้อนหลัง การโอน/คืน/จองสินค้า Lot และวันหมดอายุ รายละเอียดอยู่ใน [`Seminar-Project-v1/SCOPE_WMS_MVP.md`](Seminar-Project-v1/SCOPE_WMS_MVP.md)
 
 ## Data model
 
 | Table | Purpose |
 |---|---|
-| `products` | สินค้าและราคาปัจจุบัน |
-| `orders` | วันที่และสถานะคำสั่งซื้อ |
-| `order_items` | จำนวนและราคาขณะขายของแต่ละรายการ |
-| `warehouses` | คลังสินค้า |
-| `stock_movements` | ยอดตั้งต้น รับเข้า และจ่ายออก |
+| `part_master`, `part_obj` | ชนิดสินค้าและสินค้าแต่ละ Serial |
+| `location`, `current_stock` | ตำแหน่งและสถานะสต็อกปัจจุบัน |
+| `inbound_order`, `inbound_plan`, `inbound_detail` | แผนและผลการรับเข้า |
+| `outbound_order`, `outbound_plan`, `outbound_detail` | แผนและผลการจ่ายออก |
 
-นิยามธุรกิจสำคัญ:
-
-```text
-ยอดขาย = SUM(order_items.qty × order_items.unit_price)
-          เฉพาะ orders.status = paid
-
-คงเหลือ = opening + receipt - issue
-          แยกสินค้าและคลัง จากทุก movement ที่บันทึก
-
-ยอดจ่ายออก = SUM(stock_movements.qty)
-             เฉพาะ movement_type = issue ตาม movement_date
-```
+Schema เป้าหมายกำลังอยู่ระหว่างจัด DDL, Data Dictionary และ Business rules ให้ทำซ้ำได้ โค้ดเดโม 5 ตารางเดิมยังคงอยู่เป็น Legacy baseline จนกว่า Migration จะเสร็จ และยังไม่ควรอ้างว่าโค้ดปัจจุบันรองรับ WMS MVP แล้ว
 
 ## Architecture
 
@@ -93,9 +80,10 @@ flowchart LR
 
 โครงการอยู่ใน **Sprint 1: Scope, Schema, and Ground Truth** โดยกำลังตรึงขอบเขต ตรวจ Schema นิยามธุรกิจ Reference SQL และออกแบบ Development/Test protocol
 
+- Current scope: [`Seminar-Project-v1/SCOPE_WMS_MVP.md`](Seminar-Project-v1/SCOPE_WMS_MVP.md)
 - Sprint plan: [`Seminar-Project-v1/SPRINT1_PROJECT.md`](Seminar-Project-v1/SPRINT1_PROJECT.md)
-- Data dictionary: [`Seminar-Project-v1/DATA_DICTIONARY.md`](Seminar-Project-v1/DATA_DICTIONARY.md)
-- Business rules: [`Seminar-Project-v1/BUSINESS_RULES.md`](Seminar-Project-v1/BUSINESS_RULES.md)
+- Legacy data dictionary: [`Seminar-Project-v1/DATA_DICTIONARY.md`](Seminar-Project-v1/DATA_DICTIONARY.md)
+- Legacy business rules: [`Seminar-Project-v1/BUSINESS_RULES.md`](Seminar-Project-v1/BUSINESS_RULES.md)
 - Schema guide: [`Seminar-Project-v1/SCHEMA_GUIDE.md`](Seminar-Project-v1/SCHEMA_GUIDE.md)
 - Presentation runbook: [`Seminar-Project-v1/PRESENTATION_RUNBOOK.md`](Seminar-Project-v1/PRESENTATION_RUNBOOK.md)
 

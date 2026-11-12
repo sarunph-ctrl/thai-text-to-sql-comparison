@@ -1,10 +1,12 @@
 # Business Rules — Synthetic Sales and Inventory Demo
 
+> **Legacy baseline:** กฎชุดนี้ใช้กับเดโม 5 ตารางเดิมเท่านั้น ถูกแทนที่ในระดับขอบเขตโดย `SCOPE_WMS_MVP.md` และจะไม่ใช้เป็น Ground Truth ของ WMS MVP
+
 **Version:** 0.1-draft
 
 **Updated:** 2026-11-12
 
-**Review status:** รอ Independent review
+**Review status:** Superseded as current scope; retained for legacy demo reproducibility
 
 เอกสารนี้ตรึงความหมายของคำถามและผลลัพธ์ก่อนพัฒนา Rule-based หรือ Prompt รอบถัดไป เพื่อให้ Rule-based, LLM และ SQL อ้างอิงถูกประเมินภายใต้กฎเดียวกัน
 
