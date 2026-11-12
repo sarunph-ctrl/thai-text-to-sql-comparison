@@ -94,6 +94,8 @@ flowchart LR
 โครงการอยู่ใน **Sprint 1: Scope, Schema, and Ground Truth** โดยกำลังตรึงขอบเขต ตรวจ Schema นิยามธุรกิจ Reference SQL และออกแบบ Development/Test protocol
 
 - Sprint plan: [`Seminar-Project-v1/SPRINT1_PROJECT.md`](Seminar-Project-v1/SPRINT1_PROJECT.md)
+- Data dictionary: [`Seminar-Project-v1/DATA_DICTIONARY.md`](Seminar-Project-v1/DATA_DICTIONARY.md)
+- Business rules: [`Seminar-Project-v1/BUSINESS_RULES.md`](Seminar-Project-v1/BUSINESS_RULES.md)
 - Schema guide: [`Seminar-Project-v1/SCHEMA_GUIDE.md`](Seminar-Project-v1/SCHEMA_GUIDE.md)
 - Presentation runbook: [`Seminar-Project-v1/PRESENTATION_RUNBOOK.md`](Seminar-Project-v1/PRESENTATION_RUNBOOK.md)
 

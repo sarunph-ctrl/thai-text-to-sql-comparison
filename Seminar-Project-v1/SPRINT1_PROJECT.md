@@ -75,6 +75,19 @@
 
 ## Sprint backlog
 
+### Progress update — 2026-11-12
+
+- [x] สร้าง Data Dictionary รุ่น `0.1-draft` จาก `db/demo_schema.sql`
+- [x] สร้าง Business Rules รุ่น `0.1-draft` พร้อมรหัสกฎและตัวอย่าง Boundary
+- [x] ตรวจความหมายของราคา สถานะ Order และความสัมพันธ์ระหว่างการขายกับ Stock movement จาก Schema/Seed
+- [ ] ให้ผู้ตรวจอิสระยืนยันนิยามและบันทึกผลใน `BUSINESS_RULES.md`
+- [ ] ตรวจ Reference SQL และตรึง Ground Truth รุ่นแรก
+
+Artifacts:
+
+- `DATA_DICTIONARY.md`
+- `BUSINESS_RULES.md`
+
 ### A. Scope review
 
 - [ ] ตรวจว่า 5 query families ตรงกับวัตถุประสงค์ของรายงาน
@@ -84,11 +97,11 @@
 
 ### B. Schema review
 
-- [ ] ตรวจ PK, FK, UNIQUE และ CHECK ของทั้ง 5 ตาราง
-- [ ] ตรวจความหมายของ `products.price` และ `order_items.unit_price`
-- [ ] ตรวจความสัมพันธ์ระหว่าง `stock_movements.order_item_id` กับรายการขาย
-- [ ] ตรวจว่าการขายและการจ่ายออกเป็นคนละเหตุการณ์
-- [ ] ทำ Data Dictionary ระบุชื่อคอลัมน์ ชนิดข้อมูล ความหมาย และตัวอย่าง
+- [x] ตรวจ PK, FK, UNIQUE และ CHECK ของทั้ง 5 ตาราง
+- [x] ตรวจความหมายของ `products.price` และ `order_items.unit_price`
+- [x] ตรวจความสัมพันธ์ระหว่าง `stock_movements.order_item_id` กับรายการขาย
+- [x] ตรวจว่าการขายและการจ่ายออกเป็นคนละเหตุการณ์
+- [x] ทำ Data Dictionary ระบุชื่อคอลัมน์ ชนิดข้อมูล ความหมาย และตัวอย่าง
 
 ### C. Ground-truth review
 
