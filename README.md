@@ -84,6 +84,7 @@ flowchart LR
 - Sprint plan: [`Seminar-Project-v1/SPRINT1_PROJECT.md`](Seminar-Project-v1/SPRINT1_PROJECT.md)
 - WMS MVP schema: [`Seminar-Project-v1/db/wms_mvp_schema.sql`](Seminar-Project-v1/db/wms_mvp_schema.sql)
 - WMS synthetic seed: [`Seminar-Project-v1/db/wms_mvp_seed.sql`](Seminar-Project-v1/db/wms_mvp_seed.sql)
+- WMS robustness seed v2: [`Seminar-Project-v1/db/wms_mvp_seed_v2.sql`](Seminar-Project-v1/db/wms_mvp_seed_v2.sql)
 - WMS data dictionary: [`Seminar-Project-v1/WMS_DATA_DICTIONARY.md`](Seminar-Project-v1/WMS_DATA_DICTIONARY.md)
 - WMS business rules: [`Seminar-Project-v1/WMS_BUSINESS_RULES.md`](Seminar-Project-v1/WMS_BUSINESS_RULES.md)
 - WMS ground truth: [`Seminar-Project-v1/eval/wms_mvp/ground_truth.yaml`](Seminar-Project-v1/eval/wms_mvp/ground_truth.yaml)

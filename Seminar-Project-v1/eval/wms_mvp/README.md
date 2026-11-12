@@ -8,6 +8,10 @@
 
 `EVALUATION_PROTOCOL.md` กำหนด Split, Metrics, Repeat runs และ Leakage controls ส่วน `dev.template.yaml` กับ `heldout.template.yaml` ยังว่างโดยตั้งใจจนกว่า Independent review จะผ่าน
 
+`db/wms_mvp_seed_v2.sql` และ `snapshot_v2_expected.yaml` เป็น Robustness snapshot ที่เปลี่ยนข้อมูลแต่ใช้ Reference SQL ชุดเดิม เพื่อจับ SQL ที่ Hard-code ผลของ v1
+
+`snapshot_v2_manifest.json` ตรึง Hash ของ Schema, Rules, Reference registry, Seed v2 และ Expected results v2 แยกจาก Manifest ของ Baseline
+
 ## สถานะ
 
 - เป็น `1.0-draft`

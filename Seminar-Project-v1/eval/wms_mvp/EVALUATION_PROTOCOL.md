@@ -183,6 +183,8 @@ SQL text ไม่จำเป็นต้องเหมือน Reference ห
 
 ถ้าเวลาจำกัด ให้รายงานผลหลักบน v1 และใช้ v2 เป็น Robustness check แยกตาราง ห้ามรวมโดยไม่บอกจำนวน Snapshot
 
+Snapshot v2 Draft อยู่ที่ `db/wms_mvp_seed_v2.sql` และ Expected results อยู่ที่ `eval/wms_mvp/snapshot_v2_expected.yaml` ทั้งสองยังรอ Independent review เช่นเดียวกับ Ground Truth v1
+
 ## Run Procedure
 
 1. Checkout Commit ที่จะประเมินและยืนยัน Working tree สะอาด

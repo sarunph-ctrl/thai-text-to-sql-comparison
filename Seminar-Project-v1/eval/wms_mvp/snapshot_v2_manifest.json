@@ -1,0 +1,14 @@
+{
+  "version": "1.0-draft",
+  "snapshot_id": "wms_seed_v2",
+  "generated_at": "2026-11-12",
+  "algorithm": "sha256-lf",
+  "review_status": "pending_independent_review",
+  "files": {
+    "db/wms_mvp_schema.sql": "cab1b66329110a12293a85d0b88708776b7dcb94d7386f9e90c1645f87df4439",
+    "db/wms_mvp_seed_v2.sql": "b8f16ca4deaf34dc1c8d4128237f97a7a0246a0833f9ca2483d071bee82f1bd6",
+    "WMS_BUSINESS_RULES.md": "c1497418d1f872162e7e76b53a6a6523e631362a82cbaf79da9d2a2a7e8970e3",
+    "eval/wms_mvp/ground_truth.yaml": "1622da652bd3449b6cc01374f9012c7df495f74e99486e5b49a1c42101cf3fd1",
+    "eval/wms_mvp/snapshot_v2_expected.yaml": "15c90082860759e3e1f4562a44981cc73740ee2c7f8d634eb8c60cff128c0037"
+  }
+}

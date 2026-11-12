@@ -1,0 +1,26 @@
+version: "1.0-draft"
+snapshot_id: wms_seed_v2
+schema: db/wms_mvp_schema.sql
+seed: db/wms_mvp_seed_v2.sql
+reference_registry: eval/wms_mvp/ground_truth.yaml
+review_status: pending_independent_review
+
+expected_rows:
+  wms_ref_01:
+    - [PART-A, "อะไหล่ A", Available, 2]
+    - [PART-A, "อะไหล่ A", "In Transit", 1]
+    - [PART-B, "อะไหล่ B", Quarantine, 1]
+    - [PART-C, "อะไหล่ C", Receiving, 1]
+  wms_ref_02:
+    - [SYN2-B-101, PART-B, "อะไหล่ B", Q-01, Damaged, Quarantine]
+  wms_ref_03:
+    - [INB-001, Completed, PART-A, "อะไหล่ A", 2, 2, 0]
+    - [INB-001, Completed, PART-B, "อะไหล่ B", 1, 1, 0]
+    - [INB-002, Received, PART-A, "อะไหล่ A", 1, 1, 0]
+    - [INB-002, Received, PART-C, "อะไหล่ C", 2, 1, 1]
+    - [INB-003, Cancelled, PART-D, "อะไหล่ D", 1, 0, 1]
+  wms_ref_04:
+    - [OUT-001, Picked, PART-A, "อะไหล่ A", 1, 1, 0]
+    - [OUT-002, Pending, PART-C, "อะไหล่ C", 1, 0, 1]
+  wms_ref_05:
+    - [Picked, 1]
