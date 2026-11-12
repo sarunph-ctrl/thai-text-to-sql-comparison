@@ -92,6 +92,7 @@
 ### E. Evaluation Protocol
 
 - [ ] แยก Development set และ Held-out test set
+- [x] สร้าง Candidate Development set 35 ข้อโดยยังไม่เปิด/สร้าง Held-out จริง
 - [x] สร้าง Template แยก Development/Held-out โดยยังไม่ใส่ Case ก่อน Review
 - [x] กำหนด In-scope/Out-of-scope labels
 - [x] ใช้ Execution Accuracy เป็น Primary metric
@@ -131,7 +132,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11 และ Regression suite ทั้งโปรเจกต์ 195/195 เมื่อวันที่ 2026-11-12
+หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6 และ Regression suite ทั้งโปรเจกต์ 201/201 เมื่อวันที่ 2026-11-12
 
 ## Gate for Phase 2
 

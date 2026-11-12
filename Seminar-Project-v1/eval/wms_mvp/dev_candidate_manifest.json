@@ -1,0 +1,15 @@
+{
+  "version": "1.0-draft",
+  "dataset": "development-candidate",
+  "generated_at": "2026-11-12",
+  "algorithm": "sha256-lf",
+  "review_status": "pending_independent_review",
+  "files": {
+    "SCOPE_WMS_MVP.md": "cc8dc6a43e8b79ddd7a18562bd0b92214e0e2794fd50055a2305a29b67d302c0",
+    "WMS_BUSINESS_RULES.md": "c1497418d1f872162e7e76b53a6a6523e631362a82cbaf79da9d2a2a7e8970e3",
+    "eval/wms_mvp/ground_truth.yaml": "1622da652bd3449b6cc01374f9012c7df495f74e99486e5b49a1c42101cf3fd1",
+    "eval/wms_mvp/dev.candidate.yaml": "16dac0987c5d07db7217ecbf6236829f16b3d9c5d1f5b095eb10263c572a56a2",
+    "eval/wms_mvp/manifest.json": "2e6ea18baccf134afc9fd1aa219a875518451cd5a1f95dba9c72a5c156f70d3f",
+    "eval/wms_mvp/snapshot_v2_manifest.json": "0c147ed8671f2395aa7717e7044e2f4feda2e35d11efa53e691ad0aadff9882b"
+  }
+}

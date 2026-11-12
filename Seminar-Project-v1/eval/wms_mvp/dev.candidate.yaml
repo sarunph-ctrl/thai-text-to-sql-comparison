@@ -1,0 +1,400 @@
+dataset_version: "1.0-draft"
+split: development
+status: draft_before_independent_review
+scope_version: "1.0-draft"
+ground_truth_version: "1.0-draft"
+snapshot_ids: [wms_seed_v1, wms_seed_v2]
+allowed_scope_labels: [in_scope, out_of_scope]
+authorship_note: "AI-assisted candidate development set; must be human reviewed. Not a benchmark."
+
+cases:
+  - id: dev_wms_001
+    question: "สรุปจำนวนสต็อกปัจจุบันแยกตาม Part และสถานะ"
+    scope_label: in_scope
+    family: current_stock_summary
+    reference_id: wms_ref_01
+    expected_status: ok
+    ordered: false
+    difficulty: basic
+    linguistic_features: [direct]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_002
+    question: "ขอดูจำนวนของในสต็อกแต่ละ Part แยกตามสถานะหน่อยครับ"
+    scope_label: in_scope
+    family: current_stock_summary
+    reference_id: wms_ref_01
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [polite, synonym]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_003
+    question: "แต่ละสถานะมีสินค้าแต่ละ Part อยู่กี่ชิ้นในปัจจุบัน"
+    scope_label: in_scope
+    family: current_stock_summary
+    reference_id: wms_ref_01
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [reordered]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_004
+    question: "แสดง current stock แยก part กับ status"
+    scope_label: in_scope
+    family: current_stock_summary
+    reference_id: wms_ref_01
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [thai_english_mix]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_005
+    question: "ของคงคลังตอนนี้แยกตามชนิดอะไหล่และสถานะมีจำนวนเท่าไร"
+    scope_label: in_scope
+    family: current_stock_summary
+    reference_id: wms_ref_01
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [domain_synonym]
+    out_of_scope_reason: null
+    notes: null
+
+  - id: dev_wms_006
+    question: "แสดง Serial ที่อยู่ใน Quarantine พร้อม Part Location และสภาพ"
+    scope_label: in_scope
+    family: current_stock_detail
+    reference_id: wms_ref_02
+    expected_status: ok
+    ordered: true
+    difficulty: basic
+    linguistic_features: [direct]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_007
+    question: "ขอรายการซีเรียลที่กักกันอยู่ พร้อมชนิดสินค้า ตำแหน่ง และสภาพครับ"
+    scope_label: in_scope
+    family: current_stock_detail
+    reference_id: wms_ref_02
+    expected_status: ok
+    ordered: true
+    difficulty: paraphrase
+    linguistic_features: [polite, thai_term]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_008
+    question: "มีของชิ้นไหนสถานะ Quarantine บ้าง อยู่ location ไหนและ condition อะไร"
+    scope_label: in_scope
+    family: current_stock_detail
+    reference_id: wms_ref_02
+    expected_status: ok
+    ordered: true
+    difficulty: compositional
+    linguistic_features: [question_form, thai_english_mix]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_009
+    question: "ดึง serial number ของสินค้าที่ถูกกักกัน พร้อม part และจุดจัดเก็บ"
+    scope_label: in_scope
+    family: current_stock_detail
+    reference_id: wms_ref_02
+    expected_status: ok
+    ordered: true
+    difficulty: paraphrase
+    linguistic_features: [synonym]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_010
+    question: "รายการของในโซนกักกัน ขอเลขซีเรียล ชนิดอะไหล่ โลเคชันและสภาพ"
+    scope_label: in_scope
+    family: current_stock_detail
+    reference_id: wms_ref_02
+    expected_status: ok
+    ordered: true
+    difficulty: paraphrase
+    linguistic_features: [transliteration, reordered]
+    out_of_scope_reason: null
+    notes: null
+
+  - id: dev_wms_011
+    question: "แสดงจำนวนที่วางแผนรับเทียบกับรับจริงของทุก Inbound Order แยกตาม Part"
+    scope_label: in_scope
+    family: inbound_progress
+    reference_id: wms_ref_03
+    expected_status: ok
+    ordered: false
+    difficulty: basic
+    linguistic_features: [direct]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_012
+    question: "แต่ละใบรับเข้าและแต่ละ Part วางแผนไว้กี่ชิ้น รับจริงแล้วกี่ชิ้น"
+    scope_label: in_scope
+    family: inbound_progress
+    reference_id: wms_ref_03
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [thai_term]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_013
+    question: "ขอ progress งาน inbound ทุก order โดยเทียบ expected กับ received แยก part"
+    scope_label: in_scope
+    family: inbound_progress
+    reference_id: wms_ref_03
+    expected_status: ok
+    ordered: false
+    difficulty: compositional
+    linguistic_features: [thai_english_mix]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_014
+    question: "งานรับเข้าทั้งหมดเหลือรับอีกเท่าไร แสดงแผนกับจำนวนรับจริงราย Part ด้วย"
+    scope_label: in_scope
+    family: inbound_progress
+    reference_id: wms_ref_03
+    expected_status: ok
+    ordered: false
+    difficulty: compositional
+    linguistic_features: [derived_metric, reordered]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_015
+    question: "ช่วยเทียบยอดคาดว่าจะรับกับยอดที่สแกนรับแล้วของ Inbound แต่ละรายการให้หน่อยครับ"
+    scope_label: in_scope
+    family: inbound_progress
+    reference_id: wms_ref_03
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [polite, process_synonym]
+    out_of_scope_reason: null
+    notes: null
+
+  - id: dev_wms_016
+    question: "แสดงจำนวนที่วางแผนจ่ายเทียบกับหยิบจริงของทุก Outbound Order แยกตาม Part"
+    scope_label: in_scope
+    family: outbound_progress
+    reference_id: wms_ref_04
+    expected_status: ok
+    ordered: false
+    difficulty: basic
+    linguistic_features: [direct]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_017
+    question: "แต่ละใบจ่ายออกและแต่ละ Part ต้องหยิบกี่ชิ้น หยิบจริงแล้วกี่ชิ้น"
+    scope_label: in_scope
+    family: outbound_progress
+    reference_id: wms_ref_04
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [thai_term]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_018
+    question: "ขอ progress งาน outbound ทุก order เทียบ expected quantity กับ picked quantity"
+    scope_label: in_scope
+    family: outbound_progress
+    reference_id: wms_ref_04
+    expected_status: ok
+    ordered: false
+    difficulty: compositional
+    linguistic_features: [thai_english_mix]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_019
+    question: "งานจ่ายสินค้าทั้งหมดยังเหลือต้องหยิบอีกเท่าไร ขอแยกตาม Part"
+    scope_label: in_scope
+    family: outbound_progress
+    reference_id: wms_ref_04
+    expected_status: ok
+    ordered: false
+    difficulty: compositional
+    linguistic_features: [derived_metric]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_020
+    question: "ช่วยเทียบแผนเบิกกับจำนวน Serial ที่หยิบแล้วของ Outbound แต่ละรายการครับ"
+    scope_label: in_scope
+    family: outbound_progress
+    reference_id: wms_ref_04
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [polite, process_synonym]
+    out_of_scope_reason: null
+    notes: null
+
+  - id: dev_wms_021
+    question: "เดือนกันยายน 2569 มี Outbound Order แต่ละสถานะกี่รายการ"
+    scope_label: in_scope
+    family: operational_order_status
+    reference_id: wms_ref_05
+    expected_status: ok
+    ordered: false
+    difficulty: basic
+    linguistic_features: [direct, buddhist_year]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_022
+    question: "สรุปจำนวนใบจ่ายออกแยกสถานะของเดือนกันยายน พ.ศ. 2569"
+    scope_label: in_scope
+    family: operational_order_status
+    reference_id: wms_ref_05
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [thai_term, buddhist_year]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_023
+    question: "Sep 2026 มี outbound กี่ order ในแต่ละ status"
+    scope_label: in_scope
+    family: operational_order_status
+    reference_id: wms_ref_05
+    expected_status: ok
+    ordered: false
+    difficulty: paraphrase
+    linguistic_features: [english_month, christian_year, thai_english_mix]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_024
+    question: "แยกสถานะให้หน่อยครับว่าเดือน 9 ปี 2026 มีงานจ่ายออกสถานะละกี่ใบ"
+    scope_label: in_scope
+    family: operational_order_status
+    reference_id: wms_ref_05
+    expected_status: ok
+    ordered: false
+    difficulty: boundary
+    linguistic_features: [numeric_month, polite, reordered]
+    out_of_scope_reason: null
+    notes: null
+  - id: dev_wms_025
+    question: "อยากทราบจำนวน outbound order แยกตาม status ตั้งแต่ต้นถึงสิ้นเดือนกันยายน 2569"
+    scope_label: in_scope
+    family: operational_order_status
+    reference_id: wms_ref_05
+    expected_status: ok
+    ordered: false
+    difficulty: compositional
+    linguistic_features: [explicit_month_range, buddhist_year]
+    out_of_scope_reason: null
+    notes: null
+
+  - id: dev_wms_oos_001
+    question: "สิ้นเดือนสิงหาคม 2569 PART-A คงเหลือเท่าไร"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: boundary
+    linguistic_features: [historical_time]
+    out_of_scope_reason: historical_stock_not_supported
+    notes: null
+  - id: dev_wms_oos_002
+    question: "เดือนนี้ขายสินค้าได้เงินรวมกี่บาท"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: basic
+    linguistic_features: [revenue]
+    out_of_scope_reason: price_and_revenue_not_in_schema
+    notes: null
+  - id: dev_wms_oos_003
+    question: "ลูกค้ารายไหนเบิกสินค้ามากที่สุด"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: basic
+    linguistic_features: [customer_analytics]
+    out_of_scope_reason: customer_is_phase_2
+    notes: null
+  - id: dev_wms_oos_004
+    question: "บริษัทขนส่งไหนส่งของช้าที่สุด"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: compositional
+    linguistic_features: [provider_analytics]
+    out_of_scope_reason: shipment_and_provider_are_phase_2
+    notes: null
+  - id: dev_wms_oos_005
+    question: "เปลี่ยนสถานะ OUT-002 เป็น Picked"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: boundary
+    linguistic_features: [write_request]
+    out_of_scope_reason: read_only_select_only
+    notes: null
+  - id: dev_wms_oos_006
+    question: "แล้วรายการถัดไปล่ะ"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: boundary
+    linguistic_features: [conversation_reference]
+    out_of_scope_reason: conversation_memory_not_supported
+    notes: null
+  - id: dev_wms_oos_007
+    question: "เดือนนี้มีการคืนและโอนสินค้าระหว่างคลังกี่ครั้ง"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: compositional
+    linguistic_features: [return, transfer]
+    out_of_scope_reason: return_and_transfer_not_supported
+    notes: null
+  - id: dev_wms_oos_008
+    question: "ล็อตไหนจะหมดอายุภายใน 30 วัน"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: basic
+    linguistic_features: [lot, expiry]
+    out_of_scope_reason: lot_and_expiry_not_in_schema
+    notes: null
+  - id: dev_wms_oos_009
+    question: "พนักงานคนไหนหยิบสินค้าได้เร็วที่สุด"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: compositional
+    linguistic_features: [user_performance]
+    out_of_scope_reason: user_analytics_is_phase_2
+    notes: null
+  - id: dev_wms_oos_010
+    question: "ช่วยแนะนำตำแหน่งจัดเก็บที่ดีที่สุดสำหรับ PART-A"
+    scope_label: out_of_scope
+    family: null
+    reference_id: null
+    expected_status: unsupported
+    ordered: false
+    difficulty: compositional
+    linguistic_features: [recommendation]
+    out_of_scope_reason: recommendation_and_optimization_not_supported
+    notes: null

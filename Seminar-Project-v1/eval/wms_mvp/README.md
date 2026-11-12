@@ -16,6 +16,10 @@
 
 `app/evaluation_records.py`, `RAW_RUNS.md` และ `summarize_raw_runs.py` ใช้บันทึก JSONL ที่ไม่เก็บคำถาม/Secret และสรุปผลโดยไม่อ่าน Dataset ส่วนคำแนะนำ Review แบบสั้นอยู่ที่ `REVIEW_REMARK_TH.md`
 
+`dev.candidate.yaml` เป็น Candidate Development set 35 ข้อที่ทำต่อระหว่างรอ Review ใช้ปรับระบบได้หลังตรวจ แต่ยังไม่ใช่ Frozen dataset หรือ Benchmark และ `heldout.template.yaml` ยังคงว่าง
+
+`dev_candidate_manifest.json` ตรึง Hash ของ Candidate และ Artifact ที่เกี่ยวข้องโดยยังคง `pending_independent_review`
+
 ## สถานะ
 
 - เป็น `1.0-draft`
