@@ -20,9 +20,14 @@ def dashboard():
     return FileResponse(ROOT / "web/index.html", headers={"Cache-Control": "no-store"})
 
 
+@app.get("/wms", include_in_schema=False)
+def wms_dashboard():
+    return FileResponse(ROOT / "web/wms.html", headers={"Cache-Control": "no-store"})
+
+
 @app.get("/demo/info", tags=["Presentation"])
 def demo_info():
-    return {"presentation_version": "1.0", "api_version": "0.3.0",
+    return {"presentation_version": "1.1", "api_version": "0.4.0",
             "llm": configuration_status(), "recorded_results_available": REPORT.exists(),
             "schema": schema_payload()}
 

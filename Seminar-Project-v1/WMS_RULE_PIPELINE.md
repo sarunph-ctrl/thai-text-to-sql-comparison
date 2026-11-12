@@ -46,3 +46,11 @@
 ```powershell
 .\.venv\Scripts\python.exe -m pytest tests/test_wms_rule_pipeline.py -q
 ```
+
+## ทดลองผ่านหน้าเว็บ
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\start-demo.ps1
+```
+
+จากนั้นเปิด `http://127.0.0.1:8000/wms` หน้า WMS แยกจาก Legacy demo ที่ `/` และเรียก API `POST /wms/query` โดยไม่เรียก LLM

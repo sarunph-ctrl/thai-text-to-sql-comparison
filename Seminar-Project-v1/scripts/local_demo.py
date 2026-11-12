@@ -1,6 +1,6 @@
 """Manage ONLY the isolated PostgreSQL cluster in this project's .local folder.
 
-python -m scripts.local_demo start|upgrade-inventory|reset|add-sale|status|stop
+python -m scripts.local_demo start|upgrade-inventory|upgrade-wms|reset|add-sale|status|stop
 """
 from __future__ import annotations
 
@@ -102,6 +102,8 @@ def start() -> None:
             reset()
         elif not conn.execute("SELECT to_regclass('public.stock_movements')").fetchone()[0]:
             upgrade_inventory()
+        if not conn.execute("SELECT to_regclass('public.current_stock')").fetchone()[0]:
+            upgrade_wms()
     print("PostgreSQL demo ready: 127.0.0.1:55439 / seminar_demo")
 
 
@@ -140,6 +142,20 @@ def upgrade_inventory() -> None:
     print("Inventory schema upgraded; sales rows preserved. Backup:", backup)
 
 
+def upgrade_wms() -> None:
+    """Install the deterministic WMS MVP beside the unchanged legacy demo."""
+    with psycopg.connect(connection_string(admin=True)) as conn:
+        if conn.execute("SELECT to_regclass('public.current_stock')").fetchone()[0]:
+            print("WMS MVP dataset is already installed; no changes made.")
+            return
+        conn.execute((ROOT / "db/wms_mvp_schema.sql").read_text(encoding="utf-8"))
+        conn.execute((ROOT / "db/wms_mvp_seed.sql").read_text(encoding="utf-8"))
+        conn.execute("GRANT SELECT ON part_master, part_obj, location, current_stock, "
+                     "inbound_order, inbound_plan, inbound_detail, outbound_order, "
+                     "outbound_plan, outbound_detail TO seminar_reader")
+    print("WMS MVP development dataset installed: 10 synthetic tables.")
+
+
 def add_sale() -> None:
     with psycopg.connect(connection_string(admin=True)) as conn:
         # Fixed ID makes the presentation step repeatable, never accumulating.
@@ -152,7 +168,7 @@ def add_sale() -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["start", "upgrade-inventory", "reset", "add-sale", "status", "stop"])
+    parser.add_argument("action", choices=["start", "upgrade-inventory", "upgrade-wms", "reset", "add-sale", "status", "stop"])
     args = parser.parse_args()
     if args.action == "start":
         start()
@@ -160,6 +176,8 @@ def main() -> None:
         reset()
     elif args.action == "upgrade-inventory":
         upgrade_inventory()
+    elif args.action == "upgrade-wms":
+        upgrade_wms()
     elif args.action == "add-sale":
         add_sale()
     elif args.action == "status":

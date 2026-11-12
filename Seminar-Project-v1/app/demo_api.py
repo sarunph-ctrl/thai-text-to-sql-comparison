@@ -16,9 +16,10 @@ from app.llm.client import configuration_status
 from app.llm.prompt import prompt_bundle
 from app.llm.pipeline import run_llm_pipeline
 from app.llm.comparison import resultsets_equal
+from app.wms.pipeline import run_wms_rule_pipeline
 from scripts.local_demo import connection_string
 
-app = FastAPI(title="Thai Text-to-SQL · Rule-based vs IntelSphere", version="0.3.0")
+app = FastAPI(title="Thai Text-to-SQL · Rule-based vs IntelSphere", version="0.4.0")
 logger = logging.getLogger(__name__)
 
 
@@ -56,7 +57,7 @@ def health():
         with psycopg.connect(database_url(), autocommit=True) as conn:
             conn.execute("SELECT 1 FROM products LIMIT 1")
             conn.execute("SELECT 1 FROM stock_movements LIMIT 1")
-            return {"ok": True, "profile": "sales-inventory", "version": "0.3.0",
+            return {"ok": True, "profile": "sales-inventory", "version": "0.4.0",
                     "database": "PostgreSQL", "llm_configured": configuration_status()["configured"]}
     except (psycopg.Error, RuntimeError):
         raise HTTPException(503, "Start the demo database first")
@@ -70,6 +71,31 @@ def query(req: QueryRequest):
     except (psycopg.Error, RuntimeError):
         logger.error("Demo database unavailable")
         raise HTTPException(503, "Demo database unavailable; run scripts.local_demo start")
+
+
+@app.get("/wms/health", tags=["WMS Development"])
+def wms_health():
+    """Check the separate ten-table synthetic WMS development dataset."""
+    try:
+        with psycopg.connect(database_url(), autocommit=True) as conn:
+            stock = conn.execute("SELECT COUNT(*) FROM current_stock").fetchone()[0]
+            outbound = conn.execute("SELECT COUNT(*) FROM outbound_order").fetchone()[0]
+            return {"ok": True, "profile": "wms-mvp-development", "version": "1.0-draft",
+                    "database": "PostgreSQL", "stock_serials": stock,
+                    "outbound_orders": outbound}
+    except (psycopg.Error, RuntimeError):
+        raise HTTPException(503, "WMS demo dataset unavailable; run start-demo.ps1")
+
+
+@app.post("/wms/query", tags=["WMS Development"])
+def wms_query(req: QueryRequest):
+    """Run only the reviewed WMS Rule-based development pipeline."""
+    try:
+        with psycopg.connect(database_url(), autocommit=True) as conn:
+            return jsonable(asdict(run_wms_rule_pipeline(req.text, conn)))
+    except (psycopg.Error, RuntimeError):
+        logger.error("WMS demo database unavailable")
+        raise HTTPException(503, "WMS demo dataset unavailable; run start-demo.ps1")
 
 
 @app.get("/llm/status")

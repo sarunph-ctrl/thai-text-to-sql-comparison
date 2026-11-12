@@ -1,12 +1,13 @@
 # Thai NL → SQL (rule-based, business domain)
 
 > **WMS MVP development:** ดูขอบเขตที่ [SCOPE_WMS_MVP.md](SCOPE_WMS_MVP.md) และ Rule-based pipeline รุ่น Draft ที่ [WMS_RULE_PIPELINE.md](WMS_RULE_PIPELINE.md) ส่วนเดโมร้านค้าเดิมด้านล่างเป็น Legacy baseline และไม่ใช่ผลของ WMS MVP
+> หลังรัน `start-demo.ps1` เปิด WMS development UI ที่ `http://127.0.0.1:8000/wms`
 
 > **Presentation UI is ready:** run `./start-demo.ps1` and open `http://127.0.0.1:8000/`.
 > Read [PRESENTATION_RUNBOOK.md](PRESENTATION_RUNBOOK.md) for the 5–7 minute demo and standalone offline backup.
 
 > **Sprint 2 is ready: [SPRINT2.md](SPRINT2.md)** — compare Rule-based against
-> IntelSphere `gpt-5.6-luna` using POST `/compare` in API v0.3.0.
+> IntelSphere `gpt-5.6-luna` using POST `/compare` in API v0.4.0.
 
 > **Start with [SCHEMA_GUIDE.md](SCHEMA_GUIDE.md) for the five-table sales and inventory demo (v0.2).**
 > Run `./start-demo.ps1` (entry point: `app.demo_api:app`).

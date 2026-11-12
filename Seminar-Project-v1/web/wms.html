@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="WMS MVP Rule-based Thai Text-to-SQL development demo">
+  <title>WMS Query Lab · Development</title>
+  <link rel="stylesheet" href="/assets/styles.css">
+  <link rel="stylesheet" href="/assets/wms.css">
+  <script src="/assets/wms.js" defer></script>
+</head>
+<body>
+  <header class="topbar"><div class="nav-inner">
+    <a class="brand" href="/wms"><span class="brand-mark">W</span><span>WMS Query Lab<small>Rule-based · Development</small></span></a>
+    <div class="nav-status"><span id="wms-status" class="status-pill">กำลังตรวจฐานข้อมูล</span><a href="/docs" target="_blank" rel="noopener">API docs ↗</a></div>
+  </div></header>
+
+  <main class="wms-main">
+    <section class="wms-hero">
+      <div><div class="eyebrow">WAREHOUSE OPERATIONS · MVP</div><h1>ถามข้อมูลคลังด้วยภาษาไทย</h1><p>ระบบจับ Intent เลือก SQL template ตรวจ AST แล้วจึงอ่านข้อมูล PostgreSQL</p></div>
+      <a class="legacy-link" href="/">กลับ Legacy demo →</a>
+    </section>
+
+    <div class="development-note"><strong>Development draft</strong><span>หน้านี้ใช้ข้อมูลสังเคราะห์ 10 ตารางและ Development questions ไม่ใช่ผล Held-out evaluation</span></div>
+
+    <section class="wms-workspace">
+      <form id="wms-form" class="question-card">
+        <label for="wms-question" class="section-title">คำถาม</label>
+        <textarea id="wms-question" rows="2" maxlength="500" required>สรุปจำนวนสต็อกปัจจุบันแยกตาม Part และสถานะ</textarea>
+        <div class="form-bottom"><span class="muted">รันเฉพาะ Rule-based · ไม่เรียก LLM API</span><button id="wms-run" class="primary" type="submit">แปลงและรัน SQL <span aria-hidden="true">↗</span></button></div>
+        <div class="examples"><span>ตัวอย่าง</span>
+          <button type="button" data-wms-question="สรุปจำนวนสต็อกปัจจุบันแยกตาม Part และสถานะ">สต็อกปัจจุบัน</button>
+          <button type="button" data-wms-question="แสดง Serial ที่อยู่ใน Quarantine พร้อม Part Location และสภาพ">Quarantine</button>
+          <button type="button" data-wms-question="แสดงจำนวนที่วางแผนรับเทียบกับรับจริงของทุก Inbound Order แยกตาม Part">Inbound progress</button>
+          <button type="button" data-wms-question="แสดงจำนวนที่วางแผนจ่ายเทียบกับหยิบจริงของทุก Outbound Order แยกตาม Part">Outbound progress</button>
+          <button type="button" data-wms-question="เดือนกันยายน 2569 มี Outbound Order แต่ละสถานะกี่รายการ">สถานะรายเดือน</button>
+          <button type="button" data-wms-question="ลูกค้ารายไหนเบิกสินค้ามากที่สุด">ลองนอกขอบเขต</button>
+        </div>
+      </form>
+
+      <div id="wms-notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+      <article class="result-card wms-result-card">
+        <div class="result-header"><div><span class="method-number">R</span><h2>ผลจาก Rule-based pipeline</h2></div><span class="method-tag">Normalize → Intent → SQL → Guard → DB</span></div>
+        <div id="wms-result" class="panel-content"><div class="empty-state"><span class="empty-symbol">SQL</span><h3>พร้อมรับคำถาม</h3><p>เลือกตัวอย่างหรือพิมพ์คำถามในขอบเขต WMS MVP</p></div></div>
+      </article>
+    </section>
+
+    <section class="wms-scope">
+      <div><span>01</span><strong>Current stock</strong><small>สรุปตาม Part/สถานะ และ Serial ใน Quarantine</small></div>
+      <div><span>02</span><strong>Inbound</strong><small>แผนรับ เทียบจำนวนรับจริงและคงเหลือ</small></div>
+      <div><span>03</span><strong>Outbound</strong><small>แผนหยิบ เทียบจำนวนหยิบจริงและคงเหลือ</small></div>
+      <div><span>04</span><strong>Order status</strong><small>จำนวน Outbound แยกสถานะตามเดือน</small></div>
+    </section>
+    <footer><span>ข้อมูลสังเคราะห์ · WMS MVP development snapshot</span><span>SELECT-only · Row limit 200</span></footer>
+  </main>
+</body>
+</html>

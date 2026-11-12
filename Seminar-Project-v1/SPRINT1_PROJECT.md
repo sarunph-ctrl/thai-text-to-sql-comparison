@@ -109,6 +109,7 @@
 - [x] เพิ่ม AST allowlist, SELECT-only, read-only transaction, timeout และ row limit
 - [x] ทดสอบ Candidate Development 35 ข้อบน Baseline และ Robustness snapshot
 - [x] ปฏิเสธ filter/ความหมายที่ยังไม่รองรับโดยไม่รัน SQL
+- [x] เพิ่ม `POST /wms/query` และหน้า `/wms` สำหรับทดลอง Development pipeline
 - [ ] Freeze rules หลัง Independent review ก่อนสร้าง Held-out set
 
 ## Two-week Schedule
@@ -141,7 +142,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule pipeline 5/5 และ Regression suite ทั้งโปรเจกต์ 206/206 เมื่อวันที่ 2026-11-12
+หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule pipeline 5/5, WMS API/UI 3/3 และ Regression suite ทั้งโปรเจกต์ 209/209 เมื่อวันที่ 2026-11-12
 
 ## Gate for Phase 2
 

@@ -17,7 +17,7 @@ $demoPresentation = $null
 try {
     $demoPresentation = Invoke-RestMethod -Uri "http://127.0.0.1:$Port/demo/info" -TimeoutSec 2
 } catch { }
-if ($demoPresentation.presentation_version -eq '1.0' -and $demoHealth.ok) {
+if ($demoPresentation.presentation_version -eq '1.1' -and $demoHealth.ok) {
     Write-Host 'The presentation demo is already running.'
     return
 }
