@@ -27,6 +27,14 @@
 
 Schema ต้นทางเป็นงานที่เคยออกแบบและพัฒนามาก่อน แต่ต้องจัดลำดับ DDL เติม Trigger functions และตรวจ Business rules ก่อนนำมาใช้เป็นฐานทดลองที่ทำซ้ำได้
 
+ไฟล์ที่จัดทำสำหรับการทดลอง:
+
+- Reproducible DDL: `db/wms_mvp_schema.sql`
+- Deterministic synthetic seed: `db/wms_mvp_seed.sql`
+- Schema/integrity tests: `tests/test_wms_schema.py`
+
+DDL สำหรับการทดลองตัด Trigger ฝั่งเขียนและ Dependency ของ Phase 2 ออกโดยตั้งใจ จึงไม่ใช่ไฟล์ติดตั้งแอป `Succeed_BDMS` ฉบับเต็ม
+
 ## Phase 1 — MVP
 
 ### ตารางที่อยู่ในขอบเขต

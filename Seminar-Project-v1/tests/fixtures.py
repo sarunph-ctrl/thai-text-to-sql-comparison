@@ -41,3 +41,18 @@ def fresh_conn(*, demo: bool = False) -> psycopg.Connection:
         conn.close()
         raise
     return conn
+
+
+def fresh_wms_conn() -> psycopg.Connection:
+    """Load the deterministic ten-table WMS MVP in a disposable schema."""
+    conn = TestConnection.connect(connection_string(admin=True, database="seminar_tests"), autocommit=True)
+    conn.test_schema = "test_" + uuid4().hex
+    conn.execute(sql.SQL("CREATE SCHEMA {}").format(sql.Identifier(conn.test_schema)))
+    conn.execute(sql.SQL("SET search_path TO {}, public").format(sql.Identifier(conn.test_schema)))
+    try:
+        conn.execute((ROOT / "db/wms_mvp_schema.sql").read_text(encoding="utf-8"))
+        conn.execute((ROOT / "db/wms_mvp_seed.sql").read_text(encoding="utf-8"))
+    except Exception:
+        conn.close()
+        raise
+    return conn

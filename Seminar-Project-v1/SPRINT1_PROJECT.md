@@ -64,11 +64,11 @@
 
 ### B. Reproducible Schema
 
-- [ ] นำ DDL ของ 10 ตารางเข้าสู่โปรเจกต์พร้อมระบุ Provenance
-- [ ] เรียง DDL และแก้ Dependency ให้สร้างฐานใหม่ได้
-- [ ] แยก Trigger/function ที่จำเป็นออกจากสิ่งที่ไม่ใช้ใน Text-to-SQL
+- [x] นำ DDL ของ 10 ตารางเข้าสู่โปรเจกต์พร้อมระบุ Provenance
+- [x] เรียง DDL และแก้ Dependency ให้สร้างฐานใหม่ได้
+- [x] แยก Trigger/function ที่จำเป็นออกจากสิ่งที่ไม่ใช้ใน Text-to-SQL
 - [ ] เพิ่ม CHECK/NOT NULL ที่ยืนยันได้จาก Business rules
-- [ ] ทดสอบสร้าง Schema จากฐานข้อมูลว่าง
+- [x] ทดสอบสร้าง Schema จากฐานข้อมูลว่าง
 - [ ] สร้าง Data Dictionary รุ่น WMS MVP
 
 ### C. Business Rules
@@ -82,7 +82,7 @@
 
 ### D. Synthetic Data and Ground Truth
 
-- [ ] สร้าง Seed ครอบคลุม Normal, Boundary และ Invalid cases
+- [x] สร้าง Seed และ Integrity tests ครอบคลุม Normal, Boundary และ Invalid cases รุ่นแรก
 - [ ] สร้าง Reference SQL ทุก Query family
 - [ ] บันทึก Expected columns, rows, types และ ordering
 - [ ] ตรวจ Reference SQL กับฐานที่ Reset แล้ว
@@ -125,6 +125,8 @@ Sprint 1 เสร็จเมื่อ:
 5. Reference SQL มี Expected result และตรวจย้อนกลับถึง Seed ได้
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
+
+หลักฐานล่าสุด: `tests/test_wms_schema.py` ผ่าน 6/6 และ Regression suite ทั้งโปรเจกต์ผ่าน 157/157 เมื่อวันที่ 2026-11-12
 
 ## Gate for Phase 2
 
