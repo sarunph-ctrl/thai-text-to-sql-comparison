@@ -14,6 +14,8 @@
 
 `app/evaluation_metrics.py` และ `METRIC_FIELDS.md` กำหนด Metric engine ที่ใช้กับ Raw runs โดยแยก In-scope accuracy ออกจาก Out-of-scope rejection และไม่ใช้ Held-out data ระหว่างคำนวณสูตร
 
+`app/evaluation_records.py`, `RAW_RUNS.md` และ `summarize_raw_runs.py` ใช้บันทึก JSONL ที่ไม่เก็บคำถาม/Secret และสรุปผลโดยไม่อ่าน Dataset ส่วนคำแนะนำ Review แบบสั้นอยู่ที่ `REVIEW_REMARK_TH.md`
+
 ## สถานะ
 
 - เป็น `1.0-draft`

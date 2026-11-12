@@ -11,3 +11,4 @@ Thumbs.db
 desktop.ini
 Seminar-Demo.zip
 tmp/
+**/output/wms_mvp/raw/
