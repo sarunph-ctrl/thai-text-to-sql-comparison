@@ -90,6 +90,7 @@ flowchart LR
 - WMS ground truth: [`Seminar-Project-v1/eval/wms_mvp/ground_truth.yaml`](Seminar-Project-v1/eval/wms_mvp/ground_truth.yaml)
 - Independent review guide: [`Seminar-Project-v1/eval/wms_mvp/INDEPENDENT_REVIEW_GUIDE.md`](Seminar-Project-v1/eval/wms_mvp/INDEPENDENT_REVIEW_GUIDE.md)
 - Evaluation protocol: [`Seminar-Project-v1/eval/wms_mvp/EVALUATION_PROTOCOL.md`](Seminar-Project-v1/eval/wms_mvp/EVALUATION_PROTOCOL.md)
+- Metric input fields: [`Seminar-Project-v1/eval/wms_mvp/METRIC_FIELDS.md`](Seminar-Project-v1/eval/wms_mvp/METRIC_FIELDS.md)
 - Legacy data dictionary: [`Seminar-Project-v1/DATA_DICTIONARY.md`](Seminar-Project-v1/DATA_DICTIONARY.md)
 - Legacy business rules: [`Seminar-Project-v1/BUSINESS_RULES.md`](Seminar-Project-v1/BUSINESS_RULES.md)
 - Schema guide: [`Seminar-Project-v1/SCHEMA_GUIDE.md`](Seminar-Project-v1/SCHEMA_GUIDE.md)

@@ -12,6 +12,8 @@
 
 `snapshot_v2_manifest.json` ตรึง Hash ของ Schema, Rules, Reference registry, Seed v2 และ Expected results v2 แยกจาก Manifest ของ Baseline
 
+`app/evaluation_metrics.py` และ `METRIC_FIELDS.md` กำหนด Metric engine ที่ใช้กับ Raw runs โดยแยก In-scope accuracy ออกจาก Out-of-scope rejection และไม่ใช้ Held-out data ระหว่างคำนวณสูตร
+
 ## สถานะ
 
 - เป็น `1.0-draft`

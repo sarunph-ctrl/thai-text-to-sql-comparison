@@ -96,6 +96,7 @@
 - [x] กำหนด In-scope/Out-of-scope labels
 - [x] ใช้ Execution Accuracy เป็น Primary metric
 - [x] กำหนด Valid SQL, Rejection Accuracy, Latency, Token และ Consistency
+- [x] สร้าง Metric engine และ Unit tests โดยไม่อ่าน Held-out cases
 - [x] สร้างและตรึง Robustness snapshot v2 ที่ให้คำตอบต่างจาก Baseline ทุก Query family
 - [x] Version และบันทึก SHA-256 ของ Schema, Seed, Rules และ Ground Truth รุ่น Draft
 
@@ -129,7 +130,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema tests 8/8, Ground Truth/Review 9/9, Protocol templates 3/3, Snapshot v2 8/8 และ Regression suite ทั้งโปรเจกต์ 179/179 เมื่อวันที่ 2026-11-12
+หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol templates 3/3, Snapshot v2 8/8, Metric engine 5/5 และ Regression suite ทั้งโปรเจกต์ 184/184 เมื่อวันที่ 2026-11-12
 
 ## Gate for Phase 2
 
