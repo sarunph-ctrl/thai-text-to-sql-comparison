@@ -86,6 +86,7 @@
 - [x] สร้าง Reference SQL รุ่น Draft ครบทุก Query family
 - [x] บันทึก Expected columns, rows, types และ ordering
 - [x] ตรวจ Reference SQL กับฐานที่ Reset แล้ว
+- [x] เตรียม Independent review guide และแบบบันทึกผลที่ครอบคลุมทุก Case
 - [ ] ให้ผู้ตรวจอ่าน Business rules และเฉลยโดยไม่ดูผลระบบก่อน
 
 ### E. Evaluation Protocol
@@ -126,7 +127,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema tests ผ่าน 8/8, Ground Truth/Manifest tests ผ่าน 8/8 และ Regression suite ทั้งโปรเจกต์ผ่าน 167/167 เมื่อวันที่ 2026-11-12
+หลักฐานล่าสุด: Schema tests ผ่าน 8/8, Ground Truth/Manifest/Review-template tests ผ่าน 9/9 และ Regression suite ทั้งโปรเจกต์ผ่าน 168/168 เมื่อวันที่ 2026-11-12
 
 ## Gate for Phase 2
 

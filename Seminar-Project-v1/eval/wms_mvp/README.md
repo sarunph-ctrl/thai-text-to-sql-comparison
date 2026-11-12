@@ -4,6 +4,8 @@
 
 `manifest.json` เก็บ SHA-256 หลัง Normalize line ending เป็น LF ของ Schema, Seed, Business rules และ Ground Truth ที่ต้องใช้ร่วมกัน หาก Hash ไม่ตรงต้องถือว่าเป็น Snapshot คนละรุ่น วิธีนี้ทำให้ตรวจ Hash เดียวกันได้ทั้ง Windows และระบบที่ใช้ LF
 
+ใช้ `INDEPENDENT_REVIEW_GUIDE.md` เป็นขั้นตอนตรวจ และกรอกผลลง `review_record.yaml` โดยยังไม่เปิดผลของ Rule-based/LLM
+
 ## สถานะ
 
 - เป็น `1.0-draft`

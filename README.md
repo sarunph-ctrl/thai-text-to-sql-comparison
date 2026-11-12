@@ -87,6 +87,7 @@ flowchart LR
 - WMS data dictionary: [`Seminar-Project-v1/WMS_DATA_DICTIONARY.md`](Seminar-Project-v1/WMS_DATA_DICTIONARY.md)
 - WMS business rules: [`Seminar-Project-v1/WMS_BUSINESS_RULES.md`](Seminar-Project-v1/WMS_BUSINESS_RULES.md)
 - WMS ground truth: [`Seminar-Project-v1/eval/wms_mvp/ground_truth.yaml`](Seminar-Project-v1/eval/wms_mvp/ground_truth.yaml)
+- Independent review guide: [`Seminar-Project-v1/eval/wms_mvp/INDEPENDENT_REVIEW_GUIDE.md`](Seminar-Project-v1/eval/wms_mvp/INDEPENDENT_REVIEW_GUIDE.md)
 - Legacy data dictionary: [`Seminar-Project-v1/DATA_DICTIONARY.md`](Seminar-Project-v1/DATA_DICTIONARY.md)
 - Legacy business rules: [`Seminar-Project-v1/BUSINESS_RULES.md`](Seminar-Project-v1/BUSINESS_RULES.md)
 - Schema guide: [`Seminar-Project-v1/SCHEMA_GUIDE.md`](Seminar-Project-v1/SCHEMA_GUIDE.md)

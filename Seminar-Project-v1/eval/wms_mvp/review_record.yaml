@@ -1,0 +1,88 @@
+review_version: "1.0-template"
+artifact_version: "1.0-draft"
+status: pending
+
+reviewer:
+  name: null
+  role: null
+  review_date: null
+  independent_from_rule_and_prompt_tuning: null
+  reviewed_before_seeing_system_outputs: null
+
+artifact_checks:
+  scope: pending
+  schema: pending
+  data_dictionary: pending
+  business_rules: pending
+  synthetic_seed: pending
+  ground_truth: pending
+  manifest_hashes: pending
+
+open_business_decisions:
+  received_vs_completed:
+    decision: null
+    rationale: null
+  serial_reuse_across_orders:
+    decision: null
+    rationale: null
+  available_and_good_definition:
+    decision: null
+    rationale: null
+  null_location_allowed_statuses:
+    decision: null
+    rationale: null
+  received_and_picked_timestamp_names:
+    decision: null
+    rationale: null
+  quantity_over_plan_behavior:
+    decision: null
+    rationale: null
+
+case_reviews:
+  - id: wms_ref_01
+    question_is_unambiguous: null
+    rules_match_question: null
+    sql_is_correct: null
+    expected_result_is_correct: null
+    ordering_flag_is_correct: null
+    decision: pending
+    comments: null
+  - id: wms_ref_02
+    question_is_unambiguous: null
+    rules_match_question: null
+    sql_is_correct: null
+    expected_result_is_correct: null
+    ordering_flag_is_correct: null
+    decision: pending
+    comments: null
+  - id: wms_ref_03
+    question_is_unambiguous: null
+    rules_match_question: null
+    sql_is_correct: null
+    expected_result_is_correct: null
+    ordering_flag_is_correct: null
+    decision: pending
+    comments: null
+  - id: wms_ref_04
+    question_is_unambiguous: null
+    rules_match_question: null
+    sql_is_correct: null
+    expected_result_is_correct: null
+    ordering_flag_is_correct: null
+    decision: pending
+    comments: null
+  - id: wms_ref_05
+    question_is_unambiguous: null
+    rules_match_question: null
+    sql_is_correct: null
+    expected_result_is_correct: null
+    ordering_flag_is_correct: null
+    decision: pending
+    comments: null
+
+overall:
+  decision: pending
+  required_changes: []
+  limitations_accepted: []
+  approved_artifact_version: null
+  reviewer_signoff: null

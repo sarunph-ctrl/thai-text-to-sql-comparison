@@ -15,6 +15,7 @@ from tests.fixtures import fresh_wms_conn
 ROOT = Path(__file__).resolve().parent.parent
 GROUND_TRUTH = ROOT / "eval/wms_mvp/ground_truth.yaml"
 MANIFEST = ROOT / "eval/wms_mvp/manifest.json"
+REVIEW_RECORD = ROOT / "eval/wms_mvp/review_record.yaml"
 TYPE_NAMES = {
     20: "bigint",
     23: "integer",
@@ -81,3 +82,18 @@ def test_manifest_hashes_freeze_all_ground_truth_inputs():
         normalized = (ROOT / relative_path).read_bytes().replace(b"\r\n", b"\n")
         actual_hash = hashlib.sha256(normalized).hexdigest()
         assert actual_hash == expected_hash, relative_path
+
+
+def test_review_template_covers_every_case_and_starts_blind():
+    review = yaml.safe_load(REVIEW_RECORD.read_text(encoding="utf-8"))
+    ground_truth_ids = {case["id"] for case in load_cases()}
+    review_ids = {case["id"] for case in review["case_reviews"]}
+    assert review_ids == ground_truth_ids
+    assert review["status"] == "pending"
+    assert review["overall"]["decision"] == "pending"
+    assert review["reviewer"]["independent_from_rule_and_prompt_tuning"] is None
+    assert review["reviewer"]["reviewed_before_seeing_system_outputs"] is None
+    for case in review["case_reviews"]:
+        assert case["decision"] == "pending"
+        assert case["sql_is_correct"] is None
+        assert case["expected_result_is_correct"] is None
