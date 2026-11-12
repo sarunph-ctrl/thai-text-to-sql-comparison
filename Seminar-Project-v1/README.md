@@ -1,5 +1,7 @@
 # Thai NL → SQL (rule-based, business domain)
 
+> **WMS MVP development:** ดูขอบเขตที่ [SCOPE_WMS_MVP.md](SCOPE_WMS_MVP.md) และ Rule-based pipeline รุ่น Draft ที่ [WMS_RULE_PIPELINE.md](WMS_RULE_PIPELINE.md) ส่วนเดโมร้านค้าเดิมด้านล่างเป็น Legacy baseline และไม่ใช่ผลของ WMS MVP
+
 > **Presentation UI is ready:** run `./start-demo.ps1` and open `http://127.0.0.1:8000/`.
 > Read [PRESENTATION_RUNBOOK.md](PRESENTATION_RUNBOOK.md) for the 5–7 minute demo and standalone offline backup.
 

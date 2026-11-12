@@ -102,6 +102,15 @@
 - [x] สร้างและตรึง Robustness snapshot v2 ที่ให้คำตอบต่างจาก Baseline ทุก Query family
 - [x] Version และบันทึก SHA-256 ของ Schema, Seed, Rules และ Ground Truth รุ่น Draft
 
+### F. WMS Rule-based Development Draft
+
+- [x] สร้าง Parser สำหรับ 5 Query families โดยแยก Legacy demo ออกจาก WMS
+- [x] สร้าง Parameterized SQL builder จาก Reference SQL ที่ตรวจย้อนกลับได้
+- [x] เพิ่ม AST allowlist, SELECT-only, read-only transaction, timeout และ row limit
+- [x] ทดสอบ Candidate Development 35 ข้อบน Baseline และ Robustness snapshot
+- [x] ปฏิเสธ filter/ความหมายที่ยังไม่รองรับโดยไม่รัน SQL
+- [ ] Freeze rules หลัง Independent review ก่อนสร้าง Held-out set
+
 ## Two-week Schedule
 
 ### Week 1
@@ -132,7 +141,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6 และ Regression suite ทั้งโปรเจกต์ 201/201 เมื่อวันที่ 2026-11-12
+หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule pipeline 5/5 และ Regression suite ทั้งโปรเจกต์ 206/206 เมื่อวันที่ 2026-11-12
 
 ## Gate for Phase 2
 
