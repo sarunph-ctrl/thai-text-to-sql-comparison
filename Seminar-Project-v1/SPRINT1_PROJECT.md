@@ -92,9 +92,10 @@
 ### E. Evaluation Protocol
 
 - [ ] แยก Development set และ Held-out test set
-- [ ] กำหนด In-scope/Out-of-scope labels
-- [ ] ใช้ Execution Accuracy เป็น Primary metric
-- [ ] วัด Valid SQL, Unsupported Accuracy, Latency, Token และ Consistency
+- [x] สร้าง Template แยก Development/Held-out โดยยังไม่ใส่ Case ก่อน Review
+- [x] กำหนด In-scope/Out-of-scope labels
+- [x] ใช้ Execution Accuracy เป็น Primary metric
+- [x] กำหนด Valid SQL, Rejection Accuracy, Latency, Token และ Consistency
 - [x] Version และบันทึก SHA-256 ของ Schema, Seed, Rules และ Ground Truth รุ่น Draft
 
 ## Two-week Schedule
@@ -127,7 +128,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema tests ผ่าน 8/8, Ground Truth/Manifest/Review-template tests ผ่าน 9/9 และ Regression suite ทั้งโปรเจกต์ผ่าน 168/168 เมื่อวันที่ 2026-11-12
+หลักฐานล่าสุด: Schema tests ผ่าน 8/8, Ground Truth/Manifest/Review tests ผ่าน 9/9, Protocol-template tests ผ่าน 3/3 และ Regression suite ทั้งโปรเจกต์ผ่าน 171/171 เมื่อวันที่ 2026-11-12
 
 ## Gate for Phase 2
 

@@ -6,6 +6,8 @@
 
 ใช้ `INDEPENDENT_REVIEW_GUIDE.md` เป็นขั้นตอนตรวจ และกรอกผลลง `review_record.yaml` โดยยังไม่เปิดผลของ Rule-based/LLM
 
+`EVALUATION_PROTOCOL.md` กำหนด Split, Metrics, Repeat runs และ Leakage controls ส่วน `dev.template.yaml` กับ `heldout.template.yaml` ยังว่างโดยตั้งใจจนกว่า Independent review จะผ่าน
+
 ## สถานะ
 
 - เป็น `1.0-draft`

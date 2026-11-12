@@ -1,0 +1,8 @@
+dataset_version: "1.0-template"
+split: development
+status: empty_template
+scope_version: "1.0-draft"
+ground_truth_version: "1.0-draft"
+snapshot_ids: [wms_seed_v1]
+allowed_scope_labels: [in_scope, out_of_scope]
+cases: []
