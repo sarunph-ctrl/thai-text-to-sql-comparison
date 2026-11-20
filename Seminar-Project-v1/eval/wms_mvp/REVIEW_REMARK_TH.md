@@ -2,6 +2,14 @@
 
 ## สิ่งที่คุณต้องทำ
 
+วิธีง่ายที่สุดคือสร้าง ZIP ที่จัดไฟล์และแบบฟอร์มไว้แล้ว:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.build_wms_review_packet
+```
+
+ส่งไฟล์ `output/wms-review/WMS-MVP-Independent-Review-1.0-draft.zip` ให้ Reviewer โดยไม่ส่ง `WMS_DEVELOPMENT_RESULTS.md` หรือหน้าผลระบบไปด้วย ภายใน ZIP มี `START_HERE.md`, แบบฟอร์ม Core review และแบบฟอร์มตรวจคำถาม Development 35 ข้อ
+
 1. เลือก Reviewer อย่างน้อย 1 คนที่อ่าน SQL ได้และไม่ได้เป็นคนปรับ Rule-based/Prompt ชุดนี้ เช่น อาจารย์ ผู้ช่วยสอน เพื่อนที่เข้าใจฐานข้อมูล หรือผู้รู้กระบวนการคลัง
 2. ส่งไฟล์ต่อไปนี้ให้ Reviewer:
    - `INDEPENDENT_REVIEW_GUIDE.md`
@@ -19,6 +27,8 @@
 5. ให้ตรวจ Open business decisions ทั้ง 6 ข้อ และ Ground Truth `wms_ref_01`–`wms_ref_05` ทีละข้อ
 6. ให้เลือกผลรวม: `approved`, `approved_with_changes`, `changes_required` หรือ `rejected`
 7. ส่งไฟล์ `review_record.yaml` ที่กรอกแล้วกลับมา แล้วจึงแก้ Version/Manifest หรือ Freeze Ground Truth ตามผลตรวจ
+
+สำหรับคำถาม Development ให้ส่ง `candidate_review_record.yaml` ที่กรอกแล้วกลับมาด้วย
 
 ## สิ่งที่ไม่ควรทำ
 

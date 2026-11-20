@@ -131,6 +131,15 @@
 - [x] บังคับ Working tree สะอาดสำหรับรอบที่ต้องการทำซ้ำ
 - [x] หยุดหลัง Provider error แรกโดยค่าเริ่มต้นเพื่อไม่ใช้โควตาซ้ำโดยไม่จำเป็น
 
+### I. Independent Review Handoff
+
+- [x] สร้าง Review ZIP จาก Artifact ที่ Hash ผ่านเท่านั้น
+- [x] แยก Core review, Development-question review และ Robustness review
+- [x] ไม่ใส่ Accuracy, Generated SQL, Token หรือผลระบบใน Packet
+- [x] เพิ่มแบบฟอร์มตรวจ Candidate Development ครบ 35 ข้อ
+- [x] สร้าง Packet manifest พร้อม SHA-256 รายไฟล์
+- [ ] ส่ง Packet ให้ Reviewer และรับแบบฟอร์มที่กรอกแล้วกลับมา
+
 ## Two-week Schedule
 
 ### Week 1
@@ -161,7 +170,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule/LLM pipelines, API/UI และ Evaluation runner ผ่าน Regression suite ทั้งโปรเจกต์ 228/228 เมื่อวันที่ 2026-11-20
+หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule/LLM pipelines, API/UI, Evaluation runner และ Review packet ผ่าน Regression suite ทั้งโปรเจกต์ 230/230 เมื่อวันที่ 2026-11-20
 
 ## Gate for Phase 2
 
