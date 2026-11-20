@@ -2,6 +2,7 @@
 
 > **WMS MVP development:** ดูขอบเขตที่ [SCOPE_WMS_MVP.md](SCOPE_WMS_MVP.md), [Rule-based pipeline](WMS_RULE_PIPELINE.md) และ [LLM pipeline](WMS_LLM_PIPELINE.md) ส่วนเดโมร้านค้าเดิมด้านล่างเป็น Legacy baseline และไม่ใช่ผลของ WMS MVP
 > หลังรัน `start-demo.ps1` เปิด WMS development UI ที่ `http://127.0.0.1:8000/wms`
+> ผล Development run ล่าสุดและข้อจำกัดอยู่ที่ [WMS_DEVELOPMENT_RESULTS.md](WMS_DEVELOPMENT_RESULTS.md)
 
 > **Presentation UI is ready:** run `./start-demo.ps1` and open `http://127.0.0.1:8000/`.
 > Read [PRESENTATION_RUNBOOK.md](PRESENTATION_RUNBOOK.md) for the 5–7 minute demo and standalone offline backup.
