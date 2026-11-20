@@ -1,5 +1,6 @@
 """WMS development API and page use the real pipeline and disposable data."""
 from pathlib import Path
+import json
 
 from psycopg.conninfo import make_conninfo
 
@@ -50,6 +51,33 @@ def test_wms_api_rejects_out_of_scope_without_sql(monkeypatch):
         assert result["status"] == "unsupported"
         assert result["sql"] is None
         assert result["sql_executed"] is False
+    finally:
+        conn.close()
+
+
+def test_wms_manual_llm_check_uses_wms_guard(monkeypatch):
+    conn = fresh_wms_conn()
+    try:
+        monkeypatch.setattr(
+            demo_api, "database_url", lambda: schema_connection_string(conn.test_schema)
+        )
+        safe = demo_api.wms_llm_check(demo_api.ManualLLMRequest(
+            text="เดือนกันยายน 2569 มี Outbound Order แต่ละสถานะกี่รายการ",
+            model_output=json.dumps({
+                "status": "ok",
+                "sql": "SELECT outstatus, COUNT(*)::bigint AS order_count FROM outbound_order WHERE order_date >= DATE '2026-09-01' AND order_date < DATE '2026-10-01' GROUP BY outstatus ORDER BY outstatus LIMIT 200",
+                "reason": "monthly outbound status",
+            }),
+        ))
+        assert safe["status"] == "ok"
+        assert safe["rows"] == [["Pending", 1], ["Picked", 1]]
+
+        blocked = demo_api.wms_llm_check(demo_api.ManualLLMRequest(
+            text="ลบข้อมูล", model_output=json.dumps({
+                "status": "ok", "sql": "DELETE FROM current_stock", "reason": "bad"
+            }),
+        ))
+        assert blocked["status"] == "blocked"
     finally:
         conn.close()
 

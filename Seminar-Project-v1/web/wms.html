@@ -11,7 +11,7 @@
 </head>
 <body>
   <header class="topbar"><div class="nav-inner">
-    <a class="brand" href="/wms"><span class="brand-mark">W</span><span>WMS Query Lab<small>Rule-based · Development</small></span></a>
+    <a class="brand" href="/wms"><span class="brand-mark">W</span><span>WMS Query Lab<small>Rule-based × LLM · Development</small></span></a>
     <div class="nav-status"><span id="wms-status" class="status-pill">กำลังตรวจฐานข้อมูล</span><a href="/docs" target="_blank" rel="noopener">API docs ↗</a></div>
   </div></header>
 
@@ -25,9 +25,9 @@
 
     <section class="wms-workspace">
       <form id="wms-form" class="question-card">
-        <label for="wms-question" class="section-title">คำถาม</label>
+        <div class="section-row"><label for="wms-question" class="section-title">คำถาม</label><fieldset class="mode-switch"><legend class="sr-only">วิธีประมวลผล</legend><label><input type="radio" name="wms-mode" value="rule" checked><span>Rule-based เท่านั้น</span></label><label><input type="radio" name="wms-mode" value="compare"><span>เปรียบเทียบ LLM</span></label></fieldset></div>
         <textarea id="wms-question" rows="2" maxlength="500" required>สรุปจำนวนสต็อกปัจจุบันแยกตาม Part และสถานะ</textarea>
-        <div class="form-bottom"><span class="muted">รันเฉพาะ Rule-based · ไม่เรียก LLM API</span><button id="wms-run" class="primary" type="submit">แปลงและรัน SQL <span aria-hidden="true">↗</span></button></div>
+        <div class="form-bottom"><span id="wms-mode-note" class="muted">รันเฉพาะ Rule-based · ไม่เรียก LLM API</span><button id="wms-run" class="primary" type="submit">แปลงและรัน SQL <span aria-hidden="true">↗</span></button></div>
         <div class="examples"><span>ตัวอย่าง</span>
           <button type="button" data-wms-question="สรุปจำนวนสต็อกปัจจุบันแยกตาม Part และสถานะ">สต็อกปัจจุบัน</button>
           <button type="button" data-wms-question="แสดง Serial ที่อยู่ใน Quarantine พร้อม Part Location และสภาพ">Quarantine</button>
@@ -40,9 +40,13 @@
 
       <div id="wms-notice" class="notice" role="status" aria-live="polite" hidden></div>
 
-      <article class="result-card wms-result-card">
-        <div class="result-header"><div><span class="method-number">R</span><h2>ผลจาก Rule-based pipeline</h2></div><span class="method-tag">Normalize → Intent → SQL → Guard → DB</span></div>
+      <article id="wms-rule-panel" class="result-card wms-result-card">
+        <div class="result-header"><div><span class="method-number">A</span><h2>Rule-based</h2></div><span class="method-tag">Intent → Template → Guard</span></div>
         <div id="wms-result" class="panel-content"><div class="empty-state"><span class="empty-symbol">SQL</span><h3>พร้อมรับคำถาม</h3><p>เลือกตัวอย่างหรือพิมพ์คำถามในขอบเขต WMS MVP</p></div></div>
+      </article>
+      <article id="wms-llm-panel" class="result-card wms-result-card llm-card" hidden>
+        <div class="result-header"><div><span class="method-number">B</span><h2>LLM</h2></div><span class="method-tag">Prompt → IntelSphere → Guard</span></div>
+        <div id="wms-llm-result" class="panel-content"><div class="empty-state"><span class="empty-symbol">AI</span><h3>ยังไม่ได้เรียกโมเดล</h3></div></div>
       </article>
     </section>
 

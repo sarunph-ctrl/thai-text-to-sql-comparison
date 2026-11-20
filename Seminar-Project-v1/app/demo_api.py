@@ -17,9 +17,11 @@ from app.llm.prompt import prompt_bundle
 from app.llm.pipeline import run_llm_pipeline
 from app.llm.comparison import resultsets_equal
 from app.wms.pipeline import run_wms_rule_pipeline
+from app.wms_llm.pipeline import run_wms_llm_pipeline
+from app.wms_llm.prompt import wms_prompt_bundle
 from scripts.local_demo import connection_string
 
-app = FastAPI(title="Thai Text-to-SQL · Rule-based vs IntelSphere", version="0.4.0")
+app = FastAPI(title="Thai Text-to-SQL · Rule-based vs IntelSphere", version="0.5.0")
 logger = logging.getLogger(__name__)
 
 
@@ -57,7 +59,7 @@ def health():
         with psycopg.connect(database_url(), autocommit=True) as conn:
             conn.execute("SELECT 1 FROM products LIMIT 1")
             conn.execute("SELECT 1 FROM stock_movements LIMIT 1")
-            return {"ok": True, "profile": "sales-inventory", "version": "0.4.0",
+            return {"ok": True, "profile": "sales-inventory", "version": "0.5.0",
                     "database": "PostgreSQL", "llm_configured": configuration_status()["configured"]}
     except (psycopg.Error, RuntimeError):
         raise HTTPException(503, "Start the demo database first")
@@ -96,6 +98,57 @@ def wms_query(req: QueryRequest):
     except (psycopg.Error, RuntimeError):
         logger.error("WMS demo database unavailable")
         raise HTTPException(503, "WMS demo dataset unavailable; run start-demo.ps1")
+
+
+@app.post("/wms/llm/prompt", tags=["WMS Development"])
+def wms_llm_prompt(req: QueryRequest):
+    """Inspect the exact WMS zero-shot prompt; no provider call is made."""
+    return wms_prompt_bundle(req.text)
+
+
+@app.post("/wms/llm/query", tags=["WMS Development"])
+def wms_llm_query(req: QueryRequest):
+    """Call IntelSphere once, guard the returned WMS SELECT, then execute."""
+    try:
+        with psycopg.connect(database_url(), autocommit=True) as conn:
+            return jsonable(run_wms_llm_pipeline(req.text, conn))
+    except (psycopg.Error, RuntimeError):
+        raise HTTPException(503, "WMS demo dataset unavailable")
+
+
+@app.post("/wms/llm/check", tags=["WMS Development"])
+def wms_llm_check(req: ManualLLMRequest):
+    """Validate pasted model JSON without claiming a live API measurement."""
+    try:
+        with psycopg.connect(database_url(), autocommit=True) as conn:
+            return jsonable(run_wms_llm_pipeline(req.text, conn, manual_output=req.model_output))
+    except psycopg.Error:
+        raise HTTPException(503, "WMS demo dataset unavailable")
+
+
+@app.post("/wms/compare", tags=["WMS Development"])
+def wms_compare(req: QueryRequest):
+    """Run WMS Rule-based and LLM against one repeatable-read snapshot."""
+    try:
+        with psycopg.connect(database_url(), autocommit=True) as conn:
+            with conn.transaction():
+                conn.execute("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ, READ ONLY")
+                rule = run_wms_rule_pipeline(req.text, conn)
+                llm = run_wms_llm_pipeline(req.text, conn)
+                same = None
+                if rule.status == llm["status"] == "ok":
+                    same = resultsets_equal(
+                        llm["rows"], rule.rows,
+                        actual_columns=len(llm["columns"]), expected_columns=len(rule.columns),
+                        ordered=rule.ordered,
+                    )
+                return jsonable({
+                    "question": req.text, "rule_based": asdict(rule), "llm": llm,
+                    "same_rows_as_rule": same, "order_matters": rule.ordered,
+                    "accuracy_note": "Agreement between methods is not proof of correctness; evaluate both against frozen reference SQL.",
+                })
+    except psycopg.Error:
+        raise HTTPException(503, "WMS demo dataset unavailable")
 
 
 @app.get("/llm/status")

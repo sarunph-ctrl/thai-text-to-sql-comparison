@@ -112,6 +112,16 @@
 - [x] เพิ่ม `POST /wms/query` และหน้า `/wms` สำหรับทดลอง Development pipeline
 - [ ] Freeze rules หลัง Independent review ก่อนสร้าง Held-out set
 
+### G. WMS LLM Development Draft
+
+- [x] สร้าง WMS zero-shot prompt ที่ไม่ส่ง Seed, Reference SQL หรือคำตอบ
+- [x] สร้าง AST allowlist และ read-only executor แยกจาก Legacy schema
+- [x] เพิ่ม API สำหรับ Prompt, Live query, Manual check และ Rule-vs-LLM comparison
+- [x] เพิ่มหน้า WMS ที่ค่าเริ่มต้นไม่ใช้โควตาและเลือกเรียก LLM ได้ชัดเจน
+- [x] ทดสอบ model-output fixtures ครบ 5 Query families กับ Reference results
+- [ ] ยืนยัน Live IntelSphere call หลังอัปเดต API key ที่ผ่าน authentication (ตรวจล่าสุดได้ HTTP 401)
+- [ ] Freeze prompt หลัง Independent review ก่อนสร้าง Held-out set
+
 ## Two-week Schedule
 
 ### Week 1
@@ -142,7 +152,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule pipeline 5/5, WMS API/UI 3/3 และ Regression suite ทั้งโปรเจกต์ 209/209 เมื่อวันที่ 2026-11-12
+หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule pipeline 5/5, WMS API/UI และ WMS LLM pipeline ผ่าน Regression suite ทั้งโปรเจกต์ 224/224 เมื่อวันที่ 2026-11-20
 
 ## Gate for Phase 2
 

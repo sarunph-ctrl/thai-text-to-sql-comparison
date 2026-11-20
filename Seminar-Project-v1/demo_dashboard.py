@@ -27,7 +27,7 @@ def wms_dashboard():
 
 @app.get("/demo/info", tags=["Presentation"])
 def demo_info():
-    return {"presentation_version": "1.1", "api_version": "0.4.0",
+    return {"presentation_version": "1.2", "api_version": "0.5.0",
             "llm": configuration_status(), "recorded_results_available": REPORT.exists(),
             "schema": schema_payload()}
 
