@@ -45,7 +45,7 @@
     if (result.message || result.reason) root.append(el('p', 'panel-message', result.message || result.reason));
 
     const metrics = el('div', 'metric-row');
-    const guard = method === 'rule' ? (result.sql_valid === true ? 'ผ่าน' : result.sql_valid === false ? 'ไม่ผ่าน' : 'ไม่ได้สร้าง SQL') : (result.executed_sql ? 'ผ่าน' : result.generated_sql ? 'ไม่ผ่าน/ไม่ได้รัน' : 'ไม่ได้สร้าง SQL');
+    const guard = result.sql_valid === true ? 'ผ่าน' : result.sql_valid === false ? 'ไม่ผ่าน' : 'ไม่ได้สร้าง SQL';
     const firstMetric = method === 'rule' ? ['Intent', result.family || '—'] : ['Prompt', result.prompt_version || '—'];
     [firstMetric, ['เวลารวม', `${result.elapsed_ms} ms`], ['SQL Guard', guard], ['Rows', result.rows?.length ?? 0]].forEach(([label, value]) => {
       const item = el('div', 'metric'); item.append(el('span', '', label), el('strong', '', value)); metrics.append(item);

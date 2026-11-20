@@ -21,7 +21,7 @@ def run_wms_llm_pipeline(question: str, conn: psycopg.Connection, *, generator=N
         "schema_sha256": bundle["schema_sha256"], "generation": None,
         "generated_sql": None, "executed_sql": None, "columns": [], "rows": [],
         "truncated": False, "validation_ms": None, "database_ms": None,
-        "elapsed_ms": None,
+        "elapsed_ms": None, "sql_valid": None, "sql_executed": False,
     }
     try:
         if manual_output is not None:
@@ -39,11 +39,13 @@ def run_wms_llm_pipeline(question: str, conn: psycopg.Connection, *, generator=N
         result["generated_sql"] = reply["sql"]
         validation_start = perf_counter()
         checked = check_wms_sql(reply["sql"])
+        result["sql_valid"] = True
         result["validation_ms"] = round((perf_counter() - validation_start) * 1000, 3)
         result["executed_sql"] = checked.executed_sql
         result["tables"] = checked.tables
         result["row_cap_applied"] = checked.row_cap_applied
         database_start = perf_counter()
+        result["sql_executed"] = True
         result.update(execute_wms_checked(conn, checked))
         result["database_ms"] = round((perf_counter() - database_start) * 1000, 3)
         result["status"] = "truncated" if result["truncated"] else "ok"
@@ -52,6 +54,7 @@ def run_wms_llm_pipeline(question: str, conn: psycopg.Connection, *, generator=N
     except LLMCallError as exc:
         result["status"], result["message"] = "llm_error", str(exc)
     except WMSSQLRejected as exc:
+        result["sql_valid"] = False
         result["status"], result["message"] = "blocked", str(exc)
     except (ValueError, KeyError, TypeError):
         result["status"], result["message"] = "llm_error", "Model output does not match the required JSON contract"

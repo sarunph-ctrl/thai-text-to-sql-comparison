@@ -22,6 +22,23 @@ append_jsonl(Path("output/wms_mvp/raw/run.jsonl"), record)
 
 `append_jsonl()` จะ Validate, เติม `run_id`, เวลา UTC, Version และ Result fingerprint ก่อน Append
 
+## รัน Development set อัตโนมัติ
+
+Runner ตรวจ Manifest, สร้าง Disposable schema, Shuffle ด้วย Seed คงที่, รัน Reference SQL และเขียน JSONL ให้เอง ค่าเริ่มต้นไม่เรียก LLM:
+
+```powershell
+.\.venv\Scripts\python.exe eval\run_wms_mvp.py --ack-draft --method rule --snapshot v1
+.\.venv\Scripts\python.exe eval\run_wms_mvp.py --ack-draft --method rule --snapshot v2
+```
+
+การเรียก LLM ต้องระบุชัดเจน และค่าเริ่มต้นรัน 3 รอบต่อ Case:
+
+```powershell
+.\.venv\Scripts\python.exe eval\run_wms_mvp.py --ack-draft --method both --snapshot v1
+```
+
+Runner ปฏิเสธ Working tree ที่ไม่สะอาดเพื่อให้ `code_commit` ย้อนกลับได้ ใช้ `--allow-dirty-smoke` ได้เฉพาะทดลอง harness และห้ามรายงานเป็นผลรอบที่ตรึงแล้ว หาก Provider ล้มเหลวก่อนมี model output Runner จะหยุดหลังบันทึกครั้งแรก เพื่อไม่ยิง API ที่ล้มเหลวซ้ำหลายสิบครั้ง
+
 ## สรุปผล
 
 ```powershell

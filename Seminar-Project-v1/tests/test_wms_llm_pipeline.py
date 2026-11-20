@@ -79,6 +79,7 @@ def test_manual_model_sql_matches_each_reference(conn, reference):
 
     assert result["status"] == "ok", result
     assert result["mode"] == "manual_output" and result["generation"] is None
+    assert result["sql_valid"] is True and result["sql_executed"] is True
     assert resultsets_equal(
         result["rows"], expected_rows,
         actual_columns=len(result["columns"]), expected_columns=len(expected_columns),
@@ -97,6 +98,17 @@ def test_manual_model_sql_matches_each_reference(conn, reference):
 def test_wms_guard_blocks_unsafe_or_other_domain_sql(query):
     with pytest.raises(WMSSQLRejected):
         check_wms_sql(query)
+
+
+def test_blocked_model_sql_records_guard_state_without_execution(conn):
+    result = run_wms_llm_pipeline(
+        "คำถาม", conn,
+        manual_output=json.dumps({"status": "ok", "sql": "DELETE FROM current_stock",
+                                  "reason": "unsafe"}),
+    )
+    assert result["status"] == "blocked"
+    assert result["sql_valid"] is False
+    assert result["sql_executed"] is False
 
 
 def test_unsupported_reply_never_executes_sql(conn):

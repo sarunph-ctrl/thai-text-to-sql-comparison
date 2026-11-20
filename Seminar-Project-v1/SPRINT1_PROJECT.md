@@ -122,6 +122,15 @@
 - [ ] ยืนยัน Live IntelSphere call หลังอัปเดต API key ที่ผ่าน authentication (ตรวจล่าสุดได้ HTTP 401)
 - [ ] Freeze prompt หลัง Independent review ก่อนสร้าง Held-out set
 
+### H. WMS Evaluation Runner
+
+- [x] ตรวจ SHA-256 Manifest ก่อนรัน
+- [x] สร้าง Disposable PostgreSQL schema แยกตาม Snapshot v1/v2
+- [x] บันทึก Raw JSONL ที่ไม่เก็บคำถามหรือ Secret
+- [x] คำนวณ Execution Accuracy, Rejection, Valid SQL, Latency, Token และ Consistency
+- [x] บังคับ Working tree สะอาดสำหรับรอบที่ต้องการทำซ้ำ
+- [x] หยุดหลัง Provider error แรกโดยค่าเริ่มต้นเพื่อไม่ใช้โควตาซ้ำโดยไม่จำเป็น
+
 ## Two-week Schedule
 
 ### Week 1
@@ -152,7 +161,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule pipeline 5/5, WMS API/UI และ WMS LLM pipeline ผ่าน Regression suite ทั้งโปรเจกต์ 224/224 เมื่อวันที่ 2026-11-20
+หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule/LLM pipelines, API/UI และ Evaluation runner ผ่าน Regression suite ทั้งโปรเจกต์ 228/228 เมื่อวันที่ 2026-11-20
 
 ## Gate for Phase 2
 
