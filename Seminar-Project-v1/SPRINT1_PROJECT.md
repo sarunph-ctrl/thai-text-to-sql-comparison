@@ -138,6 +138,7 @@
 - [x] ไม่ใส่ Accuracy, Generated SQL, Token หรือผลระบบใน Packet
 - [x] เพิ่มแบบฟอร์มตรวจ Candidate Development ครบ 35 ข้อ
 - [x] สร้าง Packet manifest พร้อม SHA-256 รายไฟล์
+- [x] สร้าง Validator สำหรับตรวจ Reviewer identity, blinded review, 5 Ground Truth และ 35 Candidate cases
 - [ ] ส่ง Packet ให้ Reviewer และรับแบบฟอร์มที่กรอกแล้วกลับมา
 
 ## Two-week Schedule
@@ -170,7 +171,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule/LLM pipelines, API/UI, Evaluation runner และ Review packet ผ่าน Regression suite ทั้งโปรเจกต์ 230/230 เมื่อวันที่ 2026-11-20
+หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule/LLM pipelines, API/UI, Evaluation runner, Review packet และ Review validator ผ่าน Regression suite ทั้งโปรเจกต์ 234/234 เมื่อวันที่ 2026-11-22
 
 ## Gate for Phase 2
 

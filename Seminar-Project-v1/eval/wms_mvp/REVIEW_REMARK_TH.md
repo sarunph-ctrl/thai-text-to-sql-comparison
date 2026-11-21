@@ -30,6 +30,18 @@
 
 สำหรับคำถาม Development ให้ส่ง `candidate_review_record.yaml` ที่กรอกแล้วกลับมาด้วย
 
+## เมื่อได้รับไฟล์กลับมา
+
+แตก ZIP หรือบันทึกไฟล์ที่ Reviewer กรอกแล้ว จากนั้นตรวจ Gate โดยคำสั่ง:
+
+```powershell
+.\.venv\Scripts\python.exe eval\validate_wms_review.py `
+  --core path\to\review_record.yaml `
+  --candidate path\to\candidate_review_record.yaml
+```
+
+ผล `gate_passed: true` หมายถึงหลักฐานครบตามเงื่อนไขเชิงกลและพร้อมเข้าสู่ขั้น Freeze เท่านั้น เครื่องมือจะไม่แก้ Artifact, เปลี่ยน Version หรือสร้าง Held-out ให้อัตโนมัติ หากได้ Exit code 2 ให้อ่านรายการ `issues` และส่งกลับให้ Reviewer/ผู้พัฒนาแก้ตามความเป็นจริง ห้ามกรอกแทน Reviewer เพื่อให้ Gate ผ่าน
+
 ## สิ่งที่ไม่ควรทำ
 
 - อย่ากรอก Review แทน Reviewer
