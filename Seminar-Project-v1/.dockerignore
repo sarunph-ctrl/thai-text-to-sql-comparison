@@ -1,0 +1,13 @@
+.git
+.github
+.venv
+.local
+.pytest_cache
+__pycache__
+*.pyc
+.env
+.env.*
+!.env.example
+output/wms_mvp/raw
+output/wms-review
+tmp

@@ -151,6 +151,15 @@
 - [x] รัน Regression suite โดยไม่เรียก LLM API
 - [x] จำลอง CI local ผ่านครบก่อน Push
 
+### K. Portable Docker Demo
+
+- [x] สร้าง Image จาก Locked dependencies และรันด้วย Non-root user
+- [x] สร้าง PostgreSQL 17 จาก Legacy 5 ตารางและ WMS MVP 10 ตารางที่เลือกไว้เท่านั้น
+- [x] ไม่เปิดพอร์ตฐานข้อมูลออกสู่ Host และให้แอปใช้ Role แบบ Read-only
+- [x] ไม่ฝัง `.env.llm` หรือ API key ใน Image; Live LLM เป็น Optional
+- [x] เพิ่ม Health checks, วิธีเปลี่ยนพอร์ต, Logs และขั้นตอน Reset Synthetic data
+- [x] เพิ่ม Static regression tests สำหรับ Docker packaging และ Security assumptions
+
 ## Two-week Schedule
 
 ### Week 1
@@ -181,7 +190,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema, Ground Truth, Protocol, Snapshots, Metrics, Raw recorder, Candidate Development, WMS Rule/LLM pipelines, API/UI, Evaluation runner, Review handoff และ Continuous verification ผ่าน Regression suite ทั้งโปรเจกต์ 237/237 เมื่อวันที่ 2026-11-22
+หลักฐานล่าสุด: Schema, Ground Truth, Protocol, Snapshots, Metrics, Raw recorder, Candidate Development, WMS Rule/LLM pipelines, API/UI, Evaluation runner, Review handoff, Continuous verification และ Portable Docker demo ผ่าน Regression suite ทั้งโปรเจกต์ 241/241 เมื่อวันที่ 2026-11-22
 
 ## Gate for Phase 2
 

@@ -6,6 +6,14 @@
 > หลังรัน `start-demo.ps1` เปิด WMS development UI ที่ `http://127.0.0.1:8000/wms`
 > ผล Development run ล่าสุดและข้อจำกัดอยู่ที่ [WMS_DEVELOPMENT_RESULTS.md](WMS_DEVELOPMENT_RESULTS.md)
 
+รัน WMS demo แบบพกพาด้วย Docker (ไม่ต้องใช้ API key สำหรับ Rule-based):
+
+```powershell
+docker compose up -d --build
+```
+
+เมื่อ `docker compose ps` แสดงสถานะ `healthy` ให้เปิด `http://127.0.0.1:8000/wms` ดูขั้นตอนละเอียดและวิธีเปลี่ยนพอร์ตที่ [DOCKER_DEMO.md](DOCKER_DEMO.md)
+
 ตรวจ Secret, Frozen manifests, Review packet และ Regression suite ทั้งหมดด้วยคำสั่งเดียว (ไม่เรียก LLM API):
 
 ```powershell
@@ -39,16 +47,15 @@ raw text
 
 Every step is deterministic and independently testable — see `tests/`.
 
-## Quick start
+## Legacy prototype quick start
 
 ```bash
-cp .env.example .env      # fill in real values
 docker compose up -d --build
-curl -X POST localhost:8000/query -H 'content-type: application/json' \
-  -d '{"text": "ยอดขายเดือนนี้เท่าไหร่"}'
+# Open http://127.0.0.1:8000/ for the Legacy baseline,
+# or http://127.0.0.1:8000/wms for WMS development.
 ```
 
-Local dev without Docker:
+Local development without Docker:
 
 ```bash
 pip install -r requirements.txt
@@ -68,7 +75,7 @@ Tests use [`pgserver`](https://pypi.org/project/pgserver/) to run a real,
 throwaway PostgreSQL in-process — no Docker needed for `pytest`. `pg_trgm`
 (fuzzy name matching) isn't in that minimal build, so
 `app/nlp/entity_resolver.py`'s fuzzy step is untested there; it *is* live
-once you run against Docker's `postgres:15` image, which ships it.
+once you run against Docker's `postgres:17` image, which ships it.
 
 ## What's rule-based, and where the rules live
 
