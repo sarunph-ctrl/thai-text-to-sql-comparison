@@ -30,6 +30,10 @@ def settings() -> dict:
 
 
 def connection_string(*, admin: bool = False, database: str = "seminar_demo") -> str:
+    # CI and disposable integration tests may provide their own isolated test
+    # database. Never use this override for the presentation database.
+    if database == "seminar_tests" and os.environ.get("TEST_DATABASE_URL"):
+        return os.environ["TEST_DATABASE_URL"]
     c = settings()
     return make_conninfo(host="127.0.0.1", port=c["port"], dbname=database,
                          user="seminar_admin" if admin else "seminar_reader",

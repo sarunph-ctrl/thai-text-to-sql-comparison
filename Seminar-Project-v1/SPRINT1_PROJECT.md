@@ -141,6 +141,16 @@
 - [x] สร้าง Validator สำหรับตรวจ Reviewer identity, blinded review, 5 Ground Truth และ 35 Candidate cases
 - [ ] ส่ง Packet ให้ Reviewer และรับแบบฟอร์มที่กรอกแล้วกลับมา
 
+### J. Continuous Verification
+
+- [x] เพิ่ม GitHub Actions พร้อม PostgreSQL service แยก
+- [x] ใช้ Locked dependencies และ Python 3.12 ใน CI
+- [x] รองรับ `TEST_DATABASE_URL` เฉพาะฐานทดสอบ ไม่กระทบฐาน Presentation
+- [x] ตรวจ Secret patterns ในไฟล์ที่ Git track
+- [x] ตรวจ Frozen manifests และสร้าง Blinded review packet ใหม่ได้
+- [x] รัน Regression suite โดยไม่เรียก LLM API
+- [x] จำลอง CI local ผ่านครบก่อน Push
+
 ## Two-week Schedule
 
 ### Week 1
@@ -171,7 +181,7 @@ Sprint 1 เสร็จเมื่อ:
 6. มีหลักฐาน Independent review หรือระบุชัดว่ายังรอการตรวจ
 7. Development/Test protocol และ Version ถูกตรึงก่อนปรับระบบ
 
-หลักฐานล่าสุด: Schema 8/8, Ground Truth/Review 9/9, Protocol 3/3, Snapshot v2 8/8, Metrics 5/5, Raw recorder/CLI 11/11, Candidate Development 6/6, WMS Rule/LLM pipelines, API/UI, Evaluation runner, Review packet และ Review validator ผ่าน Regression suite ทั้งโปรเจกต์ 234/234 เมื่อวันที่ 2026-11-22
+หลักฐานล่าสุด: Schema, Ground Truth, Protocol, Snapshots, Metrics, Raw recorder, Candidate Development, WMS Rule/LLM pipelines, API/UI, Evaluation runner, Review handoff และ Continuous verification ผ่าน Regression suite ทั้งโปรเจกต์ 237/237 เมื่อวันที่ 2026-11-22
 
 ## Gate for Phase 2
 
